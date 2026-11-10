@@ -1,0 +1,168 @@
+symbol,as_of,source
+AAPL,2026-11-04,两者
+ABBV,2026-11-04,S&P 100(Wikipedia)
+ABNB,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ABT,2026-11-04,S&P 100(Wikipedia)
+ACN,2026-11-04,S&P 100(Wikipedia)
+ADBE,2026-11-04,两者
+ADI,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ADP,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ADSK,2026-11-04,Nasdaq-100(api.nasdaq.com)
+AEP,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ALAB,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ALNY,2026-11-04,Nasdaq-100(api.nasdaq.com)
+AMAT,2026-11-04,两者
+AMD,2026-11-04,两者
+AMGN,2026-11-04,两者
+AMT,2026-11-04,S&P 100(Wikipedia)
+AMZN,2026-11-04,两者
+ANET,2026-11-04,S&P 100(Wikipedia)
+APP,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ARM,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ASML,2026-11-04,Nasdaq-100(api.nasdaq.com)
+AVGO,2026-11-04,两者
+AXON,2026-11-04,Nasdaq-100(api.nasdaq.com)
+AXP,2026-11-04,S&P 100(Wikipedia)
+BA,2026-11-04,S&P 100(Wikipedia)
+BAC,2026-11-04,S&P 100(Wikipedia)
+BKNG,2026-11-04,两者
+BKR,2026-11-04,Nasdaq-100(api.nasdaq.com)
+BLK,2026-11-04,S&P 100(Wikipedia)
+BMY,2026-11-04,S&P 100(Wikipedia)
+BNY,2026-11-04,S&P 100(Wikipedia)
+BRK-B,2026-11-04,S&P 100(Wikipedia)
+C,2026-11-04,S&P 100(Wikipedia)
+CAT,2026-11-04,S&P 100(Wikipedia)
+CCEP,2026-11-04,Nasdaq-100(api.nasdaq.com)
+CDNS,2026-11-04,Nasdaq-100(api.nasdaq.com)
+CEG,2026-11-04,Nasdaq-100(api.nasdaq.com)
+CMCSA,2026-11-04,两者
+COF,2026-11-04,S&P 100(Wikipedia)
+COP,2026-11-04,S&P 100(Wikipedia)
+COST,2026-11-04,两者
+CPRT,2026-11-04,Nasdaq-100(api.nasdaq.com)
+CRM,2026-11-04,S&P 100(Wikipedia)
+CRWD,2026-11-04,Nasdaq-100(api.nasdaq.com)
+CRWV,2026-11-04,Nasdaq-100(api.nasdaq.com)
+CSCO,2026-11-04,两者
+CSX,2026-11-04,Nasdaq-100(api.nasdaq.com)
+CTAS,2026-11-04,Nasdaq-100(api.nasdaq.com)
+CVS,2026-11-04,S&P 100(Wikipedia)
+CVX,2026-11-04,S&P 100(Wikipedia)
+DASH,2026-11-04,Nasdaq-100(api.nasdaq.com)
+DDOG,2026-11-04,Nasdaq-100(api.nasdaq.com)
+DE,2026-11-04,S&P 100(Wikipedia)
+DELL,2026-11-04,S&P 100(Wikipedia)
+DHR,2026-11-04,S&P 100(Wikipedia)
+DIS,2026-11-04,S&P 100(Wikipedia)
+DUK,2026-11-04,S&P 100(Wikipedia)
+DXCM,2026-11-04,Nasdaq-100(api.nasdaq.com)
+EMR,2026-11-04,S&P 100(Wikipedia)
+EXC,2026-11-04,Nasdaq-100(api.nasdaq.com)
+FANG,2026-11-04,Nasdaq-100(api.nasdaq.com)
+FAST,2026-11-04,Nasdaq-100(api.nasdaq.com)
+FDX,2026-11-04,S&P 100(Wikipedia)
+FER,2026-11-04,Nasdaq-100(api.nasdaq.com)
+FTNT,2026-11-04,Nasdaq-100(api.nasdaq.com)
+GD,2026-11-04,S&P 100(Wikipedia)
+GE,2026-11-04,S&P 100(Wikipedia)
+GEHC,2026-11-04,Nasdaq-100(api.nasdaq.com)
+GEV,2026-11-04,S&P 100(Wikipedia)
+GILD,2026-11-04,两者
+GM,2026-11-04,S&P 100(Wikipedia)
+GOOG,2026-11-04,两者
+GOOGL,2026-11-04,两者
+GS,2026-11-04,S&P 100(Wikipedia)
+HD,2026-11-04,S&P 100(Wikipedia)
+HON,2026-11-04,Nasdaq-100(api.nasdaq.com)
+HONA,2026-11-04,Nasdaq-100(api.nasdaq.com)
+IBM,2026-11-04,S&P 100(Wikipedia)
+IDXX,2026-11-04,Nasdaq-100(api.nasdaq.com)
+INTC,2026-11-04,两者
+INTU,2026-11-04,两者
+ISRG,2026-11-04,两者
+JNJ,2026-11-04,S&P 100(Wikipedia)
+JPM,2026-11-04,S&P 100(Wikipedia)
+KDP,2026-11-04,Nasdaq-100(api.nasdaq.com)
+KLAC,2026-11-04,Nasdaq-100(api.nasdaq.com)
+KO,2026-11-04,S&P 100(Wikipedia)
+LIN,2026-11-04,两者
+LITE,2026-11-04,Nasdaq-100(api.nasdaq.com)
+LLY,2026-11-04,S&P 100(Wikipedia)
+LMT,2026-11-04,S&P 100(Wikipedia)
+LOW,2026-11-04,S&P 100(Wikipedia)
+LRCX,2026-11-04,两者
+MA,2026-11-04,S&P 100(Wikipedia)
+MAR,2026-11-04,Nasdaq-100(api.nasdaq.com)
+MCD,2026-11-04,S&P 100(Wikipedia)
+MCHP,2026-11-04,Nasdaq-100(api.nasdaq.com)
+MDLZ,2026-11-04,两者
+MDT,2026-11-04,S&P 100(Wikipedia)
+MELI,2026-11-04,Nasdaq-100(api.nasdaq.com)
+META,2026-11-04,两者
+MMM,2026-11-04,S&P 100(Wikipedia)
+MNST,2026-11-04,Nasdaq-100(api.nasdaq.com)
+MO,2026-11-04,S&P 100(Wikipedia)
+MPWR,2026-11-04,Nasdaq-100(api.nasdaq.com)
+MRK,2026-11-04,S&P 100(Wikipedia)
+MRNA,2026-11-04,Nasdaq-100(api.nasdaq.com)
+MRVL,2026-11-04,Nasdaq-100(api.nasdaq.com)
+MS,2026-11-04,S&P 100(Wikipedia)
+MSFT,2026-11-04,两者
+MSTR,2026-11-04,Nasdaq-100(api.nasdaq.com)
+MU,2026-11-04,两者
+NBIS,2026-11-04,Nasdaq-100(api.nasdaq.com)
+NEE,2026-11-04,S&P 100(Wikipedia)
+NFLX,2026-11-04,两者
+NOW,2026-11-04,S&P 100(Wikipedia)
+NVDA,2026-11-04,两者
+NXPI,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ODFL,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ORCL,2026-11-04,S&P 100(Wikipedia)
+ORLY,2026-11-04,Nasdaq-100(api.nasdaq.com)
+PANW,2026-11-04,两者
+PAYX,2026-11-04,Nasdaq-100(api.nasdaq.com)
+PCAR,2026-11-04,Nasdaq-100(api.nasdaq.com)
+PDD,2026-11-04,Nasdaq-100(api.nasdaq.com)
+PEP,2026-11-04,两者
+PFE,2026-11-04,S&P 100(Wikipedia)
+PG,2026-11-04,S&P 100(Wikipedia)
+PLTR,2026-11-04,两者
+PM,2026-11-04,S&P 100(Wikipedia)
+PYPL,2026-11-04,Nasdaq-100(api.nasdaq.com)
+QCOM,2026-11-04,两者
+REGN,2026-11-04,Nasdaq-100(api.nasdaq.com)
+RKLB,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ROP,2026-11-04,Nasdaq-100(api.nasdaq.com)
+ROST,2026-11-04,Nasdaq-100(api.nasdaq.com)
+RTX,2026-11-04,S&P 100(Wikipedia)
+SBUX,2026-11-04,两者
+SCHW,2026-11-04,S&P 100(Wikipedia)
+SHOP,2026-11-04,Nasdaq-100(api.nasdaq.com)
+SNDK,2026-11-04,两者
+SNPS,2026-11-04,Nasdaq-100(api.nasdaq.com)
+SO,2026-11-04,S&P 100(Wikipedia)
+SPCX,2026-11-04,Nasdaq-100(api.nasdaq.com)
+STX,2026-11-04,Nasdaq-100(api.nasdaq.com)
+T,2026-11-04,S&P 100(Wikipedia)
+TER,2026-11-04,Nasdaq-100(api.nasdaq.com)
+TMO,2026-11-04,S&P 100(Wikipedia)
+TMUS,2026-11-04,两者
+TRI,2026-11-04,Nasdaq-100(api.nasdaq.com)
+TSLA,2026-11-04,两者
+TTWO,2026-11-04,Nasdaq-100(api.nasdaq.com)
+TXN,2026-11-04,两者
+UBER,2026-11-04,S&P 100(Wikipedia)
+UNH,2026-11-04,S&P 100(Wikipedia)
+UNP,2026-11-04,S&P 100(Wikipedia)
+UPS,2026-11-04,S&P 100(Wikipedia)
+USB,2026-11-04,S&P 100(Wikipedia)
+V,2026-11-04,S&P 100(Wikipedia)
+VRTX,2026-11-04,Nasdaq-100(api.nasdaq.com)
+VZ,2026-11-04,S&P 100(Wikipedia)
+WDAY,2026-11-04,Nasdaq-100(api.nasdaq.com)
+WDC,2026-11-04,Nasdaq-100(api.nasdaq.com)
+WFC,2026-11-04,S&P 100(Wikipedia)
+WMT,2026-11-04,两者
+XEL,2026-11-04,Nasdaq-100(api.nasdaq.com)
+XOM,2026-11-04,S&P 100(Wikipedia)

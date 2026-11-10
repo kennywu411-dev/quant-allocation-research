@@ -1,0 +1,4 @@
+account,market,symbol,shares,ccy,cost_basis,buy_date,note
+moomoo,US,SPY,10,USD,,,示例：美股账户
+moomoo,US,CASH,1000,USD,,,示例：现金
+银河,CN,510300,1000,CNY,,,示例：A股账户
