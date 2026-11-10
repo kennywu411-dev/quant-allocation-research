@@ -1,5 +1,7 @@
 # quant-allocation-research
 
+[![CI](https://github.com/kennywu411-dev/quant-allocation-research/actions/workflows/ci.yml/badge.svg)](https://github.com/kennywu411-dev/quant-allocation-research/actions/workflows/ci.yml)
+
 个人跨市场（A股 + 美股）ETF 配置研究系统，用 Python 自建：数据清洗、回测引擎、预登记选参、样本外检验、A股单因子检验，以及影子盘、模拟盘的执行偏差监控。
 
 > **声明**：这是个人研究记录，不是投资建议。所有收益和回撤都来自历史回测，不代表未来。作者不是持牌金融顾问。
