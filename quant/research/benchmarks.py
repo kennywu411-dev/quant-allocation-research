@@ -47,7 +47,7 @@ def main() -> int:
     import warnings
     warnings.filterwarnings("ignore")
     from quant.data.update import get_csindex, get_index, get_price
-    from quant.research.resume_metrics import P5_PARAMS, p5_w_us, summarize
+    from quant.research.risk_metrics import P5_PARAMS, p5_w_us, summarize
     fx = {"AUDUSD": get_price("AUDUSD", "FX", "fx"), "AUDCNY": get_price("AUDCNY", "FX", "fx")}
     rf = get_csindex("H11025")
     w_us = p5_w_us()

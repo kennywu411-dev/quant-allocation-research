@@ -1,11 +1,11 @@
-"""补算面试常问的风险收益指标（年化波动、夏普、卡玛）：按报告当时的参数重建合并净值，先核对能复现报告里的年化和回撤，再算新指标。
-python -m quant.research.resume_metrics  → research/resume_metrics.json"""
+"""补算风险收益指标（年化波动、夏普、卡玛）：按报告当时的参数重建合并净值，先核对能复现报告里的年化和回撤，再算新指标。
+python -m quant.research.risk_metrics  → research/risk_metrics.json"""
 import json
 from pathlib import Path
 
 import pandas as pd
 
-OUT = Path("research/resume_metrics.json")
+OUT = Path("research/risk_metrics.json")
 # 报告当时的参数：P5（reports/P5-最终方案-2026-10-31.md，trials.csv 里 P5核心合并 的 w_us）；激进版（research/aggr_pick.json）
 P5_PARAMS = {"end": "2026-10-30", "report": "reports/P5-最终方案-2026-10-31.md"}
 

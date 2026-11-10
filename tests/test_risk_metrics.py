@@ -1,6 +1,6 @@
 import pandas as pd
 
-from quant.research.resume_metrics import summarize
+from quant.research.risk_metrics import summarize
 
 
 def test_summarize_worst_mode_drawdown_and_keys():
@@ -18,7 +18,7 @@ def test_summarize_worst_mode_drawdown_and_keys():
 
 def test_p5_w_us_from_trials(tmp_path):
     import pytest
-    from quant.research.resume_metrics import p5_w_us
+    from quant.research.risk_metrics import p5_w_us
     f = tmp_path / "t.csv"
     f.write_text("name,w_us\nP5核心合并,0.4\n其他,0.9\nP5核心合并,0.45\n")
     assert p5_w_us(f) == 0.45
