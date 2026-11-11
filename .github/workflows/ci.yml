@@ -11,5 +11,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python -m pip install pandas numpy pyarrow yfinance akshare baostock matplotlib bt moomoo-api pytest
+      - run: python -m pip install pandas numpy pyarrow yfinance akshare baostock matplotlib bt moomoo-api lightgbm pytest
       - run: pytest -q

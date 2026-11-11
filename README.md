@@ -1,8 +1,8 @@
-# quant-allocation-research
+# quant-allocation-research：跨市场 ETF 配置研究
 
 [![CI](https://github.com/kennywu411-dev/quant-allocation-research/actions/workflows/ci.yml/badge.svg)](https://github.com/kennywu411-dev/quant-allocation-research/actions/workflows/ci.yml)
 
-个人跨市场（A股 + 美股）ETF 配置研究系统，用 Python 自建：数据清洗、回测引擎、预登记选参、样本外检验、A股单因子检验，以及影子盘、模拟盘的执行偏差监控。
+个人跨市场（A股 + 美股）ETF 配置研究系统，用 Python 自建：数据清洗、回测引擎、预登记选参、样本外检验、A股单因子检验与全 A 股因子挖掘，以及影子盘、模拟盘的执行偏差监控。
 
 > **声明**：这是个人研究记录，不是投资建议。所有收益和回撤都来自历史回测，不代表未来。作者不是持牌金融顾问。
 
@@ -16,6 +16,7 @@
 | 幸存者偏差估计 | 用今天的成分股回测动量个股组合，比含退市股的 French 组合每年高 25.0 个百分点 | `reports/动量个股检验-2026-11-04.md` |
 | A股单因子检验（7 个因子，今天的沪深300 成分股，2010–2026） | 按运行前固定的门槛（t ≥ 3 且样本外同号）全部不显著，最高为 12-1 动量（t = 1.88） | `reports/因子检验-2026-11-10.md` |
 | 大模型读公告（Claude Haiku 结构化标注沪深300 成分股 27.4 万条公告标题，2020–2026） | 判定标准在标注前提交。主假设（模型知识截止后的干净样本、持有 5 天、实质性利好减利空）未通过：-0.35%，t = -0.96；用两个知识截止日不同的模型在同一时段对照，前视增益不显著（t = 0.93）。总花费 7.65 美元 | `reports/公告因子-2026-11-11.md` |
+| 全 A 股因子挖掘（含退市股 5,481 只，2014–2026，周线；10 个因子 + 等权 / IC 加权 / LightGBM 合成） | 门槛在下载数据前提交：13 个试验通过 4 个（低特质波动 RankIC 0.091，t = 8.05；非流动性；等权合成；LightGBM 合成）。10 个 RankIC 显著，但多数做多最高组扣成本后跑不赢股票池；LightGBM 相对等权线性合成没有样本外增益（t = -0.13） | `reports/因子挖掘-2026-11-11.md` |
 
 ## 趋势过滤的代价（基准对比）
 
@@ -47,6 +48,7 @@ quant/
   backtest/    月度调仓回测引擎（涨跌停、停牌、整手、成本、汇率）、与 bt 交叉核对
   research/    P3 核心配置、P4 卫星、P5 组合与风控、激进版研究、统计检验
   factors/     A股单因子检验（数据、因子、IC / 分组 / 成本）
+  alpha/       全 A 股因子挖掘（含退市股的股票池、涨跌停约束的组合模拟、等权 / IC 加权 / LightGBM 合成）
   llm_events/  大模型读公告：巨潮公告下载、结构化标注（Batch API、缓存、预算上限）、事件研究与月度情绪因子
   live/        月度调仓单、份额净值账本、影子盘、模拟盘（只允许 SIMULATE）、偏差报告
   portfolio/   持仓体检与过渡方案
@@ -58,7 +60,7 @@ tests/         单元测试
 ## 运行
 
 ```bash
-python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance akshare baostock matplotlib bt moomoo-api anthropic pytest
+python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance akshare baostock matplotlib bt moomoo-api anthropic lightgbm pytest
 .venv/bin/pytest -q
 ```
 
@@ -77,6 +79,14 @@ PYTHONPATH=. .venv/bin/python -m quant.llm_events.label --model claude-haiku-5-5
 PYTHONPATH=. .venv/bin/python -m quant.llm_events.label --model claude-haiku-4-5 --start 2025-08-01
 PYTHONPATH=. .venv/bin/python -m quant.llm_events.label --review 200
 PYTHONPATH=. .venv/bin/python -m quant.llm_events.run
+```
+
+全 A 股因子挖掘（baostock 单进程；周线下载约 4 小时）：
+
+```bash
+PYTHONPATH=. .venv/bin/python -m quant.alpha.data  # 只用于生成股票名单：打印“A股并集 N 只”后即可停止（之后是日线下载）
+PYTHONPATH=. .venv/bin/python -m quant.alpha.weekly_data
+PYTHONPATH=. .venv/bin/python -m quant.alpha.weekly
 ```
 
 ## 不在仓库里的输入
