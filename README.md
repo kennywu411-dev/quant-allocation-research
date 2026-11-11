@@ -15,6 +15,7 @@
 | 5 个因子 ETF 卫星候选 | 全部否决。例如红利低波的 alpha t = 3.12，但按试验次数折扣后，通缩夏普只有 0.85（门槛 0.95） | `reports/P4-卫星-2026-11-04.md` |
 | 幸存者偏差估计 | 用今天的成分股回测动量个股组合，比含退市股的 French 组合每年高 25.0 个百分点 | `reports/动量个股检验-2026-11-04.md` |
 | A股单因子检验（7 个因子，今天的沪深300 成分股，2010–2026） | 按运行前固定的门槛（t ≥ 3 且样本外同号）全部不显著，最高为 12-1 动量（t = 1.88） | `reports/因子检验-2026-11-10.md` |
+| 大模型读公告（Claude Haiku 结构化标注沪深300 成分股 27.4 万条公告标题，2020–2026） | 判定标准在标注前提交。主假设（模型知识截止后的干净样本、持有 5 天、实质性利好减利空）未通过：-0.35%，t = -0.96；用两个知识截止日不同的模型在同一时段对照，前视增益不显著（t = 0.93）。总花费 7.65 美元 | `reports/公告因子-2026-11-11.md` |
 
 ## 趋势过滤的代价（基准对比）
 
@@ -46,6 +47,7 @@ quant/
   backtest/    月度调仓回测引擎（涨跌停、停牌、整手、成本、汇率）、与 bt 交叉核对
   research/    P3 核心配置、P4 卫星、P5 组合与风控、激进版研究、统计检验
   factors/     A股单因子检验（数据、因子、IC / 分组 / 成本）
+  llm_events/  大模型读公告：巨潮公告下载、结构化标注（Batch API、缓存、预算上限）、事件研究与月度情绪因子
   live/        月度调仓单、份额净值账本、影子盘、模拟盘（只允许 SIMULATE）、偏差报告
   portfolio/   持仓体检与过渡方案
 reports/       各阶段研究报告
@@ -56,7 +58,7 @@ tests/         单元测试
 ## 运行
 
 ```bash
-python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance akshare baostock matplotlib bt moomoo-api pytest
+python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance akshare baostock matplotlib bt moomoo-api anthropic pytest
 .venv/bin/pytest -q
 ```
 
@@ -65,6 +67,16 @@ A股单因子检验（单线程下载，约 70 分钟）：
 ```bash
 PYTHONPATH=. .venv/bin/python -m quant.factors.data_current
 PYTHONPATH=. .venv/bin/python -m quant.factors.run --source current
+```
+
+大模型读公告（需要 `ANTHROPIC_API_KEY`；下载约 2 小时，标注用 Batch API）：
+
+```bash
+PYTHONPATH=. .venv/bin/python -m quant.llm_events.data
+PYTHONPATH=. .venv/bin/python -m quant.llm_events.label --model claude-haiku-5-5
+PYTHONPATH=. .venv/bin/python -m quant.llm_events.label --model claude-haiku-4-5 --start 2025-08-01
+PYTHONPATH=. .venv/bin/python -m quant.llm_events.label --review 200
+PYTHONPATH=. .venv/bin/python -m quant.llm_events.run
 ```
 
 ## 不在仓库里的输入
