@@ -92,12 +92,13 @@ def _full_private():
 def test_public_payload_is_a_whitelist_without_holdings_or_codes():
     from quant.alpha import dashboard as D
     pub = D.public_payload(_full_private(), tests=250)
-    assert set(pub) == {"meta", "nav", "drawdown", "yearly", "research", "coverage", "pipeline", "tests"}
+    assert set(pub) == {"meta", "nav", "drawdown", "yearly", "research", "coverage", "pipeline", "tests", "ic", "table"}
     assert pub["tests"] == 250  # 公开仓库的测试数另外给，不沿用私有仓库的
     text = json.dumps(pub, ensure_ascii=False)
     assert not re.search(r"(sh|sz|bj)\.\d{6}", text)
     assert "718" not in text and "525.3" not in text and "n_hold" not in text  # 不出现持仓只数
-    assert "ic_alerts" not in text and "target_n" not in text and "style" not in pub  # 观察盘持仓、风格暴露不公开
+    assert "ic_alerts" not in text and "target_n" not in text and "style" not in pub and "shadow" not in pub  # 观察盘持仓、风格暴露不公开
+    assert "rebalance" not in pub["meta"]
     assert all(v[0] == 1.0 for v in pub["nav"]["series"].values()) and len(pub["nav"]["series"]) == 3
     assert "tests" not in D.public_payload(_full_private())  # 没给公开仓库测试数就不显示
 
@@ -120,3 +121,44 @@ def test_public_render_contains_no_private_fields():
     html = D.render(D.public_payload(_full_private(), tests=250), public=True)
     data = re.search(r'<script id="data" type="application/json">(.*?)</script>', html, re.S).group(1)  # 模板里的私有版代码不算，只看数据
     assert "sz.000001" not in html and "718" not in data and "target_n" not in data and "ic_alerts" not in data
+
+
+def test_monthly_excess_is_portfolio_minus_benchmark_by_calendar_month():
+    from quant.alpha import dashboard as D
+    m = D.monthly_excess(["2014-01-31", "2014-02-28", "2014-03-28"], [1.0, 1.10, 1.21], [1.0, 1.05, 1.05])
+    assert [(y, mo) for y, mo, _ in m] == [(2014, 2), (2014, 3)]  # 第一个点是起点，没有收益
+    assert [x for *_, x in m] == pytest.approx([0.05, 0.10])
+
+
+def test_etf_summary_keeps_only_whitelisted_metrics():
+    from quant.alpha import dashboard as D
+    row = {"window": "2007-06-01 至 2026-10-30", "is_cagr": 0.05, "oos_cagr": 0.06, "full_cagr": 0.055, "mdd_worst": -0.14, "mdd_end": -0.12,
+           "ann_vol": 0.08, "sharpe": 0.38, "calmar_worst": 0.41, "w_us": 0.51, "years": {"2008": {"ret": 0.02, "mdd": -0.1}}}
+    e = D.etf_summary({"口径": "说明", "report": "reports/x.md", "方案": row, "基准": dict(row, full_cagr=0.07)})
+    assert [r["name"] for r in e["rows"]] == ["方案", "基准"] and e["window"] == "2007-06-01 至 2026-10-30" and e["basis"] == "说明"
+    assert e["rows"][1]["full_cagr"] == 0.07 and e["rows"][0]["years"]["2008"] == {"ret": 0.02, "mdd": -0.1}
+    assert "w_us" not in json.dumps(e)  # 账户市值比例不进看板
+
+
+def test_research_summary_carries_detail_fields_but_no_holding_counts():
+    from quant.alpha import dashboard as D
+    s = D.research_summary(*_results(7, 1, 0.59, 152), *_results(4, 0, 0.50, 134))
+    assert s["trials"][0]["oos_rank_ic"] == 0.04 and s["trials"][0]["turn"] == 0.5
+    assert s["trials"][13]["turn"] == 0.1 and "n_hold" not in json.dumps(s)
+
+
+def test_render_points_at_a_local_echarts_file():
+    from quant.alpha import dashboard as D
+    html = D.render(_full_private(), public=False, echarts="../x/echarts.min.js")
+    assert '<script src="../x/echarts.min.js"></script>' in html
+    assert '<script src="echarts.min.js"></script>' in D.render(_full_private(), public=False)
+
+
+def test_public_payload_adds_etf_universe_and_monthly_when_present():
+    from quant.alpha import dashboard as D
+    p = _full_private()
+    p["etf"], p["universe"], p["monthly"] = {"rows": []}, {"dates": ["2014-01-31"], "n": [1500]}, {"x": [[2014, 2, 0.01]]}
+    p["meta"].update(generated="2026-11-12 20:00", data_last="2026-11-11", source="tushare", pipeline_run="2026-11-12")
+    pub = D.public_payload(p)
+    assert {"etf", "universe", "monthly"} <= set(pub)
+    assert pub["meta"]["generated"] == "2026-11-12 20:00" and pub["meta"]["data_last"] == "2026-11-11"

@@ -6,9 +6,9 @@
 
 > **声明**：这是个人研究记录，不是投资建议。所有收益和回撤都来自历史回测，不代表未来。作者不是持牌金融顾问。
 
-[![选股因子研究看板：19 次预先登记的试验、通过情况和每次试验的结果表](docs/img/dashboard.png)](reports/看板/因子看板-公开版.html)
+[![选股因子研究看板：19 次预先登记的试验、门槛图和单项读数](docs/img/dashboard.png)](https://kennywu411-dev.github.io/quant-allocation-research/dashboard/)
 
-上图是因子研究看板的开头部分（完整页面是单个静态网页 `reports/看板/因子看板-公开版.html`，下载后用浏览器打开）：两轮共 19 次预先登记的试验、每次的结果、勘误前后对照、净值与回撤、数据层覆盖。页面上的数字都由 `quant/alpha/dashboard.py` 从 `research/` 下的结果文件读出。
+**在线看板：<https://kennywu411-dev.github.io/quant-allocation-research/dashboard/>**（点上图也能打开；怎么读见 [docs/看板导读.md](docs/看板导读.md)）。上图是开头部分：两轮共 19 次预先登记的试验、t 值与通缩夏普的门槛图、单项读数。往下是净值与水下回撤（可按时间段刷选）、月度超额热力图、逐月 RankIC、五分组、换手与成本、勘误前后对照、数据层覆盖和 ETF 配置线回测。页面是静态网页，没有实时行情；数字都由 `quant/alpha/dashboard.py` 从 `research/` 下的结果文件读出，图表库 ECharts 5.6.0（Apache-2.0）随仓库一起托管。
 
 ## 主要结论
 
@@ -32,7 +32,7 @@ flowchart LR
     B --> C["评测<br/>RankIC / 分组 / 成本 / 市值中性"]
     C --> D["组合构造<br/>五分组 / 缓冲带 / 涨跌停约束"]
     D --> E["观察盘与监控<br/>记账 / 已实现收益 / 偏差 / IC 告警"]
-    E --> F["看板<br/>单文件静态网页"]
+    E --> F["看板<br/>静态网页，ECharts 交互"]
     S["预先登记 spec.py<br/>先提交，再看结果"] -.约束.-> B
     S -.门槛.-> C
     S -.门槛.-> D
@@ -42,7 +42,7 @@ flowchart LR
 - **新增因子**只要在 `quant/alpha/library.py` 写一个函数并登记；名字不在 `quant/alpha/spec.py` 预先登记名单里的因子，体检命令会拒绝对真实数据出结果。
 - **一键体检**（`quant/alpha/checkup.py`）：RankIC 与 t、五分组、换手与成本、纯多头超额、市值中性；行业中性因为没有行业数据，报告里写“未做”。样例见 `reports/因子体检/`。
 - **月度流水线**（`quant/alpha/pipeline.py`）：默认由 Tushare 日线合成周线（`quant/alpha/ts_weekly.py`，也可改回 baostock 周线缓存）→ 算因子 → 目标持仓 → 追加观察盘记录 → 上期已实现收益 → 偏差与因子衰减监控。观察盘只记账、不下单，记录不公开；目前只有一期，还没有已实现收益。
-- **看板**（`quant/alpha/dashboard.py`）：公开版见 `reports/看板/因子看板-公开版.html`：19 次试验的结果表（可排序）、勘误前后对照、归一化净值与回撤、分年超额、数据层覆盖和流程；不含持仓和观察盘记录。
+- **看板**（`quant/alpha/dashboard.py`，模板 `quant/alpha/dashboard.html`）：[在线版](https://kennywu411-dev.github.io/quant-allocation-research/dashboard/)，仓库里的文件是 `dashboard/index.html` 和 `reports/看板/因子看板-公开版.html`（内容相同）。19 次试验的清单与门槛图（点一行联动其余图表）、净值与水下回撤、月度与分年超额、逐月 RankIC、五分组、换手与成本、勘误前后对照、数据层覆盖、ETF 配置线回测；公开版由白名单生成，不含持仓、观察盘记录和任何账户信息。
 - 回归测试保证框架复现结果文件里的数字。详见 `docs/因子线架构.md`。
 - 报告里出现的提交号（如 `db2d90b`、`6c406f7`）来自未公开的开发仓库，用来说明“登记先于结果”的先后顺序。
 
@@ -94,7 +94,7 @@ python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance 
 .venv/bin/pytest -q
 ```
 
-本仓库的测试不联网、不需要任何 token 和本地数据：2026-11-12 本地运行 `pytest -q` 的输出是 `265 passed, 3 skipped`（跳过的 3 个需要本地数据缓存）。
+本仓库的测试不联网、不需要任何 token 和本地数据：2026-11-12 本地运行 `pytest -q` 的输出是 `270 passed, 3 skipped`（跳过的 3 个需要本地数据缓存）。
 
 A股单因子检验（单线程下载，约 70 分钟）：
 
