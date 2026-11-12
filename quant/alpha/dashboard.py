@@ -228,7 +228,7 @@ def render(p: dict, public: bool, echarts: str = ECHARTS) -> str:
     p = {**p, "glossary": GLOSSARY}
     data = json.dumps(_clean(p), ensure_ascii=False, default=float).replace("</", "<\\/")
     return (TEMPLATE.replace("__TITLE__", "A 股选股因子研究看板" if public else "A 股选股因子研究看板（私有版）")
-            .replace("__ECHARTS__", echarts).replace("__PUBLIC__", "true" if public else "false").replace("__DATA__", data))
+            .replace("__ASSETS__", echarts[:echarts.rfind("/") + 1]).replace("__ECHARTS__", echarts).replace("__PUBLIC__", "true" if public else "false").replace("__DATA__", data))
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -181,6 +181,22 @@ def test_glossary_explains_every_term_the_page_uses_in_plain_words():
         assert f'gl("{t}")' in D.TEMPLATE, t
 
 
+def test_fonts_ship_with_the_page_and_follow_the_echarts_folder():
+    from quant.alpha import dashboard as D
+    for f in ("Geist.woff", "GeistMono.woff", "OFL.txt"):
+        assert (D.OUT / "fonts" / f).exists(), f  # 字体和许可证随仓库托管，不走外网
+    html = D.render(_full_private(), public=False)
+    assert 'url("fonts/Geist.woff")' in html and 'url("fonts/GeistMono.woff")' in html
+    site = D.render(_full_private(), public=False, echarts="../reports/x/echarts.min.js")
+    assert 'url("../reports/x/fonts/Geist.woff")' in site  # 短网址那份页面的字体路径跟着图表库走
+
+
+def test_second_screen_ranks_all_trials_by_name_against_the_threshold():
+    from quant.alpha import dashboard as D
+    html = D.render(D.public_payload(_full_private()), public=True)
+    assert 'id="rank"' in html and 'id="trials"' not in html  # 19 根柱子的图取代原来的试验清单
+
+
 def test_first_screen_is_headline_plus_one_data_driven_visual():
     from quant.alpha import dashboard as D
     html = D.render(D.public_payload(_full_private()), public=True)
