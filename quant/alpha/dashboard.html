@@ -42,7 +42,7 @@ h1 .n{font-family:var(--mono);font-weight:500;letter-spacing:-.04em}h1 .z{color:
 .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 20px;margin-bottom:30px;max-width:520px}
 .facts b{display:block;font:500 28px/1.2 var(--mono);letter-spacing:-.03em;white-space:nowrap}.facts b u{text-decoration:none;font:500 13px var(--sans);color:var(--ink2);margin-left:5px;letter-spacing:0}
 .facts span{display:block;font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:2px}
-.facts .hi b{color:var(--acc)}
+.pcave{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:13.5px;line-height:1.65;color:var(--ink2)}.pcave b{color:var(--ink);font-weight:600}.pcave a{color:var(--ink);text-underline-offset:3px}
 .sts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .pnames{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;transition:opacity .6s var(--ease);min-height:68px}.pnames.off{opacity:0}
 .pnames span{font-size:12.5px;color:var(--ink);padding:5px 12px;border-radius:99px;background:var(--glow);white-space:nowrap}
@@ -208,7 +208,7 @@ th:first-child,td:first-child{padding-left:18px}.big{font-size:46px}.say{font-si
     <p class="plain" id="plain"></p>
     <div class="facts" id="facts"></div>
     <button class="cta" id="replay" type="button">再放一遍动画<i aria-hidden="true">&#8635;</i></button><span class="note" id="sv-hint"></span></div>
-  <div class="shell"><div class="core"><div class="sts two" id="sts"></div><div class="sieve" id="sieve" role="group" aria-label="19 次预先登记的试验：每个光点是一次试验"></div><div class="pnames" id="pnames"></div></div></div>
+  <div class="shell"><div class="core"><div class="sts two" id="sts"></div><div class="sieve" id="sieve" role="group" aria-label="19 次预先登记的试验：每个光点是一次试验"></div><div class="pnames" id="pnames"></div><p class="pcave" id="pcave"></p></div></div>
 </div>
 <div class="after rv"><p class="exact" id="use"></p><p class="exact" id="lead"></p><p class="hint gls" id="gl-hero"></p></div>
 
@@ -380,7 +380,7 @@ function gl(term){var g=(D.glossary||[]).filter(function(x){return x.term===term
 $("#plain").innerHTML="一个人搭的 A 股选股研究流程：从行情和财报数据、因子库、回测评测，到每月的观察盘和这块看板。<b>规则和通过门槛先登记，再看结果。</b>";
 (function(){var c=D.coverage,f=[[int(M.n_codes),"只","A 股股票，含已退市的"],[yrs1-yrs0+1,"年","历史数据，"+yrs0+" 到 "+yrs1]];
   if(c)f.push([wan(c.total_rows),"万行","本地行情与财报数据"]);
-  f.push([R.n_trials,"次","预先登记的试验"],[R.n_passed,"次","通过预先登记的门槛","hi"]);
+  f.push([R.n_trials,"次","预先登记的试验"],[R.n_passed,"次","通过预先登记的门槛（第一道检验）"]);
   if(D.tests)f.push([D.tests,"项","自动化测试，全部通过"]);
   $("#facts").innerHTML=f.map(function(x){return '<div class="'+(x[3]||"")+'"><b>'+x[0]+(x[1]?"<u>"+x[1]+"</u>":"")+"</b><span>"+x[2]+"</span></div>"}).join("")})();
 $("#use").innerHTML="<strong>这个平台能做什么：</strong>新写一条打分规则，登记之后一条命令出体检报告（排得准不准、分组收益、换手和成本）；每月一条命令更新数据、记录观察盘、检查因子有没有衰减；结果自动进这块看板。纪律写在代码里：没登记的因子拒绝出结果，观察盘记录不能覆盖。";
@@ -392,10 +392,11 @@ $("#gl-full").innerHTML=gl("超额")+gl("样本外")+gl("换手");$("#gl-nav").i
 var sieve=(function(){var el=$("#sieve");if(!el)return null;
   var pass=T.filter(function(x){return x.passed}),fail=T.filter(function(x){return !x.passed}),stage=0,timers=[],G=null;
   $("#sts").innerHTML=[["先登记，再检验",R.n_trials,"次预先登记的试验","打分规则、股票池、通过门槛先存档，之后不能改"],
-    ["登记的门槛",R.n_passed,"次通过","t 值不低于 "+R.t_pass+"，没用来定规则的那段历史"+(M.split?"（"+M.split.slice(0,4)+" 年之后）":"")+"也有效，扣成本后仍多赚"]]
+    ["登记的门槛",R.n_passed,"次通过","t 值不低于 "+R.t_pass+"，没用来定规则的那段历史"+(M.split?"（"+M.split.slice(0,4)+" 年之后）":"")+"也有效，历史回测里扣成本后仍高于平均"]]
     .map(function(x,i){return '<div class="st"><small>'+x[0]+'</small><em'+(i?' class="off"':"")+">"+x[1]+"</em><b>"+x[2]+"</b><span>"+x[3]+"</span></div>"}).join("");
   var ems=[].slice.call(document.querySelectorAll("#sts em")),pn=$("#pnames");
   pn.innerHTML=pass.map(function(x){return "<span>"+esc(x.name)+"</span>"}).join("");
+  $("#pcave").innerHTML="<b>通过门槛是第一道检验，不等于可以拿去投资。</b>更严格的补充检验（把试验次数算进去）目前还没有组合达标，所以没有任何组合进入下一步的影子盘。<a href='#s-gate'>看 19 次试验的结果</a>";
   function mk(cls,html){var d=document.createElement("div");d.className=cls;if(html)d.innerHTML=html;el.appendChild(d);return d}
   var lab1=mk("svlab"),lab2=mk("svlab off","未通过门槛的 <b>"+fail.length+"</b> 次"),tipEl=mk("svtip");
   var dots=T.map(function(x){var b=document.createElement("button");b.type="button";b.className="svdot"+(x.round===2?" r2":"");
