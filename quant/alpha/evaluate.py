@@ -41,8 +41,11 @@ def simulate(target: dict, fwd: pd.DataFrame, up: pd.DataFrame, dn: pd.DataFrame
         if not new:
             continue
         turn = 1.0 if not held else len(new - held) / len(new)
+        if not fwd.loc[t].notna().any():  # 最后一个调仓日：下期收益还没走完，不出数
+            held = new
+            continue
         r = fwd.loc[t, list(new)].fillna(0.0).mean()
-        nxt = t + pd.offsets.MonthEnd(1)
+        nxt = fev.hold_label(t)
         rows[nxt] = {"gross": float(r), "turn": turn, "net": float(r) - turn * fev.cost_rate(nxt), "n": len(new)}
         held = new
     return pd.DataFrame(rows).T.sort_index()
@@ -112,7 +115,7 @@ def summarize(f: pd.DataFrame, fwd: pd.DataFrame, univ: pd.DataFrame, up: pd.Dat
     sets = quantile_sets(f, univ)
     top = simulate({t: s[1] for t, s in sets.items()}, fwd, up, dn, tradable)
     bot = simulate({t: s[0] for t, s in sets.items()}, fwd, up, dn, tradable)
-    bench = pd.Series({t + pd.offsets.MonthEnd(1): float(fwd.loc[t, univ.loc[t]].fillna(0).mean()) for t in sets})
+    bench = pd.Series({fev.hold_label(t): float(fwd.loc[t, univ.loc[t]].fillna(0).mean()) for t in sets})
     ex = (top.net - bench.reindex(top.index)).dropna()
     ls = (top.net - bot.gross.reindex(top.index)).dropna()  # 空头腿只作参考，不扣融券成本
     o = lambda s: s[s.index > pd.Timestamp(spec.SPLIT) + pd.offsets.MonthEnd(1)]

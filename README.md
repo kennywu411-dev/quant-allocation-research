@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/kennywu411-dev/quant-allocation-research/actions/workflows/ci.yml/badge.svg)](https://github.com/kennywu411-dev/quant-allocation-research/actions/workflows/ci.yml)
 
-个人跨市场（A股 + 美股）ETF 配置研究系统，用 Python 自建：数据清洗、回测引擎、预登记选参、样本外检验、A股单因子检验与全 A 股因子挖掘，以及影子盘、模拟盘的执行偏差监控。
+个人跨市场（A股 + 美股）ETF 配置研究系统，用 Python 自建：数据清洗、回测引擎、预登记选参、样本外检验、A股单因子检验与全 A 股因子研究平台（因子库、一键体检、月度流水线、看板），以及影子盘、模拟盘的执行偏差监控。
 
 > **声明**：这是个人研究记录，不是投资建议。所有收益和回撤都来自历史回测，不代表未来。作者不是持牌金融顾问。
 
@@ -16,7 +16,30 @@
 | 幸存者偏差估计 | 用今天的成分股回测动量个股组合，比含退市股的 French 组合每年高 25.0 个百分点 | `reports/动量个股检验-2026-11-04.md` |
 | A股单因子检验（7 个因子，今天的沪深300 成分股，2010–2026） | 按运行前固定的门槛（t ≥ 3 且样本外同号）全部不显著，最高为 12-1 动量（t = 1.88） | `reports/因子检验-2026-11-10.md` |
 | 大模型读公告（Claude Haiku 结构化标注沪深300 成分股 27.4 万条公告标题，2020–2026） | 判定标准在标注前提交。主假设（模型知识截止后的干净样本、持有 5 天、实质性利好减利空）未通过：-0.35%，t = -0.96；用两个知识截止日不同的模型在同一时段对照，前视增益不显著（t = 0.93）。总花费 7.65 美元 | `reports/公告因子-2026-11-11.md` |
-| 全 A 股因子挖掘（含退市股 5,481 只，2014–2026，周线；10 个因子 + 等权 / IC 加权 / LightGBM 合成） | 门槛在下载数据前提交：13 个试验通过 4 个（低特质波动 RankIC 0.091，t = 8.05；非流动性；等权合成；LightGBM 合成）。10 个 RankIC 显著，但多数做多最高组扣成本后跑不赢股票池；LightGBM 相对等权线性合成没有样本外增益（t = -0.13） | `reports/因子挖掘-2026-11-11.md` |
+| 全 A 股因子挖掘（含退市股 5,481 只，2014–2026，周线；10 个因子 + 等权 / IC 加权 / LightGBM 合成） | 门槛在下载数据前提交：13 个试验通过 7 个（其中 3 个擦线；低特质波动 RankIC 0.091，t = 8.05）。10 个 RankIC 显著，但按 13 次试验折扣后通缩夏普最高 0.59，全部低于 0.95，纯多头超额不能确认显著；LightGBM 相对等权线性合成没有样本外增益（t = -0.13） | `reports/因子挖掘-2026-11-12.md` |
+| 因子挖掘第二轮：只改持仓构造（慢因子合成、缓冲带、市值中性、剔除最差组） | 6 个试验通过 1 个：慢因子合成 + 缓冲带，年化超额 +5.8%，Newey-West t = 3.05（门槛 3），月换手 10%；通缩夏普 0.15，没有任何组合达到“影子盘候选”标准（≥ 0.95）。市值中性后等权合成样本外超额 +1.9%（t = 0.64） | `reports/因子挖掘勘误-2026-11-12.md` |
+| 勘误（2026-11-12） | 搭因子库框架时发现组合模拟的持有月份标签重复，153 个调仓日里丢了 19 个持有期。失败测试和修正先提交，再按原登记重跑：第一轮通过数 4 → 7，第二轮 0 → 1，RankIC 不变，通缩夏普的结论不变。修正前的报告和结果保留 | `reports/因子挖掘勘误-2026-11-12.md` |
+
+## 因子研究平台
+
+```mermaid
+flowchart LR
+    A["数据层<br/>含退市股的行情缓存"] --> B["因子库<br/>注册表：写函数 + @register"]
+    B --> C["评测<br/>RankIC / 分组 / 成本 / 市值中性"]
+    C --> D["组合构造<br/>五分组 / 缓冲带 / 涨跌停约束"]
+    D --> E["观察盘与监控<br/>记账 / 已实现收益 / 偏差 / IC 告警"]
+    E --> F["看板<br/>单文件静态网页"]
+    S["预先登记 spec.py<br/>先提交，再看结果"] -.约束.-> B
+    S -.门槛.-> C
+    S -.门槛.-> D
+```
+
+- **新增因子**只要在 `quant/alpha/library.py` 写一个函数并登记；名字不在 `quant/alpha/spec.py` 预先登记名单里的因子，体检命令会拒绝对真实数据出结果。
+- **一键体检**（`quant/alpha/checkup.py`）：RankIC 与 t、五分组、换手与成本、纯多头超额、市值中性；行业中性因为没有行业数据，报告里写“未做”。样例见 `reports/因子体检/`。
+- **月度流水线**（`quant/alpha/pipeline.py`）：读缓存 → 算因子 → 目标持仓 → 追加观察盘记录 → 上期已实现收益 → 偏差与因子衰减监控。观察盘只记账、不下单，记录不公开；目前只有一期，还没有已实现收益。
+- **看板**（`quant/alpha/dashboard.py`）：公开版见 `reports/看板/因子看板-公开版.html`，只含归一化净值和流程。
+- 回归测试保证框架复现结果文件里的数字。详见 `docs/因子线架构.md`。
+- 报告里出现的提交号（如 `db2d90b`、`6c406f7`）来自未公开的开发仓库，用来说明“登记先于结果”的先后顺序。
 
 ## 趋势过滤的代价（基准对比）
 
@@ -48,7 +71,8 @@ quant/
   backtest/    月度调仓回测引擎（涨跌停、停牌、整手、成本、汇率）、与 bt 交叉核对
   research/    P3 核心配置、P4 卫星、P5 组合与风控、激进版研究、统计检验
   factors/     A股单因子检验（数据、因子、IC / 分组 / 成本）
-  alpha/       全 A 股因子挖掘（含退市股的股票池、涨跌停约束的组合模拟、等权 / IC 加权 / LightGBM 合成）
+  alpha/       全 A 股因子研究：预先登记、因子注册表、一键体检、组合模拟（涨跌停约束）、合成（等权 / IC 加权 / LightGBM）、
+               持仓构造（缓冲带等）、观察盘、月度流水线、看板
   llm_events/  大模型读公告：巨潮公告下载、结构化标注（Batch API、缓存、预算上限）、事件研究与月度情绪因子
   live/        月度调仓单、份额净值账本、影子盘、模拟盘（只允许 SIMULATE）、偏差报告
   portfolio/   持仓体检与过渡方案
@@ -87,6 +111,10 @@ PYTHONPATH=. .venv/bin/python -m quant.llm_events.run
 PYTHONPATH=. .venv/bin/python -m quant.alpha.data  # 只用于生成股票名单：打印“A股并集 N 只”后即可停止（之后是日线下载）
 PYTHONPATH=. .venv/bin/python -m quant.alpha.weekly_data
 PYTHONPATH=. .venv/bin/python -m quant.alpha.weekly
+PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.round2      # 第二轮：持仓构造
+PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.checkup --all  # 因子体检
+PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.pipeline --source cache  # 月度流水线（会写 live/alpha_shadow/）
+PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.dashboard   # 看板
 ```
 
 ## 不在仓库里的输入

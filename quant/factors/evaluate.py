@@ -70,11 +70,17 @@ def groups(factor: pd.DataFrame, mask: pd.DataFrame, fwd: pd.DataFrame, n: int =
     return out
 
 
+def hold_label(t: pd.Timestamp) -> pd.Timestamp:
+    """月末 t 建仓的持有期标签 = 下一个自然月的月末。
+    不能写 t + MonthEnd(1)：t 不在自然月末时它落回当月月末，会和上一期（恰在自然月末建仓）的标签重复，后一期覆盖前一期。"""
+    return (pd.Timestamp(t).to_period("M") + 1).end_time.normalize()
+
+
 def group_returns(grp: dict, fwd: pd.DataFrame) -> pd.DataFrame:
     """各组等权下月收益；索引为持有月份的月末（t+1）。"""
     rows = {}
     for t, gs in grp.items():
-        rows[t + pd.offsets.MonthEnd(1)] = {g: float(fwd.loc[t, codes].mean()) for g, codes in gs.items()}
+        rows[hold_label(t)] = {g: float(fwd.loc[t, codes].mean()) for g, codes in gs.items()}
     return pd.DataFrame(rows).T.sort_index()
 
 
@@ -83,7 +89,7 @@ def turnover(grp: dict, g: int) -> pd.Series:
     out, prev = {}, None
     for t in sorted(grp):
         cur = set(grp[t][g])
-        out[t + pd.offsets.MonthEnd(1)] = 1.0 if prev is None else len(cur - prev) / len(cur)
+        out[hold_label(t)] = 1.0 if prev is None else len(cur - prev) / len(cur)
         prev = cur
     return pd.Series(out)
 

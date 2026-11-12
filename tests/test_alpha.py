@@ -136,3 +136,42 @@ def test_weekly_forward_and_momentum():
     f = factors(w, rb)
     assert abs(f["MOM12_1"].loc[pd.Timestamp("2024-03-29"), "A"] - 0.10) < 1e-12  # 2 月的 +10% 在 3 月调仓时算进动量
     assert f["MOM12_1"].loc[pd.Timestamp("2024-02-23"), "A"] == 0.0  # 2 月调仓时跳过当月
+
+
+def test_neutralize_removes_linear_exposure():
+    from quant.alpha.round2 import neutralize
+    rng = np.random.default_rng(0)
+    idx = pd.DatetimeIndex(["2020-01-31"])
+    cols = [f"c{i}" for i in range(200)]
+    x = pd.DataFrame(rng.normal(size=(1, 200)), index=idx, columns=cols)
+    y = 2 * x + rng.normal(size=(1, 200))
+    univ = pd.DataFrame(True, index=idx, columns=cols)
+    univ.iloc[0, :10] = False
+    r = neutralize(y, x, univ)
+    assert r.iloc[0, :10].isna().all()
+    assert abs(np.corrcoef(r.iloc[0, 10:], x.iloc[0, 10:])[0, 1]) < 1e-10
+
+
+def test_buffered_sets_keeps_holdings_inside_band_and_size():
+    from quant.alpha.round2 import buffered_sets
+    idx = pd.DatetimeIndex(["2020-01-31", "2020-02-29"])
+    cols = [f"c{i:03d}" for i in range(100)]
+    f = pd.DataFrame([np.arange(100, 0, -1.0), np.arange(100, 0, -1.0)], index=idx, columns=cols)
+    f.loc[idx[1], "c000"] = 65.5   # 第 2 月排到第 36 名：仍在前 40%，留下
+    f.loc[idx[1], "c001"] = 50.5   # 排到第 51 名：出带，卖掉
+    univ = pd.DataFrame(True, index=idx, columns=cols)
+    s = buffered_sets(f, univ, n=5, exit_q=0.40)
+    assert s[idx[0]] == set(cols[:20])
+    assert len(s[idx[1]]) == 20
+    assert "c000" in s[idx[1]] and "c001" not in s[idx[1]]
+    assert "c020" in s[idx[1]] and "c021" not in s[idx[1]]  # 只补 1 个空位，补排名最高的
+
+
+def test_ex_bottom_sets_drops_only_lowest_quintile():
+    from quant.alpha.round2 import ex_bottom_sets
+    idx = pd.DatetimeIndex(["2020-01-31"])
+    cols = [f"c{i:03d}" for i in range(100)]
+    f = pd.DataFrame([np.arange(100.0)], index=idx, columns=cols)
+    univ = pd.DataFrame(True, index=idx, columns=cols)
+    s = ex_bottom_sets(f, univ)[idx[0]]
+    assert s == set(cols[20:])

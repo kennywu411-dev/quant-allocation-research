@@ -53,33 +53,12 @@ def limit_pct(codes: pd.Index, rb: pd.DatetimeIndex) -> pd.DataFrame:
 
 
 def factors(w: dict, rb: pd.DatetimeIndex) -> dict[str, pd.DataFrame]:
-    ret = w["ret"]
-    r0 = ret.fillna(0.0)
-    lg = np.log1p(r0)
-    cum = lambda n: np.exp(lg.rolling(n).sum()) - 1
-    mkt = ret.mean(axis=1)
-    var_m = mkt.rolling(12, min_periods=8).var()
-    cov = ret.rolling(12, min_periods=8).cov(mkt)
-    var_r = ret.rolling(12, min_periods=8).var()
-    resid = (var_r - cov.pow(2).div(var_m, axis=0)).clip(lower=0)
-    amt = w["amount"].where(w["amount"] > 0)
-    illiq = (ret.abs() / amt).rolling(4, min_periods=2).mean()
-    mcap = (w["amount"] / (w["turn"].where(w["turn"] > 0) / 100)).ffill(limit=4)
-    L = lg.cumsum().reindex(rb)
-    out = {
-        "LOWVOL": -ret.rolling(52, min_periods=26).std(),
-        "LOWTURN": -w["turn"].where(w["traded"]).rolling(4, min_periods=2).mean(),
-        "REV21": -cum(4),
-        "SIZE": -np.log(mcap),
-        "IVOL": -np.sqrt(resid),
-        "ILLIQ": np.log(illiq.where(illiq > 0)),
-        "REV5": -r0,
-        "REV10": -cum(2),
-        "MAX": -ret.rolling(4, min_periods=2).max(),
-    }
-    res = {k: v.reindex(rb) for k, v in out.items()}
-    res["MOM12_1"] = np.exp(L.shift(1) - L.shift(12)) - 1  # 第 t-11 到 t-1 个调仓月
-    res["_mcap"] = mcap.reindex(rb)
+    """按注册表（quant/alpha/library.py）算出全部已登记的周线因子，外加流通市值 _mcap。"""
+    from quant.alpha import library  # noqa: F401  导入即登记
+    from quant.alpha.registry import Ctx, compute
+    ctx = Ctx(w, rb)
+    res = compute(spec.W_FACTORS, ctx)
+    res["_mcap"] = ctx.mcap.reindex(rb)
     return res
 
 
@@ -105,6 +84,25 @@ def universe(mem: pd.DataFrame, basic: pd.DataFrame, w: dict, mcap: pd.DataFrame
     return (ok & ~small).fillna(False)
 
 
+def build(end: str = spec.END) -> dict:
+    """读周线缓存，算出因子、下期收益、股票池和涨跌停标记（第一轮和第二轮共用）。"""
+    mem = pd.read_csv(data.DIR / "all_members.csv", dtype=str)
+    basic = pd.read_csv(data.DIR / "stock_basic.csv", dtype=str)
+    w = load_weekly(sorted(set(mem.code)))
+    rb = rebalance_dates(w["close"].index)
+    rb = rb[(rb >= spec.START) & (rb <= end)]
+    fx = factors(w, rb)
+    mcap = fx.pop("_mcap")
+    f = {k: fx[k] for k in spec.W_FACTORS}
+    fwd = forward_returns(w, rb)
+    univ = universe(mem, basic, w, mcap, rb)
+    wk_ret = w["ret"].reindex(rb)
+    lim = limit_pct(w["close"].columns, rb)
+    up, dn = (wk_ret >= lim - 0.001).fillna(False), (wk_ret <= -lim + 0.001).fillna(False)
+    tradable = w["traded"].reindex(rb).fillna(False)
+    return {"w": w, "rb": rb, "f": f, "mcap": mcap, "fwd": fwd, "univ": univ, "up": up, "dn": dn, "tradable": tradable}
+
+
 def main(argv: list[str] | None = None) -> int:
     import warnings
     warnings.filterwarnings("ignore")
@@ -115,21 +113,10 @@ def main(argv: list[str] | None = None) -> int:
     from quant.research.stats import deflated_sharpe
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="reports")
+    ap.add_argument("--rerun", default="", help="勘误重跑时的标记，写进 trials.csv 的名称后缀（不计新试验）")
     a = ap.parse_args(argv)
-    mem = pd.read_csv(data.DIR / "all_members.csv", dtype=str)
-    basic = pd.read_csv(data.DIR / "stock_basic.csv", dtype=str)
-    w = load_weekly(sorted(set(mem.code)))
-    rb = rebalance_dates(w["close"].index)
-    rb = rb[(rb >= spec.START) & (rb <= spec.END)]
-    fx = factors(w, rb)
-    mcap = fx.pop("_mcap")
-    f = {k: fx[k] for k in spec.W_FACTORS}
-    fwd = forward_returns(w, rb)
-    univ = universe(mem, basic, w, mcap, rb)
-    wk_ret = w["ret"].reindex(rb)
-    lim = limit_pct(w["close"].columns, rb)
-    up, dn = (wk_ret >= lim - 0.001).fillna(False), (wk_ret <= -lim + 0.001).fillna(False)
-    tradable = w["traded"].reindex(rb).fillna(False)
+    b = build()
+    w, rb, f, fwd, univ, up, dn, tradable = (b[k] for k in ("w", "rb", "f", "fwd", "univ", "up", "dn", "tradable"))
     args = (fwd, univ, up, dn, tradable)
     res = {k: E.summarize(v, *args) for k, v in f.items()}
     z = {k: E.zscores(v, univ) for k, v in f.items()}
@@ -149,7 +136,7 @@ def main(argv: list[str] | None = None) -> int:
     run_id, today = new_run_id(), f"{date.today():%Y-%m-%d}"
     S = {k: r["summary"] for k, r in res.items()}
     for k, s in S.items():
-        log_trial({"name": f"因子挖掘周线｜{k}｜全A", "phase": "因子挖掘", "run_id": run_id, **s})
+        log_trial({"name": f"因子挖掘周线｜{k}｜全A{a.rerun}", "phase": "因子挖掘", "run_id": run_id, **s})
     stem = f"因子挖掘-{today}"
     charts(res, Path(a.out) / f"{stem}.png")
     usz = univ.sum(axis=1)
