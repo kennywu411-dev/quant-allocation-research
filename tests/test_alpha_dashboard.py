@@ -92,7 +92,7 @@ def _full_private():
 def test_public_payload_is_a_whitelist_without_holdings_or_codes():
     from quant.alpha import dashboard as D
     pub = D.public_payload(_full_private(), tests=250)
-    assert set(pub) == {"meta", "nav", "drawdown", "yearly", "research", "coverage", "pipeline", "tests", "ic", "table"}
+    assert set(pub) == {"meta", "nav", "drawdown", "yearly", "research", "coverage", "pipeline", "tests", "ic", "table", "glossary"}
     assert pub["tests"] == 250  # 公开仓库的测试数另外给，不沿用私有仓库的
     text = json.dumps(pub, ensure_ascii=False)
     assert not re.search(r"(sh|sz|bj)\.\d{6}", text)
@@ -162,3 +162,26 @@ def test_public_payload_adds_etf_universe_and_monthly_when_present():
     pub = D.public_payload(p)
     assert {"etf", "universe", "monthly"} <= set(pub)
     assert pub["meta"]["generated"] == "2026-11-12 20:00" and pub["meta"]["data_last"] == "2026-11-11"
+
+
+def test_glossary_explains_every_term_the_page_uses_in_plain_words():
+    from quant.alpha import dashboard as D
+    terms = [g["term"] for g in D.GLOSSARY]
+    assert {"因子", "超额", "RankIC", "t 值", "通缩夏普", "回撤", "换手", "样本外"} <= set(terms)
+    assert all(len(g["plain"]) >= 12 and "—" not in g["plain"] for g in D.GLOSSARY)
+    pub = D.public_payload(_full_private())
+    assert pub["glossary"] == D.GLOSSARY  # 同一套解释，不按读者分版本
+    html = D.render(pub, public=True)
+    assert 'id="glossary"' in html and "简明" not in html and "专业模式" not in html
+
+
+def test_every_registered_trial_has_a_plain_one_line_description():
+    from quant.alpha import dashboard as D
+    names = set(spec.W_FACTORS) | set(spec.COMPOSITES) | set(spec.R2_TRIALS)  # 周线版实际检验的 10 个因子
+    missing = sorted(n for n in names if n not in D.PLAIN and "对照" not in n)
+    assert not missing, missing
+    r1, r2 = _results(7, 1, 0.59, 152)
+    r1["factors"]["IVOL"] = r1["factors"].pop("F0")
+    s = D.research_summary(r1, r2, *_results(4, 0, 0.50, 134))
+    assert next(t for t in s["trials"] if t["name"] == "IVOL")["plain"] == D.PLAIN["IVOL"]
+    assert s["trials"][0]["plain"] is None  # 没有白话说明的名字不编

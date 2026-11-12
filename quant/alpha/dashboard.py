@@ -32,6 +32,43 @@ PIPELINE = [
 ]
 
 
+# 页面上用到的术语，第一次出现的地方就地解释；全页只有这一套说法，不按读者分版本
+GLOSSARY = [
+    {"term": "因子", "plain": "给每只股票打分的一条规则，比如“最近波动越小，分数越高”。"},
+    {"term": "超额", "plain": "组合收益减去基准的收益。基准就是把每个月可选的股票（股票池）每只都买一样多。大于 0 才说明挑股票有用。"},
+    {"term": "RankIC", "plain": "每个月按因子分数给股票排名，再按下个月的涨跌排名，看两个排名有多像。正数是排对了。股价大部分是随机波动，所以 0.05 就算不错。"},
+    {"term": "t 值", "plain": "结果离“纯属运气”有多远。越大越不像巧合（也说越“显著”），这里要求 3 以上。"},
+    {"term": "通缩夏普", "plain": "试得越多，越容易碰上一个好看的结果。它把试验次数算进去，给出“这不是运气”的把握，0 到 1 之间，0.59 就是不到六成把握，这里要求 0.95。英文缩写 DSR。"},
+    {"term": "回撤", "plain": "从之前的最高点跌下来多少。最大回撤就是最难熬的那一段跌幅。"},
+    {"term": "换手", "plain": "每个月换掉多大比例的持仓。换得越多，交易成本越高。"},
+    {"term": "样本外", "plain": "定规则时没有用到、留着只做检验的那段历史（这里是后半段）。"},
+]
+
+
+# 每次试验一句白话：这条规则买什么样的股票。写法对照 spec.py 和 library.py 里的登记定义
+PLAIN = {
+    "LOWVOL": "过去一年涨跌越平稳的股票，分数越高",
+    "MOM12_1": "过去一年（跳过最近一个月）涨得越多，分数越高",
+    "LOWTURN": "最近四周交易越冷清的股票，分数越高",
+    "REV21": "最近四周跌得越多，分数越高（赌它反弹）",
+    "SIZE": "公司市值越小，分数越高",
+    "IVOL": "扣掉大盘的影响后，自身波动越小，分数越高",
+    "ILLIQ": "成交越不活跃、少量资金就能推动价格的股票，分数越高",
+    "REV5": "最近一周跌得越多，分数越高（赌它反弹）",
+    "REV10": "最近两周跌得越多，分数越高（赌它反弹）",
+    "MAX": "最近四周里最大的单周涨幅越小，分数越高（避开暴涨过的）",
+    "等权合成": "把 10 个因子的分数直接取平均",
+    "IC加权合成": "10 个因子按各自过去的准确程度加权平均",
+    "LightGBM合成": "用机器学习模型把 10 个因子合成一个分数",
+    "慢因子合成": "只用 4 个不需要频繁换股票的因子取平均",
+    "等权合成+缓冲带": "10 因子平均，但排名小幅下滑时先不卖，减少换手",
+    "慢因子合成+缓冲带": "4 个慢因子平均，排名小幅下滑时先不卖",
+    "等权合成（市值中性）": "10 因子平均，先去掉“公司大小”带来的影响",
+    "IVOL（市值中性）": "低特质波动因子，先去掉“公司大小”带来的影响",
+    "剔除最差组": "只避开分数最低的五分之一，其余股票都买",
+}
+
+
 def nav_series(r: pd.Series) -> dict:
     """月度收益 → 从 1 开始的归一化净值（第一个点是建仓前一个月末）。"""
     r = r.dropna()
@@ -60,11 +97,11 @@ def research_summary(r1: dict, r2: dict, o1: dict, o2: dict) -> dict:
     第二轮里的“对照”行是第一轮组合的重算，不是新试验，不计入。"""
     def rows(a, b):
         g = lambda v, k: _num(v.get(k))
-        out = [{"round": 1, "name": k, "rank_ic": _num(v["rank_ic"]), "t": _num(v["t"]), "ex_ann": _num(v["ex_ann"]), "ex_t": None,
+        out = [{"round": 1, "name": k, "plain": PLAIN.get(k), "rank_ic": _num(v["rank_ic"]), "t": _num(v["t"]), "ex_ann": _num(v["ex_ann"]), "ex_t": None,
                 "oos_ex_ann": _num(v["oos_ex_ann"]), "dsr": _num(v.get("dsr")), "passed": bool(v["passed"]),
                 "oos_rank_ic": g(v, "oos_rank_ic"), "oos_t": g(v, "oos_t"), "icir": g(v, "icir_ann"), "ex_mdd": g(v, "ex_mdd"),
                 "turn": g(v, "top_turn"), "ls_ann": g(v, "ls_ann")} for k, v in a["factors"].items()]
-        out += [{"round": 2, "name": k, "rank_ic": None, "t": None, "ex_ann": _num(v["ex_ann"]), "ex_t": _num(v["ex_t"]),
+        out += [{"round": 2, "name": k, "plain": PLAIN.get(k), "rank_ic": None, "t": None, "ex_ann": _num(v["ex_ann"]), "ex_t": _num(v["ex_t"]),
                  "oos_ex_ann": _num(v["oos_ex_ann"]), "dsr": _num(v["dsr"]), "passed": bool(v["passed"]),
                  "oos_ex_t": g(v, "oos_ex_t"), "gross_ex_ann": g(v, "gross_ex_ann"), "ex_mdd": g(v, "ex_mdd"), "turn": g(v, "top_turn"),
                  "top_ann_net": g(v, "top_ann_net"), "bench_ann": g(v, "bench_ann")}
@@ -147,7 +184,7 @@ def build_payload(b: dict, monitor: dict, checkup: dict) -> dict:
                       "ex_ann": c["long_only"]["ex_ann"], "ex_t": c["long_only"]["ex_t"], "oos_ex_ann": c["long_only"]["oos_ex_ann"],
                       "turn": c["long_only"]["top_turn"], "groups": c["groups"]["ann"], "monotonic": bool(c["groups"]["monotonic"]),
                       "cost_drag": c["cost"]["cost_drag_ann"], "gross_ex_ann": c["long_only"]["gross_ex_ann"], "icir": c["ic"]["icir_ann"],
-                      "win": c["ic"]["win"], "desc": REGISTRY[k].desc if k in REGISTRY else None,
+                      "win": c["ic"]["win"], "desc": REGISTRY[k].desc if k in REGISTRY else None, "plain": PLAIN.get(k),
                       "neutral_ex_ann": None if isinstance(n, str) else n["long_only"]["ex_ann"], "passed": c["round1"]["passed"]})
     t_last = b["rb"][-1]
     style = {k: style_exposure(z, tg[k][t_last], t_last) for k in shadow.TRACKED}
@@ -167,7 +204,7 @@ PUBLIC_META = ("asof", "start", "end", "n_trials", "n_codes", "generated", "pipe
 def public_payload(p: dict, tests: int | None = None) -> dict:
     """白名单：已公开的两轮试验结果、归一化净值与回撤、分年超额、数据层覆盖、流程和少量元信息。
     tests = 公开仓库自己的测试数（和私有仓库不同，所以单独给；不给就不显示）。"""
-    out = {"meta": {k: p["meta"][k] for k in PUBLIC_META if k in p["meta"]}, "pipeline": PIPELINE}
+    out = {"meta": {k: p["meta"][k] for k in PUBLIC_META if k in p["meta"]}, "pipeline": PIPELINE, "glossary": GLOSSARY}
     out.update({k: p[k] for k in PUBLIC_KEYS if k in p})
     if tests:
         out["tests"] = int(tests)
@@ -188,6 +225,7 @@ def _clean(o):
 
 
 def render(p: dict, public: bool, echarts: str = ECHARTS) -> str:
+    p = {**p, "glossary": GLOSSARY}
     data = json.dumps(_clean(p), ensure_ascii=False, default=float).replace("</", "<\\/")
     return (TEMPLATE.replace("__TITLE__", "A 股选股因子研究看板" if public else "A 股选股因子研究看板（私有版）")
             .replace("__ECHARTS__", echarts).replace("__PUBLIC__", "true" if public else "false").replace("__DATA__", data))

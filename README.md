@@ -6,9 +6,9 @@
 
 > **声明**：这是个人研究记录，不是投资建议。所有收益和回撤都来自历史回测，不代表未来。作者不是持牌金融顾问。
 
-[![选股因子研究看板：19 次预先登记的试验、门槛图和单项读数](docs/img/dashboard.png)](https://kennywu411-dev.github.io/quant-allocation-research/dashboard/)
+[![选股研究看板：试了 19 种选股办法，0 种靠得住；四个核心数字、三步做法和 8 个术语的白话解释](docs/img/dashboard.png)](https://kennywu411-dev.github.io/quant-allocation-research/dashboard/)
 
-**在线看板：<https://kennywu411-dev.github.io/quant-allocation-research/dashboard/>**（点上图也能打开；怎么读见 [docs/看板导读.md](docs/看板导读.md)）。上图是开头部分：两轮共 19 次预先登记的试验、t 值与通缩夏普的门槛图、单项读数。往下是净值与水下回撤（可按时间段刷选）、月度超额热力图、逐月 RankIC、五分组、换手与成本、勘误前后对照、数据层覆盖和 ETF 配置线回测。页面是静态网页，没有实时行情；数字都由 `quant/alpha/dashboard.py` 从 `research/` 下的结果文件读出，图表库 ECharts 5.6.0（Apache-2.0）随仓库一起托管。
+**在线看板：<https://kennywu411-dev.github.io/quant-allocation-research/dashboard/>**（点上图也能打开；怎么读见 [docs/看板导读.md](docs/看板导读.md)）。上图是开头部分：结论、三步做法和术语解释。页面只有一套内容，每张图上方有一句“这张图在说什么”，不懂量化也能读。往下是 19 次试验的清单与及格线图、完整数字表、净值与水下回撤（可按时间段刷选）、月度超额热力图、五分组、逐月 RankIC、换手与成本、勘误前后对照、数据层覆盖和 ETF 配置线回测。版式参考了 QuantStats、pyfolio、Alphalens、Qlib、Grafana 等开源项目的报告（只借鉴思路，见导读）。页面是静态网页，没有实时行情；数字都由 `quant/alpha/dashboard.py` 从 `research/` 下的结果文件读出，图表库 ECharts 5.6.0（Apache-2.0）随仓库一起托管。
 
 ## 主要结论
 
@@ -94,7 +94,7 @@ python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance 
 .venv/bin/pytest -q
 ```
 
-本仓库的测试不联网、不需要任何 token 和本地数据：2026-11-12 本地运行 `pytest -q` 的输出是 `270 passed, 3 skipped`（跳过的 3 个需要本地数据缓存）。
+本仓库的测试不联网、不需要任何 token 和本地数据：2026-11-12 本地运行 `pytest -q` 的输出是 `272 passed, 3 skipped`（跳过的 3 个需要本地数据缓存）。
 
 A股单因子检验（单线程下载，约 70 分钟）：
 

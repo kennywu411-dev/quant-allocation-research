@@ -23,7 +23,7 @@ button{font:inherit;color:inherit}
 .logo{width:26px;height:26px;flex:none;border:1px solid var(--line2);border-radius:var(--r);display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:4px}
 .logo i{background:var(--line2);border-radius:1px}.logo i.on{background:var(--s1)}
 .brand b{display:block;font-size:14px;font-weight:650;letter-spacing:.01em;white-space:nowrap}
-.brand small{display:block;font:10.5px/1.2 var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.brand small{display:block;font-size:11px;line-height:1.3;color:var(--muted);white-space:nowrap}
 .navl{display:flex;gap:2px;margin-left:8px;overflow-x:auto;scrollbar-width:none}.navl::-webkit-scrollbar{display:none}
 .navl a{font:11.5px var(--mono);letter-spacing:.06em;color:var(--muted);text-decoration:none;padding:6px 9px;border-radius:var(--r);white-space:nowrap;transition:color .16s var(--ease),background .16s var(--ease)}
 .navl a:hover,.navl a.on{color:var(--ink);background:var(--panel2)}
@@ -39,19 +39,19 @@ main{max-width:1480px;margin:0 auto;padding:0 24px 56px}
 /* 状态格 */
 .strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-top:0;background:var(--panel)}
 .cell{padding:12px 16px;border-left:1px solid var(--line);min-width:0}.cell:first-child{border-left:0}
-.cell small{display:block;font:10px/1.3 var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
-.cell>span{display:block;font-size:12px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell small{display:block;font-size:11.5px;line-height:1.4;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell>span{display:block;font-size:13px;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cell b{display:block;font:600 24px/1.25 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-top:2px;white-space:nowrap}
 .cell b u{text-decoration:none;font-size:12px;font-weight:500;color:var(--muted);margin-left:5px;letter-spacing:0}
 .cell.zero b{color:var(--s2)}
 
 /* 结论 */
-.hero{padding:34px 0 22px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:end}
+.hero{padding:34px 0 22px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:center}
 .kick{font:11px var(--mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
 h1{font-size:40px;line-height:1.18;font-weight:700;letter-spacing:-.015em;text-wrap:balance}
 h1 .ln{display:block}h1 .n{font-family:var(--mono);font-variant-numeric:tabular-nums}h1 .z{color:var(--s2)}
 .lead{color:var(--ink2);font-size:15px;max-width:40em}.lead strong{color:var(--ink);font-weight:600}
-.funnel{display:flex;align-items:stretch;gap:0;margin-top:18px;border:1px solid var(--line);background:var(--panel)}
+.funnel{display:flex;align-items:stretch;gap:0;margin-top:22px;max-width:560px;border:1px solid var(--line);background:var(--panel)}
 .funnel div{flex:1;padding:10px 14px;border-left:1px solid var(--line);position:relative}.funnel div:first-child{border-left:0}
 .funnel b{display:block;font:600 22px/1.2 var(--mono)}.funnel span{font-size:12px;color:var(--ink2)}
 .funnel div+div:before{content:"";position:absolute;left:-5px;top:50%;width:8px;height:8px;border-top:1px solid var(--line2);border-right:1px solid var(--line2);transform:translateY(-50%) rotate(45deg);background:var(--panel)}
@@ -65,6 +65,18 @@ h1 .ln{display:block}h1 .n{font-family:var(--mono);font-variant-numeric:tabular-
 .ph h3{font-size:14.5px;font-weight:650;margin-right:auto}
 .pb{padding:14px 16px 16px}
 .hint{color:var(--muted);font-size:12px;line-height:1.55}
+.say{font-size:14.5px;line-height:1.6;color:var(--ink);margin:0 0 12px;padding:9px 12px;border-left:2px solid var(--s1);background:var(--panel2);max-width:none}
+.say b{font-weight:650}.say .q{color:var(--muted);font-size:12px;margin-right:8px;white-space:nowrap}
+.gloss{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);background:var(--panel);margin-bottom:12px}
+.gloss div{padding:11px 14px;border-left:1px solid var(--line);border-top:1px solid var(--line);margin:-1px 0 0 -1px}
+.gloss b{display:block;font-size:13.5px;margin-bottom:2px}.gloss span{color:var(--ink2);font-size:12.5px;line-height:1.55;display:block}
+.glh{font-size:13px;color:var(--ink2);margin:0 0 8px}
+.plain{font-size:16px;line-height:1.7;color:var(--ink);max-width:44em}.plain b{font-weight:650}
+.exact{margin-top:12px;color:var(--ink2);font-size:13.5px;line-height:1.65;max-width:50em}.exact strong{color:var(--ink);font-weight:600}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);background:var(--panel);margin:0 0 12px}
+.steps div{padding:12px 16px;border-left:1px solid var(--line)}.steps div:first-child{border-left:0}
+.steps small{display:block;font:11px var(--mono);color:var(--s1);letter-spacing:.1em;margin-bottom:3px}.steps b{display:block;font-size:14.5px;margin-bottom:3px}.steps span{color:var(--ink2);font-size:13px;line-height:1.55}
+#full td,#full th{padding:7px 10px}#full .pl{display:block;font-size:11.5px;color:var(--muted);margin-left:14px;white-space:normal;max-width:30em}#full td:first-child{white-space:normal;min-width:15em}#full tbody tr[aria-selected=true]{background:var(--glow)}#full tbody tr{cursor:pointer}#full tbody tr:hover{background:var(--panel2)}
 .cap{color:var(--ink2);font-size:13px;line-height:1.6;max-width:62em}
 .grid3{display:grid;grid-template-columns:minmax(0,356px) minmax(0,1fr) minmax(0,300px);gap:12px;align-items:stretch}
 .g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
@@ -149,16 +161,16 @@ footer{margin-top:48px;padding:16px 0 0;border-top:1px solid var(--line);color:v
 @media (max-width:1100px){.strip{grid-template-columns:repeat(4,minmax(0,1fr))}.cell:nth-child(5){border-left:0}.cell:nth-child(n+5){border-top:1px solid var(--line)}
 .hero{grid-template-columns:minmax(0,1fr);gap:20px}.navl{display:none}}
 @media (max-width:860px){main{padding:0 14px 40px}.top .in{padding:9px 14px;gap:10px}.pill{display:none}.clock em{display:none}
-.strip{grid-template-columns:repeat(2,minmax(0,1fr))}.cell{border-left:0;border-top:1px solid var(--line)}.cell:nth-child(even){border-left:1px solid var(--line)}.cell:nth-child(-n+2){border-top:0}.cell:last-child{grid-column:1/-1}
+.strip{grid-template-columns:repeat(2,minmax(0,1fr))}.cell{border-left:0;border-top:1px solid var(--line)}.cell:nth-child(even){border-left:1px solid var(--line)}.cell:nth-child(-n+2){border-top:0}
 .cell b{font-size:21px}h1{font-size:23px}.brand small{display:none}.hero{padding:28px 0 18px}
-.grid3,.g2,.g21,.g12,.mods{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi{border-left:0;border-top:1px solid var(--line)}.kpi:nth-child(even){border-left:1px solid var(--line)}.kpi:first-child{grid-column:1/-1;border-top:0}
+.grid3,.g2,.g21,.g12,.mods,.steps{grid-template-columns:minmax(0,1fr)}.steps div{border-left:0;border-top:1px solid var(--line)}.steps div:first-child{border-top:0}.gloss{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.plain{font-size:15px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi{border-left:0;border-top:1px solid var(--line)}.kpi:nth-child(even){border-left:1px solid var(--line)}.kpi:first-child{grid-column:1/-1;border-top:0}
 .err{grid-template-columns:repeat(2,minmax(0,1fr))}.err div:nth-child(3){border-left:0}.err div:nth-child(n+3){border-top:1px solid var(--line)}
 .funnel b{font-size:19px}.big{font-size:34px}section{margin-top:34px}.sh h2{font-size:19px}.tw{max-height:380px}}
 </style></head>
 <body>
 <header class="top"><div class="in">
   <div class="brand"><div class="logo" aria-hidden="true"><i></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i></i></div>
-    <div><b>因子研究台<span id="privtag"></span></b><small>Factor research desk · A-share · monthly</small></div></div>
+    <div><b>A 股选股研究看板<span id="privtag"></span></b><small>A 股 · 每月调仓 · 历史数据检验</small></div></div>
   <nav class="navl" aria-label="页内导航"><a href="#s-gate">01 结论</a><a href="#s-nav">02 净值</a><a href="#s-factor">03 因子</a><a href="#s-err">04 勘误</a><a href="#s-data">05 数据</a><a href="#s-sys">06 系统</a><a href="#s-etf">07 ETF 线</a></nav>
   <div class="right"><span class="pill pillx"><em>数据截至</em><span id="p-data"></span></span><span class="pill"><em>页面生成</em><span id="p-gen"></span></span>
     <span class="clock" title="你这台设备的本地时间，不是行情时间"><em>本地时间</em><span id="clock"></span></span>
@@ -169,89 +181,96 @@ footer{margin-top:48px;padding:16px 0 0;border-top:1px solid var(--line);color:v
 <div class="strip" id="strip"></div>
 
 <div class="hero rv">
-  <div><div class="kick">Pre-registered · multiple-testing adjusted · 研究记录</div>
-    <h1><span class="ln"><span class="n" data-count="trials"></span> 次预先登记的选股因子试验，</span><span class="ln"><span class="n z" id="h-shadow"></span> 个撑过多重检验折扣</span></h1></div>
-  <div><p class="lead" id="lead"></p>
-    <div class="funnel" id="funnel"></div></div>
+  <div><div class="kick">一个人做的量化研究 · 研究记录，不是荐股</div>
+    <h1><span class="ln">试了 <span class="n" data-count="trials"></span> 种选股办法，</span><span class="ln">结论是 <span class="n z" id="h-shadow"></span> 种靠得住</span></h1>
+  </div>
+  <div><p class="plain" id="plain"></p><p class="exact" id="lead"></p><p class="exact" id="use"></p></div>
 </div>
+<div class="steps rv" id="steps"></div>
+<p class="glh rv">下面的图会用到 8 个词，先看一眼，每个词一句话：</p>
+<div class="gloss rv" id="glossary"></div>
 
 <section id="s-gate" style="margin-top:0">
   <div class="grid3">
-    <div class="panel rv"><div class="ph"><span class="no">01</span><h3>试验清单</h3><span class="en">Trials</span></div>
+    <div class="panel rv"><div class="ph"><span class="no">01</span><h3>19 次试验，一行一次</h3></div>
       <div class="pb" style="padding-bottom:10px"><div class="chips" id="tfilter" role="group" aria-label="筛选试验"></div></div>
       <div class="tw"><table id="trials"><thead></thead><tbody></tbody></table></div>
-      <div class="pb"><p class="hint">点任意一行，右边两块和下面的图一起切换。t 值：第一轮是 RankIC 的 t，第二轮是超额收益的 t。</p></div></div>
-    <div class="panel rv"><div class="ph"><span class="no">02</span><h3>门槛图：显著不等于过关</h3><span class="en">Gate map</span></div>
-      <div class="pb"><div class="chart" id="c-gate" style="height:470px" role="img" aria-label="19 次试验的 t 值与通缩夏普散点图，右上角通过区为空"></div>
+      <div class="pb"><p class="hint">实心圆点：过了事先定的及格线；空心：没过。R1 是第一轮（换打分规则），R2 是第二轮（换持仓规则）。点任意一行，右边两块和下面的图一起切换。第一轮的 t 值算的是 RankIC，第二轮算的是超额收益。</p></div></div>
+    <div class="panel rv"><div class="ph"><span class="no">02</span><h3>及格线图：看起来有效，不等于靠得住</h3></div>
+      <div class="pb"><p class="say" id="say-gate"></p><div class="chart" id="c-gate" style="height:470px" role="img" aria-label="19 次试验的 t 值与通缩夏普散点图，右上角通过区为空"></div>
       <p class="cap" id="gate-cap"></p></div></div>
-    <div class="panel rv ro"><div class="ph"><span class="no">03</span><h3>单项读数</h3><span class="en">Readout</span></div>
+    <div class="panel rv ro"><div class="ph"><span class="no">03</span><h3>选中这次试验的成绩单</h3></div>
       <div class="pb" id="readout" aria-live="polite"></div></div>
   </div>
-  <div class="panel rv" style="margin-top:12px" id="p-band"><div class="ph"><span class="no">04</span><h3>因子 × 月份：每个月因子排对了没有</h3><span class="en">RankIC band</span></div>
-    <div class="pb"><div class="chart" id="c-band" style="height:300px" role="img" aria-label="10 个因子逐月 RankIC 热力带"></div>
-    <p class="cap">每一格是一个因子在一个月的 RankIC（因子排名和下个月收益排名的相关系数）。蓝色是排对了，橙色是排反了。颜色成片不等于能赚钱：扣掉成本、再按试验次数打折之后，没有一个撑住。<span id="band-src"></span></p></div></div>
+  <div class="panel rv" style="margin-top:12px" id="p-band"><div class="ph"><span class="no">04</span><h3>每个因子、每个月：排对了还是排反了</h3></div>
+    <div class="pb"><p class="say" id="say-band"></p><div class="chart" id="c-band" style="height:300px" role="img" aria-label="10 个因子逐月 RankIC 热力带"></div>
+    <p class="cap">怎么看：一行是一个因子（一条打分规则），一格是一个月。蓝色表示这个月它把股票排对了（RankIC 为正），橙色表示排反了，颜色越深越明显。<span id="band-src"></span></p></div></div>
+  <div class="panel rv" style="margin-top:12px"><div class="ph"><span class="no">全表</span><h3>全部 19 次试验的完整数字</h3></div>
+    <div class="pb" style="padding-bottom:6px"><p class="say" id="say-full"></p></div>
+    <div class="tw" style="max-height:none"><table id="full"><thead></thead><tbody></tbody></table></div>
+    <div class="pb"><p class="hint">点表头可以排序，点一行和上面的图联动。年化超额：扣掉交易成本后，平均每年比基准多赚多少。样本外：定规则时没用到的后半段历史。超额最大回撤：相对基准最多落后过多少。空着的格子表示这一轮没有登记这个指标。</p></div></div>
 </section>
 
 <section id="s-nav">
-  <div class="sh"><span class="no">02</span><h2>净值、回撤和超额</h2><p>两个观察组合和股票池等权基准，起点都归一到 1。拖动下方的时间条可以只看一段，上面的五个读数会按所选区间重算。</p></div>
-  <div class="panel rv"><div class="ph"><span class="no">05</span><h3>归一化净值与水下回撤</h3><span class="en">NAV / Underwater</span><div class="chips" id="pfilter" role="group" aria-label="选择组合"></div></div>
+  <div class="sh"><span class="no">02</span><h2>如果真按这些办法买，会怎样</h2><p>拿两个表现最好的组合，和“股票池里每只都买一样多”（基准）比。起点都算作 1 块钱。拖动图下方的时间条可以只看一段，上面的五个数字会按所选时间段重算。</p></div>
+  <div class="panel rv"><div class="ph"><span class="no">05</span><h3>1 块钱变成多少，以及中途跌过多深</h3><div class="chips" id="pfilter" role="group" aria-label="选择组合"></div></div>
     <div class="kpis" id="navkpi"></div>
-    <div class="pb"><div class="chart" id="c-nav" style="height:520px" role="img" aria-label="归一化净值和回撤图"></div>
+    <div class="pb"><p class="say" id="say-nav"></p><div class="chart" id="c-nav" style="height:520px" role="img" aria-label="归一化净值和回撤图"></div>
     <p class="hint" id="nav-note"></p></div></div>
   <div class="g21" style="margin-top:12px">
-    <div class="panel rv"><div class="ph"><span class="no">06</span><h3>月度超额热力图</h3><span class="en">Monthly excess</span></div>
-      <div class="pb"><div class="chart" id="c-month" style="height:440px" role="img" aria-label="年份乘月份的月度超额收益热力图"></div></div></div>
-    <div class="panel rv"><div class="ph"><span class="no">07</span><h3>分年超额</h3><span class="en">By year</span></div>
-      <div class="pb"><div class="chart" id="c-year" style="height:440px" role="img" aria-label="分年超额收益柱状图"></div></div></div>
+    <div class="panel rv"><div class="ph"><span class="no">06</span><h3>每个月比“平均买”多赚还是少赚</h3></div>
+      <div class="pb"><p class="say" id="say-month"></p><div class="chart" id="c-month" style="height:440px" role="img" aria-label="年份乘月份的月度超额收益热力图"></div></div></div>
+    <div class="panel rv"><div class="ph"><span class="no">07</span><h3>每一年多赚还是少赚</h3></div>
+      <div class="pb"><p class="say" id="say-year"></p><div class="chart" id="c-year" style="height:440px" role="img" aria-label="分年超额收益柱状图"></div></div></div>
   </div>
 </section>
 
 <section id="s-factor">
-  <div class="sh"><span class="no">03</span><h2>单个因子的体检</h2><p>每个因子同一套检查：排序能力（RankIC）、五分组收益是否单调、换手和成本吃掉多少超额。</p></div>
-  <div class="panel rv"><div class="ph"><span class="no">08</span><h3>选一个因子</h3><span class="en">Factor</span></div>
+  <div class="sh"><span class="no">03</span><h2>逐个因子做体检</h2><p>因子就是一条打分规则。每个因子做同一套检查：排得准不准（RankIC）、分数高的组是不是真的赚得多、频繁换股票的成本吃掉多少。</p></div>
+  <div class="panel rv"><div class="ph"><span class="no">08</span><h3>选一个因子</h3></div>
     <div class="pb"><div class="chips" id="ffilter" role="group" aria-label="选择因子"></div><p class="cap" id="fdesc" style="margin-top:10px"></p></div></div>
-  <div class="g21" style="margin-top:12px">
-    <div class="panel rv"><div class="ph"><span class="no">09</span><h3>逐月 RankIC 与 12 个月滚动均值</h3><span class="en">RankIC series</span></div>
-      <div class="pb"><div class="chart" id="c-ic" style="height:360px" role="img" aria-label="逐月 RankIC 与滚动均值"></div><p class="hint" id="ic-note"></p></div></div>
-    <div class="panel rv"><div class="ph"><span class="no">10</span><h3>五分组年化收益</h3><span class="en">Quintiles</span></div>
-      <div class="pb"><div class="chart" id="c-grp" style="height:360px" role="img" aria-label="五分组年化收益柱状图"></div><p class="hint" id="grp-note"></p></div></div>
+  <div class="g12" style="margin-top:12px">
+    <div class="panel rv"><div class="ph"><span class="no">09</span><h3>按分数分五组，各组一年赚多少</h3></div>
+      <div class="pb"><p class="say" id="say-grp"></p><div class="chart" id="c-grp" style="height:360px" role="img" aria-label="五分组年化收益柱状图"></div><p class="hint" id="grp-note"></p></div></div>
+    <div class="panel rv"><div class="ph"><span class="no">10</span><h3>这个因子每个月排得准不准</h3></div>
+      <div class="pb"><p class="say" id="say-ic"></p><div class="chart" id="c-ic" style="height:360px" role="img" aria-label="逐月 RankIC 与滚动均值"></div><p class="hint" id="ic-note"></p></div></div>
   </div>
-  <div class="panel rv" style="margin-top:12px"><div class="ph"><span class="no">11</span><h3>换手与成本：扣成本前后的年化超额</h3><span class="en">Turnover / Cost</span></div>
-    <div class="pb"><div class="chart" id="c-cost" style="height:400px" role="img" aria-label="各因子扣成本前后年化超额与月均换手"></div>
+  <div class="panel rv" style="margin-top:12px"><div class="ph"><span class="no">11</span><h3>交易成本吃掉了多少</h3></div>
+    <div class="pb"><p class="say" id="say-cost"></p><div class="chart" id="c-cost" style="height:400px" role="img" aria-label="各因子扣成本前后年化超额与月均换手"></div>
     <p class="hint">纯多头最高五分之一组合相对股票池等权的年化超额。两根柱子之间的差就是交易成本；下面一排是月均换手率，换手越高成本吃得越多。点柱子可以切换上面的因子。</p></div></div>
 </section>
 
 <section id="s-err">
   <div class="sh"><span class="no">04</span><h2>勘误：一个让结果变好的错误</h2><p id="err-lead"></p></div>
-  <div class="panel rv"><div class="ph"><span class="no">12</span><h3>修正前后对照</h3><span class="en">Erratum</span></div><div class="err" id="err"></div>
+  <div class="panel rv"><div class="ph"><span class="no">12</span><h3>修正前后对照</h3></div><div class="err" id="err"></div>
     <div class="pb"><p class="cap">修正让通过数变多了，这是最该警惕的方向，所以两版结果并排保留。结论没有变：通缩夏普最高值仍然远低于门槛。</p></div></div>
 </section>
 
 <section id="s-data">
-  <div class="sh"><span class="no">05</span><h2>数据层</h2><p>全 A 股含退市股票，本地分片缓存。调仓日只用当时已经公开的数据。</p></div>
+  <div class="sh"><span class="no">05</span><h2>数据从哪来，有多全</h2><p>A 股全部股票，包括已经退市的（只留活下来的股票会让结果虚高）。每个月做决定时，只用当时已经公开的数据。</p></div>
   <div class="g12">
-    <div class="panel rv"><div class="ph"><span class="no">13</span><h3>本地缓存规模</h3><span class="en">Cache</span></div>
+    <div class="panel rv"><div class="ph"><span class="no">13</span><h3>手里有多少数据</h3></div>
       <div class="pb" id="cov-facts"></div></div>
-    <div class="panel rv"><div class="ph"><span class="no">14</span><h3>8 类数据的覆盖时间</h3><span class="en">Coverage</span></div>
-      <div class="pb"><div class="chart" id="c-cov" style="height:330px" role="img" aria-label="8 类数据的覆盖时间轴"></div><p class="hint">蓝色是每个交易日一份的行情类数据，绿色是 ST 名单和按报告期的财务类数据；条的长度是覆盖的时间范围，右边是行数。</p></div></div>
+    <div class="panel rv"><div class="ph"><span class="no">14</span><h3>8 类数据各覆盖哪些年份</h3></div>
+      <div class="pb"><p class="say" id="say-cov"></p><div class="chart" id="c-cov" style="height:330px" role="img" aria-label="8 类数据的覆盖时间轴"></div><p class="hint">蓝色是每个交易日一份的行情类数据，绿色是 ST 名单和按报告期的财务类数据；条的长度是覆盖的时间范围，右边是行数。</p></div></div>
   </div>
-  <div class="panel rv" style="margin-top:12px"><div class="ph"><span class="no">15</span><h3>每个调仓日的股票池数量</h3><span class="en">Universe</span></div>
-    <div class="pb"><div class="chart" id="c-univ" style="height:280px" role="img" aria-label="股票池数量随时间变化"></div>
+  <div class="panel rv" style="margin-top:12px"><div class="ph"><span class="no">15</span><h3>每个月有多少只股票可选</h3></div>
+    <div class="pb"><p class="say" id="say-univ"></p><div class="chart" id="c-univ" style="height:280px" role="img" aria-label="股票池数量随时间变化"></div>
     <p class="hint" id="univ-note"></p></div></div>
 </section>
 
 <section id="s-sys">
-  <div class="sh"><span class="no">06</span><h2>研究流程的六个环节</h2><p>每个环节右下角的读数都来自结果文件，不是运行状态指示灯。</p></div>
+  <div class="sh"><span class="no">06</span><h2>整套流程的六个环节</h2><p>从数据到结论分六步，每一步对应一组代码。每块下方的数字来自结果文件，不是运行状态指示灯。</p></div>
   <div class="mods" id="mods"></div>
 </section>
 
 <section id="s-etf">
   <div class="sh"><span class="no">07</span><h2>另一条线：ETF 配置回测</h2><p id="etf-lead"></p></div>
   <div class="g2">
-    <div class="panel rv"><div class="ph"><span class="no">16</span><h3>年化收益与最差回撤</h3><span class="en">Return / Drawdown</span></div>
-      <div class="pb"><div class="chart" id="c-etf" style="height:380px" role="img" aria-label="ETF 配置方案与两个基准的年化收益和最差回撤"></div></div></div>
-    <div class="panel rv"><div class="ph"><span class="no">17</span><h3>四个坏年份的当年收益</h3><span class="en">Stress years</span></div>
-      <div class="pb"><div class="chart" id="c-etfy" style="height:380px" role="img" aria-label="2008、2015、2018、2022 年的当年收益"></div></div></div>
+    <div class="panel rv"><div class="ph"><span class="no">16</span><h3>平均每年赚多少，最坏时亏多少</h3></div>
+      <div class="pb"><p class="say" id="say-etf"></p><div class="chart" id="c-etf" style="height:380px" role="img" aria-label="ETF 配置方案与两个基准的年化收益和最差回撤"></div></div></div>
+    <div class="panel rv"><div class="ph"><span class="no">17</span><h3>四个大跌年份里各自的表现</h3></div>
+      <div class="pb"><p class="say" id="say-etfy"></p><div class="chart" id="c-etfy" style="height:380px" role="img" aria-label="2008、2015、2018、2022 年的当年收益"></div></div></div>
   </div>
   <p class="hint" id="etf-note" style="margin-top:10px"></p>
 </section>
@@ -259,11 +278,11 @@ footer{margin-top:48px;padding:16px 0 0;border-top:1px solid var(--line);color:v
 <section id="s-priv" hidden>
   <div class="sh"><span class="no">PRIVATE</span><h2>观察盘与监控（只在私有版）</h2><p>以下内容含持仓只数和风格暴露，不进公开版。</p></div>
   <div class="g2">
-    <div class="panel priv rv"><div class="ph"><span class="no">P1</span><h3>观察盘状态</h3><span class="en">Shadow book</span></div><div class="pb" id="pv-shadow"></div></div>
-    <div class="panel priv rv"><div class="ph"><span class="no">P2</span><h3>持仓风格暴露</h3><span class="en">Style exposure</span></div>
+    <div class="panel priv rv"><div class="ph"><span class="no">P1</span><h3>观察盘状态</h3></div><div class="pb" id="pv-shadow"></div></div>
+    <div class="panel priv rv"><div class="ph"><span class="no">P2</span><h3>持仓风格暴露</h3></div>
       <div class="pb"><div class="chart" id="c-style" style="height:320px"></div><p class="hint" id="style-note"></p></div></div>
   </div>
-  <div class="panel priv rv" style="margin-top:12px"><div class="ph"><span class="no">P3</span><h3>因子衰减监控</h3><span class="en">IC decay</span></div>
+  <div class="panel priv rv" style="margin-top:12px"><div class="ph"><span class="no">P3</span><h3>因子衰减监控</h3></div>
     <div class="tw"><table id="pv-alert"><thead></thead><tbody></tbody></table></div></div>
 </section>
 
@@ -285,6 +304,7 @@ var root=document.documentElement;
 function ok(x){return x!==null&&x!==undefined&&x===x}
 function pct(x,d,sign){if(!ok(x))return "无";var v=(Math.abs(x)*100).toFixed(d===undefined?1:d);return (x<0?"−":(sign?"+":""))+v+"%"}
 function f2(x,d){if(!ok(x))return "无";return (x<0?"−":"")+Math.abs(x).toFixed(d===undefined?2:d)}
+function dsrText(x){return !ok(x)?"无":(x<0.005?"不到 0.01":f2(x))}
 function int(x){return ok(x)?Math.round(x).toLocaleString("en-US"):"无"}
 function wan(x){return (x/1e4).toLocaleString("en-US",{maximumFractionDigits:0})}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
@@ -336,23 +356,28 @@ if(!PUBLIC){$("#privtag").innerHTML=' <span style="color:var(--gate);font:11px v
 $("#p-data").textContent=M.data_last||M.end||"";$("#p-gen").textContent=M.generated||M.asof||"";
 (function(){var el=$("#clock");function tick(){var d=new Date(),p=function(n){return (n<10?"0":"")+n};el.textContent=p(d.getHours())+":"+p(d.getMinutes())+":"+p(d.getSeconds())}tick();setInterval(tick,1000)})();
 (function(){var cov=D.coverage,cells=[
-  ["Trials","登记的试验","<b data-count='"+R.n_trials+"'>"+R.n_trials+"</b>"],
-  ["Gates passed","过了登记门槛","<b><span data-count='"+R.n_passed+"'>"+R.n_passed+"</span><u>/ "+R.n_trials+"</u></b>"],
-  ["DSR ≥ "+R.dsr_pass,"撑过多重检验折扣","<b data-count='"+R.n_shadow+"'>"+R.n_shadow+"</b>","zero"],
-  ["Max DSR","通缩夏普最高值","<b><span data-count='"+R.max_dsr+"' data-dec='2'>"+f2(R.max_dsr)+"</span><u>门槛 "+R.dsr_pass+"</u></b>"],
-  ["Universe","股票，含退市","<b data-count='"+(M.n_codes||0)+"'>"+int(M.n_codes)+"</b>"]];
-  if(cov)cells.push(["Cached rows","本地缓存","<b><span data-count='"+Math.round(cov.total_rows/1e4)+"'>"+wan(cov.total_rows)+"</span><u>万行</u></b>"]);
-  if(D.tests)cells.push(["Tests","自动化测试通过","<b data-count='"+D.tests+"'>"+D.tests+"</b>"]);
+  ["先写规则、后看结果","试过的选股办法","<b data-count='"+R.n_trials+"'>"+R.n_trials+"</b>"],
+  ["达到事先定的及格线","过了及格线","<b><span data-count='"+R.n_passed+"'>"+R.n_passed+"</span><u>/ "+R.n_trials+"</u></b>"],
+  ["把“试得多”的运气扣掉","之后仍然过关","<b data-count='"+R.n_shadow+"'>"+R.n_shadow+"</b>","zero"],
+  ["最好的一种（通缩夏普）","“不是运气”的把握","<b><span data-count='"+R.max_dsr+"' data-dec='2'>"+f2(R.max_dsr)+"</span><u>要求 "+R.dsr_pass+"</u></b>"]];
   $("#strip").style.gridTemplateColumns=window.innerWidth>1100?"repeat("+cells.length+",minmax(0,1fr))":"";
-  $("#strip").innerHTML=cells.map(function(c){return '<div class="cell '+(c[3]||"")+'"><small>'+c[0]+"</small><span>"+c[1]+"</span>"+c[2]+"</div>"}).join("")})();
+  $("#strip").innerHTML=cells.map(function(c){return '<div class="cell '+(c[3]||"")+'"><span>'+c[1]+"</span><small>"+c[0]+"</small>"+c[2]+"</div>"}).join("")})();
 document.querySelector("h1 [data-count]").setAttribute("data-count",R.n_trials);document.querySelector("h1 [data-count]").textContent=R.n_trials;
 $("#h-shadow").textContent=R.n_shadow;
-$("#lead").innerHTML="因子定义、股票池和通过门槛都在看结果之前提交到版本库。"+R.n_trials+" 次试验里有 <strong>"+R.n_passed+" 次</strong>过了事先登记的门槛，但按累计试验次数折算的通缩夏普（DSR，把“试了很多次总会碰上好看的”这部分运气扣掉之后的把握程度）最高只有 <strong>"+f2(R.max_dsr)+"</strong>，全部低于 "+R.dsr_pass+"。所以没有任何组合进入下一步。";
-$("#funnel").innerHTML='<div><b class="mono">'+R.n_trials+'</b><span>登记并检验</span></div><div><b class="mono">'+R.n_passed+'</b><span>过登记门槛</span></div><div class="z"><b class="mono">'+R.n_shadow+"</b><span>DSR ≥ "+R.dsr_pass+"</span></div>";
+var yrs0=+D.nav.dates[0].slice(0,4),yrs1=+D.nav.dates[D.nav.dates.length-1].slice(0,4);
+$("#plain").innerHTML="<b>想回答的问题：</b>只用公开的股价和成交数据，能不能每个月在 A 股里挑出一批股票，比“全部平均买一点”赚得多？<br><b>答案：</b>用 "+yrs0+" 到 "+yrs1+" 年的历史数据试了 "+R.n_trials+" 种办法，有 "+R.n_passed+" 种看起来有效；但试得多了总会碰上几个好看的，把这部分运气扣掉之后，<b>没有一种可靠到值得继续</b>。";
+$("#lead").innerHTML="准确的说法：一种办法就是一次试验，共 <strong>"+R.n_trials+" 次</strong>，分两轮（第一轮 "+R.rounds[0].n+" 次，换打分规则，也就是因子；第二轮 "+R.rounds[1].n+" 次，换持仓规则，也就是买哪一部分、什么时候卖）。<strong>"+R.n_passed+" 次</strong>过了事先登记的及格线；再按累计试验次数算通缩夏普（“这不是运气”的把握，0 到 1），最好的一次是 <strong>"+f2(R.max_dsr)+"</strong>，全部低于要求的 "+R.dsr_pass+"，所以没有任何组合进入下一步。";
+$("#use").innerHTML="<strong>没找到能用的办法，这份研究有什么用？</strong>它留下的是一套不会自己骗自己的检验流程：规则先存档、成本算进去、运气扣掉。下面每张图都在展示这套流程的一个环节，同一套流程可以继续检验新的办法。";
+$("#steps").innerHTML=[["第一步","先写规则，再看结果","选哪些股票、怎么打分、怎样算及格，全部先存档（带时间记录的代码仓库），之后不能改。这样结果不是事后挑出来的。"],
+  ["第二步","把交易的麻烦算进去","涨停买不进、跌停和停牌卖不出、每次买卖的费用，都按当时的规则扣掉；已经退市的股票也留在数据里。"],
+  ["第三步","把“试得多”的运气扣掉","试 "+R.n_trials+" 次，光靠运气也会有几次好看。用通缩夏普把试验次数算进去，要求把握达到 "+R.dsr_pass+" 才算数。"]]
+  .map(function(x){return "<div><small>"+x[0]+"</small><b>"+x[1]+"</b><span>"+x[2]+"</span></div>"}).join("");
+$("#glossary").innerHTML=(D.glossary||[]).map(function(g){return "<div><b>"+esc(g.term)+"</b><span>"+esc(g.plain)+"</span></div>"}).join("");
+function say(id,html){var el=document.getElementById(id);if(el)el.innerHTML='<span class="q">这张图在说什么</span>'+html}
 
 /* ---------- 01 试验清单 ---------- */
 T.forEach(function(x,i){x.i=i});
-var FIL={all:["全部",function(){return true}],r1:["第一轮",function(x){return x.round===1}],r2:["第二轮",function(x){return x.round===2}],pass:["过登记门槛",function(x){return x.passed}]};
+var FIL={all:["全部",function(){return true}],r1:["第一轮",function(x){return x.round===1}],r2:["第二轮",function(x){return x.round===2}],pass:["过了及格线",function(x){return x.passed}]};
 function renderFilter(){$("#tfilter").innerHTML=Object.keys(FIL).map(function(k){var n=T.filter(FIL[k][1]).length;return '<button class="chip" data-k="'+k+'" aria-pressed="'+(S.filter===k)+'">'+FIL[k][0]+"<u>"+n+"</u></button>"}).join("")}
 $("#tfilter").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;S.filter=b.dataset.k;renderFilter();renderTrials();redraw(cGate)});
 var COLS=[["i","试验"],["t","t 值"],["dsr","通缩夏普"]];
@@ -369,19 +394,19 @@ $("#trials tbody").addEventListener("keydown",function(e){if(e.key==="Enter"||e.
 
 function selectTrial(name,quiet){S.trial=name;
   [].forEach.call(document.querySelectorAll("#trials tbody tr"),function(tr){tr.setAttribute("aria-selected",tr.dataset.n===name)});
-  renderReadout();redraw(cGate);
+  renderReadout();redraw(cGate);renderFull();
   if(tmap[name]&&S.factor!==name)selectFactor(name,true);
   if(ports.indexOf(name)>=0&&S.port!==name)selectPort(name)}
 
 /* ---------- 03 读数 ---------- */
 function renderReadout(){var x=T.filter(function(t){return t.name===S.trial})[0];if(!x)return;var r1=x.round===1,w=Math.max(0,Math.min(1,x.dsr||0))*100;
-  var v=x.passed?["p","过了登记门槛，没过通缩夏普"]:["","没过登记门槛"];
-  var items=r1?[["RankIC 均值",f2(x.rank_ic,3)],["RankIC 的 t 值",f2(x.t)],["样本外 RankIC",f2(x.oos_rank_ic,3)],["年化 ICIR",f2(x.icir)],["纯多头年化超额",pct(x.ex_ann,1,true)],["样本外年化超额",pct(x.oos_ex_ann,1,true)],["超额最大回撤",pct(x.ex_mdd)],["月均换手",pct(x.turn,0)]]
-    :[["年化超额（扣成本）",pct(x.ex_ann,1,true)],["超额的 t 值",f2(x.ex_t)],["扣成本前年化超额",pct(x.gross_ex_ann,1,true)],["样本外年化超额",pct(x.oos_ex_ann,1,true)],["样本外 t 值",f2(x.oos_ex_t)],["超额最大回撤",pct(x.ex_mdd)],["组合年化（扣成本）",pct(x.top_ann_net)],["月均换手",pct(x.turn,0)]];
-  $("#readout").innerHTML='<div class="hint">第'+(x.round===1?"一":"二")+"轮 · "+(r1?"单因子或合成信号":"持仓构造")+"</div><h4>"+esc(x.name)+'</h4><span class="verdict '+v[0]+'"><i></i>'+v[1]+"</span>"+
-    '<div class="gl"><span>通缩夏普 <b style="color:var(--ink);font-weight:600">'+f2(x.dsr,x.dsr<0.01?4:2)+"</b></span><b>门槛 "+R.dsr_pass+'</b></div><div class="gauge"><i style="width:'+w+'%"></i><s style="left:'+R.dsr_pass*100+'%"></s></div>'+
+  var v=x.passed?["p","过了及格线，但扣掉运气后把握不够"]:["","没过事先定的及格线"];
+  var items=r1?[["RankIC 均值",f2(x.rank_ic,3)],["RankIC 的 t 值",f2(x.t)],["后半段的 RankIC（样本外）",f2(x.oos_rank_ic,3)],["稳定程度（年化 ICIR）",f2(x.icir)],["每年比基准多赚（扣成本）",pct(x.ex_ann,1,true)],["后半段每年多赚（样本外）",pct(x.oos_ex_ann,1,true)],["相对基准最多落后",pct(x.ex_mdd)],["每月换掉的持仓",pct(x.turn,0)]]
+    :[["每年比基准多赚（扣成本）",pct(x.ex_ann,1,true)],["超额的 t 值",f2(x.ex_t)],["不算成本时每年多赚",pct(x.gross_ex_ann,1,true)],["后半段每年多赚（样本外）",pct(x.oos_ex_ann,1,true)],["后半段的 t 值",f2(x.oos_ex_t)],["相对基准最多落后",pct(x.ex_mdd)],["组合自己每年赚（扣成本）",pct(x.top_ann_net)],["每月换掉的持仓",pct(x.turn,0)]];
+  $("#readout").innerHTML='<div class="hint">第'+(x.round===1?"一":"二")+"轮 · "+(r1?"换打分规则":"换持仓规则")+"</div><h4>"+esc(x.name)+"</h4>"+(x.plain?'<p style="margin:0 0 4px;font-size:13.5px;color:var(--ink2)">'+esc(x.plain)+"。</p>":"")+(tmap[x.name]&&tmap[x.name].desc?'<p class="hint" style="margin:0 0 4px">登记的定义：'+esc(tmap[x.name].desc)+"</p>":"")+'<span class="verdict '+v[0]+'"><i></i>'+v[1]+"</span>"+
+    '<div class="gl"><span>“不是运气”的把握（通缩夏普） <b style="color:var(--ink);font-weight:600">'+dsrText(x.dsr)+"</b></span><b>要求 "+R.dsr_pass+'</b></div><div class="gauge"><i style="width:'+w+'%"></i><s style="left:'+R.dsr_pass*100+'%"></s></div>'+
     '<div class="kv" style="margin-top:14px">'+items.map(function(i){return "<div><small>"+i[0]+"</small><b>"+i[1]+"</b></div>"}).join("")+"</div>"+
-    '<p class="hint" style="margin-top:12px">'+(r1?"第一轮看排序能力：因子值排名和下个月收益排名的相关系数（RankIC）。":"第二轮固定因子、只改持仓规则，看扣成本后的超额收益。")+"通缩夏普离门槛还差 "+f2(R.dsr_pass-(x.dsr||0))+"。</p>"}
+    '<p class="hint" style="margin-top:12px">'+(r1?"第一轮看排序能力：因子值排名和下个月收益排名的相关系数（RankIC）。":"第二轮固定因子、只改持仓规则，看扣成本后的超额收益。")+"通缩夏普离要求的 "+R.dsr_pass+" 还差 "+f2(R.dsr_pass-(x.dsr||0))+"。</p>"}
 
 /* ---------- 02 门槛图 ---------- */
 var cGate=chart("c-gate",function(){
@@ -398,13 +423,12 @@ var cGate=chart("c-gate",function(){
       data:[[{xAxis:R.t_pass,yAxis:R.dsr_pass},{xAxis:xmax,yAxis:1.05}]]}:undefined}}
   return {grid:{left:48,right:24,top:30,bottom:72},legend:{bottom:0,left:0,textStyle:{color:C.ink2,fontSize:12},itemWidth:10,itemHeight:10},
     tooltip:tip({trigger:"item",formatter:function(p){var x=T.filter(function(t){return t.name===p.name})[0];if(!x)return "";
-      return "<b>"+esc(x.name)+"</b>"+row("t 值",f2(tOf(x)))+row("通缩夏普",f2(x.dsr,x.dsr<0.01?4:2))+row("年化超额",pct(x.ex_ann,1,true))+row("登记门槛",x.passed?"通过":"未通过")}}),
+      return "<b>"+esc(x.name)+"</b>"+row("t 值",f2(tOf(x)))+row("通缩夏普",dsrText(x.dsr))+row("年化超额",pct(x.ex_ann,1,true))+row("及格线",x.passed?"通过":"未通过")}}),
     xAxis:ax({type:"value",min:xmin,max:xmax,name:"t 值（越靠右越显著）",nameLocation:"middle",nameGap:28,axisPointer:{show:true,lineStyle:{color:C.line2,type:"dashed"},label:{backgroundColor:C.panel2,color:C.ink,fontFamily:MONO,precision:2}}}),
     yAxis:ax({type:"value",min:0,max:1.05,interval:.25,name:"通缩夏普（越高越可信）",nameTextStyle:{color:C.muted,fontSize:11,align:"left",padding:[0,0,0,-34]},axisPointer:{show:true,lineStyle:{color:C.line2,type:"dashed"},label:{backgroundColor:C.panel2,color:C.ink,fontFamily:MONO,precision:2}}}),
     series:[ser(1,"circle"),ser(2,"diamond")]}},
   function(inst){inst.on("click",function(p){if(p.componentType==="series"&&p.name)selectTrial(p.name)})});
-(function(){var right=T.filter(function(x){return ok(tOf(x))&&tOf(x)>=R.t_pass}).length;
-  $("#gate-cap").innerHTML="横轴越靠右越“显著”，纵轴是把试验次数算进去之后还剩多少把握。"+R.n_trials+" 个点里有 <b>"+right+"</b> 个 t 值不低于 "+R.t_pass+"，但没有一个进入右上角的通过区。实心是过了登记门槛的，空心是没过的。"})();
+$("#gate-cap").innerHTML="怎么看：每个点是一次试验。越靠右，越不像巧合（t 值高）；越靠上，把试验次数算进去之后越有把握（通缩夏普高）。两条虚线是及格线，同时过两条线才算数。实心是过了登记及格线的，空心是没过的。";
 
 /* ---------- 04 热力带 ---------- */
 var icNames=D.ic?Object.keys(D.ic):[];
@@ -426,28 +450,35 @@ var N=D.nav,navRange=[0,N.dates.length-1];
 function pcolor(k){return k===BENCH?C.bench:(ports.indexOf(k)===0?C.s2:C.s1)}
 function renderPorts(){$("#pfilter").innerHTML=ports.map(function(k){return '<button class="chip" data-k="'+esc(k)+'" aria-pressed="'+(S.port===k)+'">'+esc(k)+"</button>"}).join("")}
 $("#pfilter").addEventListener("click",function(e){var b=e.target.closest("button");if(b)selectPort(b.dataset.k)});
-function selectPort(k){S.port=k;renderPorts();navKpi();redraw(cNav);redraw(cMonth);redraw(cYear)}
+function selectPort(k){S.port=k;renderPorts();navKpi();sayPort();redraw(cNav);redraw(cMonth);redraw(cYear)}
 function navKpi(){var a=navRange[0],b=Math.max(navRange[1],a+1),v=N.series[S.port],bn=N.series[BENCH];if(!v||!bn)return;b=Math.min(b,v.length-1);
   var yrs=(new Date(N.dates[b])-new Date(N.dates[a]))/31557600000,r=v[b]/v[a]-1,rb=bn[b]/bn[a]-1;
   var ex=yrs>0?Math.pow(1+r,1/yrs)-Math.pow(1+rb,1/yrs):null,pk=-1e9,dd=0;
   for(var i=a;i<=b;i++){pk=Math.max(pk,v[i]);dd=Math.min(dd,v[i]/pk-1)}
   $("#navkpi").innerHTML=[["所选区间",'<span class="rng">'+N.dates[a].slice(0,7)+" 至 "+N.dates[b].slice(0,7)+"</span>",""],["组合区间收益",pct(r,0,true),""],["基准区间收益",pct(rb,0,true),""],["年化收益差（区间内）",pct(ex,1,true),ex<0?"neg":""],["最大回撤（区间内）",pct(dd),"neg"]]
     .map(function(k){return '<div class="kpi '+k[2]+'"><small>'+k[0]+"</small><b>"+k[1]+"</b></div>"}).join("")}
-var cNav=chart("c-nav",function(){var names=ports.concat([BENCH]);
-  var s=[];names.forEach(function(k){var foc=k===S.port;
+function worstDD(k){var v=N.series[k],pk=0,best=[0,0,0];for(var i=1;i<v.length;i++){if(v[i]>v[pk])pk=i;var d=v[i]/v[pk]-1;if(d<best[2])best=[pk,i,d]}
+  var rec=null;for(var j=best[1];j<v.length;j++){if(v[j]>=v[best[0]]){rec=j;break}}return {peak:best[0],trough:best[1],dd:best[2],rec:rec}}
+var REL="领先基准的倍数";
+var cNav=chart("c-nav",function(){var names=ports.concat([BENCH]),w=worstDD(S.port),rel=N.series[S.port].map(function(x,i){return x/N.series[BENCH][i]});
+  var s=[{name:REL,type:"line",data:rel,showSymbol:false,lineStyle:{width:1.4,color:C.gate,type:[4,3]},itemStyle:{color:C.gate},z:3,
+    endLabel:narrow()?undefined:{show:true,formatter:function(p){return "\u00d7"+f2(p.value)},color:C.gate,fontFamily:MONO,fontSize:11},animationDuration:900}];
+  names.forEach(function(k){var foc=k===S.port;
     s.push({name:k,type:"line",data:N.series[k],showSymbol:false,smooth:false,lineStyle:{width:foc?2.4:1.5,color:pcolor(k),opacity:foc||k===BENCH?1:.55},itemStyle:{color:pcolor(k)},emphasis:{focus:"series"},z:foc?5:2,
-      endLabel:narrow()?undefined:{show:true,formatter:function(p){return f2(p.value)},color:pcolor(k),fontFamily:MONO,fontSize:11},animationDuration:900});
+      endLabel:narrow()?undefined:{show:true,formatter:function(p){return f2(p.value)},color:pcolor(k),fontFamily:MONO,fontSize:11},animationDuration:900,
+      markArea:foc?{silent:true,itemStyle:{color:C.s2,opacity:.09},label:{show:!narrow(),position:"insideTop",color:C.s2,fontSize:11.5,fontFamily:SANS,formatter:"最深的一次下跌 "+pct(w.dd,1)+"\n"+N.dates[w.peak].slice(0,7)+" 到 "+N.dates[w.trough].slice(0,7)},data:[[{xAxis:N.dates[w.peak]},{xAxis:N.dates[w.trough]}]]}:undefined});
     s.push({name:k,type:"line",xAxisIndex:1,yAxisIndex:1,data:D.drawdown[k],showSymbol:false,lineStyle:{width:foc?1.6:1,color:pcolor(k),opacity:foc?1:.5},itemStyle:{color:pcolor(k)},areaStyle:foc?{color:pcolor(k),opacity:.16}:undefined,z:foc?5:2,animationDuration:900})});
-  return {legend:{top:0,left:0,data:names,textStyle:{color:C.ink2,fontSize:12},itemWidth:16,itemHeight:3,icon:"rect"},
+  return {legend:{top:0,left:0,data:names.concat([REL]),textStyle:{color:C.ink2,fontSize:12},itemWidth:16,itemHeight:3,icon:"rect"},
     axisPointer:{link:[{xAxisIndex:"all"}],lineStyle:{color:C.muted,type:"dashed"},label:{backgroundColor:C.panel2,color:C.ink,fontFamily:MONO}},
-    tooltip:tip({trigger:"axis",formatter:function(ps){var d=ps[0].axisValue,i=ps[0].dataIndex,h="<b>"+d+"</b>";names.forEach(function(k){h+=row(k,f2(N.series[k][i])+"　回撤 "+pct(D.drawdown[k][i]),pcolor(k))});return h}}),
+    tooltip:tip({trigger:"axis",formatter:function(ps){var d=ps[0].axisValue,i=ps[0].dataIndex,h="<b>"+d+"</b>";names.forEach(function(k){h+=row(k,f2(N.series[k][i])+"　回撤 "+pct(D.drawdown[k][i]),pcolor(k))});h+=row(REL,"\u00d7"+f2(N.series[S.port][i]/N.series[BENCH][i]),C.gate);return h}}),
     title:[{text:"水下回撤：距离此前最高点的跌幅",left:46,top:"63.5%",textStyle:{color:C.muted,fontSize:11,fontWeight:400}}],grid:[{left:46,right:narrow()?14:46,top:34,height:"50%"},{left:46,right:narrow()?14:46,top:"69%",bottom:58}],
     xAxis:[ax({type:"category",data:N.dates,boundaryGap:false,axisLabel:{show:false},splitLine:{show:false}}),ax({type:"category",gridIndex:1,data:N.dates,boundaryGap:false,splitLine:{show:false},axisLabel:{color:C.muted,fontFamily:MONO,fontSize:11,formatter:function(v){return v.slice(0,7)}}})],
     yAxis:[ax({type:"value",scale:true}),ax({type:"value",gridIndex:1,max:0,splitNumber:3,axisLabel:{color:C.muted,fontFamily:MONO,fontSize:11,formatter:function(v){return Math.round(v*100)+"%"}}})],
     dataZoom:[{type:"inside",xAxisIndex:[0,1],startValue:navRange[0],endValue:navRange[1]},zoom({xAxisIndex:[0,1],startValue:navRange[0],endValue:navRange[1],labelFormatter:function(i){return (N.dates[i]||"").slice(0,7)}})],
     series:s}},
-  function(inst){inst.on("datazoom",function(){var z=inst.getOption().dataZoom[0];navRange=[z.startValue,z.endValue];navKpi()})});
-$("#nav-note").textContent="净值按月度持有期复利，已扣交易成本；涨停买不进、跌停和停牌卖不出。基准是同一股票池等权。"+N.dates[0]+" 至 "+N.dates[N.dates.length-1]+"，"+(N.dates.length-1)+" 个持有期。点图例可以隐藏某条线。“年化收益差”是组合年化减基准年化，和试验登记用的口径（月度超额的均值年化）算法不同，数字会有出入。";
+  function(inst){inst.on("datazoom",function(){var z=inst.getOption().dataZoom[0];navRange=[z.startValue,z.endValue];navKpi()});
+    inst.getZr().on("dblclick",function(){inst.dispatchAction({type:"dataZoom",startValue:0,endValue:N.dates.length-1})})});
+$("#nav-note").textContent="净值按月度持有期复利，已扣交易成本；涨停买不进、跌停和停牌卖不出。基准是同一股票池等权。"+N.dates[0]+" 至 "+N.dates[N.dates.length-1]+"，"+(N.dates.length-1)+" 个持有期。点图例可以隐藏某条线，双击图表回到全部时间。虚线是“组合 ÷ 基准”，往上走说明在拉开差距，走平说明没有优势。“年化收益差”是组合年化减基准年化，和试验登记用的口径（把每个月的超额连乘起来再折成年化）算法不同，数字会有出入。";
 
 /* ---------- 06 月度热力 / 07 分年 ---------- */
 function years(){var m=D.monthly&&D.monthly[S.port];if(!m)return [];var o={};m.forEach(function(r){o[r[0]]=1});return Object.keys(o).sort()}
@@ -458,7 +489,7 @@ var cMonth=chart("c-month",function(){var m=D.monthly&&D.monthly[S.port];if(!m)r
     yAxis:ax({type:"category",data:ys,splitLine:{show:false},axisLine:{show:false}}),
     visualMap:{type:"continuous",min:-cap,max:cap,calculable:false,orient:"horizontal",left:"center",bottom:0,itemWidth:10,itemHeight:160,text:["跑赢 "+pct(cap,1,true),"跑输 "+pct(-cap,1)],textStyle:{color:C.muted,fontSize:11,fontFamily:MONO},inRange:{color:[C.s2,C.mid,C.s1]}},
     series:[{type:"heatmap",data:m.map(function(r){return [r[1]-1,ys.indexOf(String(r[0])),r[2]]}),itemStyle:{borderColor:C.panel,borderWidth:2},
-      label:{show:!narrow(),color:C.ink,fontFamily:MONO,fontSize:10.5,formatter:function(p){return (p.value[2]*100).toFixed(1)}},emphasis:{itemStyle:{borderColor:C.ink,borderWidth:1.5}},animationDuration:600}]}});
+      label:{show:!narrow(),color:C.ink,fontFamily:MONO,fontSize:10.5,formatter:function(p){var t=(p.value[2]*100).toFixed(1);return t==="-0.0"?"0.0":t}},emphasis:{itemStyle:{borderColor:C.ink,borderWidth:1.5}},animationDuration:600}]}});
 var cYear=chart("c-year",function(){var y=D.yearly&&D.yearly[S.port];if(!y)return null;var ys=Object.keys(y).sort().reverse();
   return {grid:{left:44,right:48,top:8,bottom:54},tooltip:tip({trigger:"axis",axisPointer:{type:"shadow",shadowStyle:{color:C.line,opacity:.4}},formatter:function(p){return "<b>"+p[0].name+" 年</b>"+row("超额",pct(p[0].value,1,true))}}),
     xAxis:ax({type:"value",axisLabel:{color:C.muted,fontFamily:MONO,fontSize:11,formatter:function(v){return Math.round(v*100)+"%"}}}),
@@ -469,11 +500,12 @@ var cYear=chart("c-year",function(){var y=D.yearly&&D.yearly[S.port];if(!y)retur
 /* ---------- 08 至 11 因子 ---------- */
 function renderFactors(){$("#ffilter").innerHTML=table.map(function(r){return '<button class="chip" data-k="'+esc(r.name)+'" aria-pressed="'+(S.factor===r.name)+'">'+esc(r.name)+"</button>"}).join("");
   var r=tmap[S.factor];if(!r)return;
-  $("#fdesc").innerHTML=(r.desc?"<b>"+esc(r.name)+"</b>："+esc(r.desc)+"。":"<b>"+esc(r.name)+"</b>：多个因子的合成信号。")+" RankIC "+f2(r.rank_ic,3)+"（t "+f2(r.t)+"），纯多头年化超额 "+pct(r.ex_ann,1,true)+"（t "+f2(r.ex_t)+"），月均换手 "+pct(r.turn,0)+"。";
+  $("#fdesc").innerHTML="<b>"+esc(r.name)+"</b>："+(r.plain?esc(r.plain)+"。":"")+(r.desc?"登记的定义："+esc(r.desc)+"。":"")+" RankIC "+f2(r.rank_ic,3)+"（t 值 "+f2(r.t)+"）；只买分数最高的那一组，扣成本后每年比基准多赚 "+pct(r.ex_ann,1,true)+"（t 值 "+f2(r.ex_t)+"）；每月换掉 "+pct(r.turn,0)+" 的持仓。";
+  sayFactor(r);
   $("#grp-note").textContent="第 1 组因子值最低，第 5 组最高。"+(r.monotonic?"五组收益逐级上升。":"五组收益不是逐级上升。")}
 $("#ffilter").addEventListener("click",function(e){var b=e.target.closest("button");if(b)selectFactor(b.dataset.k)});
 function selectFactor(k,fromTrial){if(!tmap[k])return;S.factor=k;renderFactors();redraw(cIc);redraw(cGrp);redraw(cCost);redraw(cBand);
-  if(!fromTrial&&T.some(function(t){return t.name===k})&&S.trial!==k){S.trial=k;renderTrials();renderReadout();redraw(cGate)}}
+  if(!fromTrial&&T.some(function(t){return t.name===k})&&S.trial!==k){S.trial=k;renderTrials();renderReadout();redraw(cGate);renderFull()}}
 var cIc=chart("c-ic",function(){var s=D.ic&&D.ic[S.factor];
   if(!s){$("#ic-note").textContent="合成信号没有保存逐月 RankIC 序列，这里只有单因子有图。";return {title:{text:"这个信号没有逐月 RankIC 记录",left:"center",top:"middle",textStyle:{color:C.muted,fontSize:13,fontWeight:400}},series:[]}}
   $("#ic-note").textContent="柱子是每个月的 RankIC，线是最近 12 个月的平均。拖动下方时间条可以放大。";
@@ -514,7 +546,7 @@ var cCost=chart("c-cost",function(){if(!table.length)return null;var rows=table.
 /* ---------- 13 至 15 数据层 ---------- */
 (function(){var c=D.coverage;if(!c){$("#s-data").hidden=true;return}
   $("#cov-facts").innerHTML='<div class="big"><span data-count="'+Math.round(c.total_rows/1e4)+'">'+wan(c.total_rows)+"</span><u>万行</u></div>"+
-    '<ul class="plain"><li>股票 <b class="mono">'+int(c.stocks)+"</b> 只，其中已退市 <b class=\"mono\">"+int(c.delisted)+"</b> 只</li><li>有日线的股票 <b class=\"mono\">"+int(c.daily_stocks)+"</b> 只，其中退市股 <b class=\"mono\">"+int(c.delisted_with_daily)+"</b> 只</li>"+
+    '<ul class="plain"><li>两轮试验用到 <b class="mono">'+int(M.n_codes)+'</b> 只股票（含已退市）；现在缓存里有股票 <b class="mono">'+int(c.stocks)+"</b> 只，其中已退市 <b class=\"mono\">"+int(c.delisted)+"</b> 只</li><li>有日线的股票 <b class=\"mono\">"+int(c.daily_stocks)+"</b> 只，其中退市股 <b class=\"mono\">"+int(c.delisted_with_daily)+"</b> 只</li>"+
     "<li>三大报表 <b class=\"mono\">"+wan(c.statement_rows)+"</b> 万行，缺公告日 <b class=\"mono\">"+c.ann_date_missing+"</b> 行、缺实际公告日 <b class=\"mono\">"+c.f_ann_date_missing+"</b> 行</li>"+
     "<li>没做的：财务数据还没用于任何因子试验；没有历史行业分类，行业中性没做</li></ul><p class=\"hint\" style=\"margin-top:10px\">统计于 "+c.asof+"，由读取本地文件得到。</p>"})();
 var cCov=chart("c-cov",function(){var c=D.coverage;if(!c)return null;var ds=c.datasets.slice().reverse(),t=function(s){return +new Date(ymd(s))};
@@ -584,10 +616,50 @@ var cStyle=null;
       xAxis:ax({type:"category",data:fs,splitLine:{show:false},axisLabel:{color:C.muted,fontFamily:MONO,fontSize:10.5,interval:0,rotate:30}}),yAxis:ax({type:"value"}),
       series:ks.map(function(k,i){return {name:k,type:"bar",itemStyle:{color:i?C.s1:C.s2,borderRadius:[2,2,0,0]},data:fs.map(function(f){return +st[k][f].toFixed(3)})}})}})})();
 
-$("#foot").textContent="数据截至 "+(M.data_last||M.end||"")+"；最近一次月度流水线运行 "+(M.pipeline_run||M.asof||"")+"；页面生成 "+(M.generated||M.asof||"")+"。页面上的数字全部读自仓库里的结果文件。";
+$("#foot").textContent="数据截至 "+(M.data_last||M.end||"")+"；最近一次月度流水线运行 "+(M.pipeline_run||M.asof||"")+"；页面生成 "+(M.generated||M.asof||"")+"。页面上的数字全部读自仓库里的结果文件。"+(D.tests?"代码有 "+D.tests+" 项自动检查，全部通过。":"");
+
+
+/* ---------- 每张图一句白话结论（数字都从数据算） ---------- */
+(function(){var right=T.filter(function(x){return ok(tOf(x))&&tOf(x)>=R.t_pass}).length;
+  say("say-gate","<b>每个点是一次试验，没有一个进入右上角的通过区。</b>实心的 "+R.n_passed+" 个点过了及格线；但把“一共试了 "+R.n_trials+" 次”算进去之后，把握最高的 "+esc(best.name)+(best.plain?"（"+esc(best.plain)+"）":"")+" 也只有 "+f2(best.dsr)+"，要求 "+R.dsr_pass+"。顺带一提：如果只看 t 值，会有 "+right+" 个点在竖线右边，可见只看这一条会高估。");
+  say("say-full","每一行是一次试验的全部数字，失败的也列在这里。<b>"+R.n_passed+" 次过了及格线，"+R.n_shadow+" 次的把握（通缩夏普）达到 "+R.dsr_pass+"。</b>");
+  if(icNames.length){var pos=0,all=0;icNames.forEach(function(n){D.ic[n].ic.forEach(function(v){if(ok(v)){all++;if(v>0)pos++}})});
+    say("say-band","<b>"+Math.round(pos/all*100)+"% 的格子是蓝色</b>，也就是多数月份这些打分规则把股票排对了。但排对不等于能赚钱：扣掉交易成本、再把试验次数算进去，没有一个过关。")}
+  var c=D.coverage;if(c){say("say-cov","行情类数据从 "+ymd(c.datasets[0].first).slice(0,4)+" 年起每个交易日一份，财务类数据从 "+ymd(c.datasets[c.datasets.length-1].first).slice(0,4)+" 年起每个季度一份，<b>一共 "+wan(c.total_rows)+" 万行</b>，其中包含 "+int(c.delisted)+" 只已退市的股票。")}
+  var u=D.universe;if(u){say("say-univ","可选的股票从最少 <b>"+int(Math.min.apply(null,u.n))+" 只</b>增加到最多 <b>"+int(Math.max.apply(null,u.n))+" 只</b>。每个月都按当时的情况重新筛一遍，不会用到后来才上市的股票。")}
+  if(table.length){var hi=table.slice().sort(function(a,b){return b.turn-a.turn})[0];
+    say("say-cost","灰柱是不算成本时每年比基准多赚多少，蓝柱是扣掉成本之后。<b>换股票最勤的 "+esc(hi.name)+" 每月换掉 "+pct(hi.turn,0)+" 的持仓，成本把它的超额从 "+pct(hi.gross_ex_ann,1,true)+" 拖到 "+pct(hi.ex_ann,1,true)+"。</b>")}
+  if(E){var a=E.rows[0],b=E.rows[1],d=E.rows[2];
+    say("say-etf","<b>加一条“跌破 10 个月均线就减仓”的规则，最坏时亏 "+pct(Math.abs(a.mdd_worst),1)+"，不加是 "+pct(Math.abs(b.mdd_worst),1)+"，只买股票是 "+pct(Math.abs(d.mdd_worst),1)+"。</b>代价是平均每年少赚 "+((b.full_cagr-a.full_cagr)*100).toFixed(1)+" 个百分点（"+pct(a.full_cagr,1)+" 对 "+pct(b.full_cagr,1)+"）。");
+    var ys=Object.keys(a.years).sort(),worst=ys.slice().sort(function(x,y){return d.years[x].ret-d.years[y].ret})[0];
+    say("say-etfy","跌得最狠的 "+worst+" 年，只买股票亏了 "+pct(Math.abs(d.years[worst].ret),0)+"，加均线的方案是 "+pct(a.years[worst].ret,1,true)+"。<b>它不是每年都赢</b>：四年里有 "+ys.filter(function(y){return a.years[y].ret<b.years[y].ret}).length+" 年不如不加均线的做法。")}
+})();
+function sayPort(){var v=N.series[S.port],bn=N.series[BENCH];if(!v)return;var n=v.length-1,yrs=(new Date(N.dates[n])-new Date(N.dates[0]))/31557600000,dd=Math.min.apply(null,D.drawdown[S.port]),w0=worstDD(S.port);
+  say("say-nav","<b>"+yrs.toFixed(1)+" 年里，“"+esc(S.port)+"”把 1 块钱变成 "+f2(v[n])+" 块；什么都不挑、每只都买一样多，也能变成 "+f2(bn[n])+" 块。</b>所以真正要看的是两条线之间的差距，以及中途最深的一次下跌："+N.dates[w0.peak].slice(0,7)+" 到 "+N.dates[w0.trough].slice(0,7)+" 跌了 "+pct(Math.abs(dd),1)+"，"+(w0.rec?"到 "+N.dates[w0.rec].slice(0,7)+" 才回到原来的高点":"到现在还没回到原来的高点")+"（图上的橙色阴影）。");
+  var m=D.monthly&&D.monthly[S.port];if(m){var w=m.filter(function(r){return r[2]>0}).length;
+    say("say-month","<b>"+m.length+" 个月里有 "+w+" 个月比基准赚得多（"+Math.round(w/m.length*100)+"%）。</b>蓝色是多赚的月份，橙色是少赚的月份，格子里的数字是多赚或少赚的百分点。")}
+  var y=D.yearly&&D.yearly[S.port];if(y){var ks=Object.keys(y).sort(),wy=ks.filter(function(k){return y[k]>0}).length,l3=ks.slice(-3);
+    say("say-year","<b>"+ks.length+" 年里有 "+wy+" 年跑赢基准，但最近三年（"+l3[0]+" 到 "+l3[2]+"）是 "+l3.map(function(k){return pct(y[k],1,true)}).join("、")+"。</b>优势集中在早些年。")}}
+function sayFactor(r){var s2=D.ic&&D.ic[r.name];
+  if(s2){var vv=s2.ic.filter(ok),w=vv.filter(function(v){return v>0}).length;
+    say("say-ic","<b>"+vv.length+" 个月里，“"+esc(r.name)+"”有 "+w+" 个月把股票排对了（"+Math.round(w/vv.length*100)+"%）。</b>柱子朝上是排对的月份，朝下是排反的；白线是最近 12 个月的平均。")}
+  else say("say-ic","这是几个因子合在一起的信号，没有保存每个月的 RankIC，所以这里没有图。");
+  if(r.groups){var g=r.groups;say("say-grp","<b>分数最高的一组平均每年 "+pct(g[4],1,true)+"，最低的一组 "+pct(g[0],1,true)+"。</b>"+(r.monotonic?"五组一级比一级高，说明这条打分规则确实把好坏分开了。":"五组不是一级比一级高，说明这条规则分得不干净。"))}}
+var FC=[["i","试验"],["round","轮次"],["rank_ic","RankIC"],["t","t 值"],["ex_ann","年化超额"],["oos_ex_ann","样本外年化超额"],["ex_mdd","超额最大回撤"],["turn","月均换手"],["dsr","通缩夏普"],["passed","及格线"]],FS={k:"i",dir:1};
+function renderFull(){var th=document.querySelector("#full thead");if(!th)return;
+  var G={};(D.glossary||[]).forEach(function(g){G[g.term]=g.plain});
+  var TT={rank_ic:G["RankIC"],t:G["t 值"],ex_ann:G["超额"],oos_ex_ann:G["样本外"],ex_mdd:G["回撤"],turn:G["换手"],dsr:G["通缩夏普"],passed:"事先登记的通过标准"};
+  th.innerHTML="<tr>"+FC.map(function(c){var on=FS.k===c[0];return "<th"+(TT[c[0]]?' title="'+esc(TT[c[0]])+'"':"")+(on?' aria-sort="'+(FS.dir>0?"ascending":"descending")+'"':"")+'><button data-k="'+c[0]+'">'+c[1]+(on?'<span class="arr">'+(FS.dir>0?"↑":"↓")+"</span>":"")+"</button></th>"}).join("")+"</tr>";
+  var rows=T.slice().sort(function(a,b){var u=FS.k==="t"?tOf(a):+a[FS.k],v=FS.k==="t"?tOf(b):+b[FS.k];u=ok(u)?u:-1e9;v=ok(v)?v:-1e9;return (u-v)*FS.dir});
+  document.querySelector("#full tbody").innerHTML=rows.map(function(x){
+    return '<tr tabindex="0" data-n="'+esc(x.name)+'" class="'+(x.passed?"pass":"fail")+'" aria-selected="'+(x.name===S.trial)+'"><td><span class="dot"></span>'+esc(x.name)+(x.plain?'<span class="pl">'+esc(x.plain)+"</span>":"")+"</td><td>第"+(x.round===1?"一":"二")+"轮</td><td>"+(ok(x.rank_ic)?f2(x.rank_ic,3):"")+"</td><td>"+f2(tOf(x))+"</td><td>"+pct(x.ex_ann,1,true)+"</td><td>"+pct(x.oos_ex_ann,1,true)+"</td><td>"+pct(x.ex_mdd,1)+"</td><td>"+pct(x.turn,0)+"</td><td>"+dsrText(x.dsr)+"</td><td>"+(x.passed?"通过":"未通过")+"</td></tr>"}).join("")}
+(function(){var t=document.getElementById("full");if(!t)return;
+  t.querySelector("thead").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var k=b.dataset.k;FS=FS.k===k?{k:k,dir:-FS.dir}:{k:k,dir:k==="i"?1:-1};renderFull()});
+  t.querySelector("tbody").addEventListener("click",pick);
+  t.querySelector("tbody").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(e)}})})();
 
 /* ---------- 首次渲染、进场、计数、缩放 ---------- */
-renderFilter();renderTrials();renderReadout();renderPorts();navKpi();renderFactors();
+renderFilter();renderTrials();renderReadout();renderFull();renderPorts();navKpi();sayPort();renderFactors();
 function countUp(el){var to=parseFloat(el.getAttribute("data-count")),dec=+(el.getAttribute("data-dec")||0);if(!(to===to))return;
   function show(v){el.textContent=dec?v.toFixed(dec):Math.round(v).toLocaleString("en-US")}
   if(RM||to===0){show(to);return}var t0=null,dur=900;
