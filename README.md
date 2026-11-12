@@ -6,6 +6,10 @@
 
 > **声明**：这是个人研究记录，不是投资建议。所有收益和回撤都来自历史回测，不代表未来。作者不是持牌金融顾问。
 
+[![选股因子研究看板：19 次预先登记的试验、通过情况和每次试验的结果表](docs/img/dashboard.png)](reports/看板/因子看板-公开版.html)
+
+上图是因子研究看板的开头部分（完整页面是单个静态网页 `reports/看板/因子看板-公开版.html`，下载后用浏览器打开）：两轮共 19 次预先登记的试验、每次的结果、勘误前后对照、净值与回撤、数据层覆盖。页面上的数字都由 `quant/alpha/dashboard.py` 从 `research/` 下的结果文件读出。
+
 ## 主要结论
 
 | 内容 | 结果 | 出处 |
@@ -24,7 +28,7 @@
 
 ```mermaid
 flowchart LR
-    A["数据层<br/>含退市股的行情缓存"] --> B["因子库<br/>注册表：写函数 + @register"]
+    A["数据层<br/>Tushare 本地缓存（行情 + 带公告日的财报）<br/>baostock 周线缓存"] --> B["因子库<br/>注册表：写函数 + @register"]
     B --> C["评测<br/>RankIC / 分组 / 成本 / 市值中性"]
     C --> D["组合构造<br/>五分组 / 缓冲带 / 涨跌停约束"]
     D --> E["观察盘与监控<br/>记账 / 已实现收益 / 偏差 / IC 告警"]
@@ -34,10 +38,11 @@ flowchart LR
     S -.门槛.-> D
 ```
 
+- **数据层**（`quant/tsdata/`）：Tushare Pro 下载器，按交易日和报告期分片存成本地 parquet，原子写入、断点续传、限速、失败重试、自动翻页。本地缓存 8 类数据共 46,882,953 行（日线、复权因子、每日指标、每日 ST 名单 2010-01-04 起；三大报表和业绩预告 2009 年一季报起，三大报表每行带公告日和实际公告日），统计见 `research/tsdata_coverage.json`。数据本身和 token 不在仓库里；测试全部离线。没做的：343 只已退市股票里 68 只在缓存区间内没有日线，原因没有逐只核对；财报更正记录是否齐全没有抽查；还没有基于这批财报数据的因子结果，上面两轮试验用的是 baostock 周线缓存。
 - **新增因子**只要在 `quant/alpha/library.py` 写一个函数并登记；名字不在 `quant/alpha/spec.py` 预先登记名单里的因子，体检命令会拒绝对真实数据出结果。
 - **一键体检**（`quant/alpha/checkup.py`）：RankIC 与 t、五分组、换手与成本、纯多头超额、市值中性；行业中性因为没有行业数据，报告里写“未做”。样例见 `reports/因子体检/`。
-- **月度流水线**（`quant/alpha/pipeline.py`）：读缓存 → 算因子 → 目标持仓 → 追加观察盘记录 → 上期已实现收益 → 偏差与因子衰减监控。观察盘只记账、不下单，记录不公开；目前只有一期，还没有已实现收益。
-- **看板**（`quant/alpha/dashboard.py`）：公开版见 `reports/看板/因子看板-公开版.html`，只含归一化净值和流程。
+- **月度流水线**（`quant/alpha/pipeline.py`）：默认由 Tushare 日线合成周线（`quant/alpha/ts_weekly.py`，也可改回 baostock 周线缓存）→ 算因子 → 目标持仓 → 追加观察盘记录 → 上期已实现收益 → 偏差与因子衰减监控。观察盘只记账、不下单，记录不公开；目前只有一期，还没有已实现收益。
+- **看板**（`quant/alpha/dashboard.py`）：公开版见 `reports/看板/因子看板-公开版.html`：19 次试验的结果表（可排序）、勘误前后对照、归一化净值与回撤、分年超额、数据层覆盖和流程；不含持仓和观察盘记录。
 - 回归测试保证框架复现结果文件里的数字。详见 `docs/因子线架构.md`。
 - 报告里出现的提交号（如 `db2d90b`、`6c406f7`）来自未公开的开发仓库，用来说明“登记先于结果”的先后顺序。
 
@@ -73,6 +78,7 @@ quant/
   factors/     A股单因子检验（数据、因子、IC / 分组 / 成本）
   alpha/       全 A 股因子研究：预先登记、因子注册表、一键体检、组合模拟（涨跌停约束）、合成（等权 / IC 加权 / LightGBM）、
                持仓构造（缓冲带等）、观察盘、月度流水线、看板
+  tsdata/      Tushare Pro 数据层：限速客户端、下载器（断点续传）、本地 parquet 缓存
   llm_events/  大模型读公告：巨潮公告下载、结构化标注（Batch API、缓存、预算上限）、事件研究与月度情绪因子
   live/        月度调仓单、份额净值账本、影子盘、模拟盘（只允许 SIMULATE）、偏差报告
   portfolio/   持仓体检与过渡方案
@@ -84,9 +90,11 @@ tests/         单元测试
 ## 运行
 
 ```bash
-python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance akshare baostock matplotlib bt moomoo-api anthropic lightgbm pytest
+python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance akshare baostock tushare matplotlib bt moomoo-api anthropic lightgbm pytest
 .venv/bin/pytest -q
 ```
+
+本仓库的测试不联网、不需要任何 token 和本地数据：2026-11-12 本地运行 `pytest -q` 的输出是 `265 passed, 3 skipped`（跳过的 3 个需要本地数据缓存）。
 
 A股单因子检验（单线程下载，约 70 分钟）：
 
@@ -113,11 +121,21 @@ PYTHONPATH=. .venv/bin/python -m quant.alpha.weekly_data
 PYTHONPATH=. .venv/bin/python -m quant.alpha.weekly
 PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.round2      # 第二轮：持仓构造
 PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.checkup --all  # 因子体检
-PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.pipeline --source cache  # 月度流水线（会写 live/alpha_shadow/）
+PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.pipeline --source cache  # 月度流水线，用 baostock 周线缓存（会写 live/alpha_shadow/）
 PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.dashboard   # 看板
 ```
 
+Tushare 数据层（需要自己的 Tushare Pro 账号，token 放在环境变量 `TUSHARE_TOKEN`；全量下载一次实测约 67 分钟）：
+
+```bash
+PYTHONPATH=. .venv/bin/python -m quant.tsdata.download              # 下载或增量更新，已有分片跳过
+PYTHONPATH=. .venv/bin/python -m quant.alpha.ts_weekly --coverage   # 统计缓存行数 → research/tsdata_coverage.json
+PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.pipeline     # 月度流水线，默认用 Tushare 数据
+```
+
 ## 不在仓库里的输入
+
+- `data/cache/`：所有下载的行情和财报缓存（已 gitignore）；Tushare token 只从环境变量读，不写进代码、日志或缓存。
 
 - `config/holdings.csv`：真实持仓，不公开。格式见 `config/holdings.example.csv`。持仓体检、过渡方案和实盘对照都要用它。
 - 两个账户合并回测用的账户市值比例不公开：`trials.csv` 和 `research/*.json` 里已删掉这一列，报告里也删掉了具体比例。合并类的命令需要自己用 `--w-us` 传入。

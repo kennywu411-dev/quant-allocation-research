@@ -2,7 +2,7 @@
 name = "quant"
 version = "0.1.0"
 requires-python = ">=3.12,<3.13"
-dependencies = ["pandas", "numpy", "pyarrow", "yfinance", "akshare", "baostock", "matplotlib", "bt", "moomoo-api", "anthropic", "lightgbm"]
+dependencies = ["pandas", "numpy", "pyarrow", "yfinance", "akshare", "baostock", "tushare", "matplotlib", "bt", "moomoo-api", "anthropic", "lightgbm"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

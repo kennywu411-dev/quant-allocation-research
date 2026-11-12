@@ -84,11 +84,12 @@ def universe(mem: pd.DataFrame, basic: pd.DataFrame, w: dict, mcap: pd.DataFrame
     return (ok & ~small).fillna(False)
 
 
-def build(end: str = spec.END) -> dict:
-    """读周线缓存，算出因子、下期收益、股票池和涨跌停标记（第一轮和第二轮共用）。"""
-    mem = pd.read_csv(data.DIR / "all_members.csv", dtype=str)
-    basic = pd.read_csv(data.DIR / "stock_basic.csv", dtype=str)
-    w = load_weekly(sorted(set(mem.code)))
+def build(end: str = spec.END, cache: Path = WDIR, members: Path | None = None, basic: Path | None = None) -> dict:
+    """读周线缓存，算出因子、下期收益、股票池和涨跌停标记（第一轮和第二轮共用）。
+    cache / members / basic 默认是 baostock 的周线、名单和上市日；月度流水线换数据源时传别的路径。"""
+    mem = pd.read_csv(members or data.DIR / "all_members.csv", dtype=str)
+    basic = pd.read_csv(basic or data.DIR / "stock_basic.csv", dtype=str)
+    w = load_weekly(sorted(set(mem.code)), cache)
     rb = rebalance_dates(w["close"].index)
     rb = rb[(rb >= spec.START) & (rb <= end)]
     fx = factors(w, rb)

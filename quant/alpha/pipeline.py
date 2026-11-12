@@ -1,6 +1,7 @@
-"""因子线月度流水线（只记账、不下单）：python -m quant.alpha.pipeline [--source cache] [--asof 2026-11-30]
+"""因子线月度流水线（只记账、不下单）：python -m quant.alpha.pipeline [--source tushare] [--asof 2026-11-30]
 
-  1 更新数据（--source：cache = 只用本地周线缓存；tushare / baostock = 尚未接入，会明确报错而不是静默跳过）
+  1 更新数据（--source：tushare（默认，2026-11-12 起）= 由本地 Tushare 日线缓存合成周线（先跑 quant.tsdata.download）；cache = 本地 baostock 周线缓存；
+     baostock = 增量更新尚未实现，会明确报错而不是静默跳过）
   2 读最新缓存 → 算因子（注册表）→ 最近一个走完的调仓日的目标持仓
   3 追加观察盘记录（已有记录不覆盖）
   4 计算相邻两期记录之间的实际收益 → live/alpha_shadow/returns.csv
@@ -18,6 +19,7 @@ from quant.alpha.weekly_data import WDIR
 from quant.factors import evaluate as fev
 
 MONITOR_JSON = Path("research/alpha_monitor.json")
+DEFAULT_SOURCE = "tushare"  # 2026-11-12 用户决定：baostock 周线缓存没法增量更新，默认改用 Tushare
 IC_WINDOW = 12
 
 
@@ -27,8 +29,20 @@ def _cache(cache: Path) -> dict:
     return {"source": "cache", "files": len(files), "last_week": str(pd.Timestamp(last).date())}
 
 
-def _tushare(cache: Path) -> dict:
-    raise NotImplementedError("Tushare 数据层（quant/tsdata/）尚未接入本流水线：就绪后在这里调用它的周线更新，再返回 _cache(cache)")
+def _tushare(cache: Path, ts_root: Path | None = None, alpha_dir: Path | None = None) -> dict:
+    """由本地 Tushare 缓存合成周线、名单和上市日（联网下载由 `python -m quant.tsdata.download` 另行完成）。"""
+    from quant.alpha import ts_weekly
+    kw = {k: v for k, v in (("root", ts_root), ("out", alpha_dir)) if v is not None}
+    return ts_weekly.convert(**kw)
+
+
+def data_paths(source: str, alpha_dir: Path | None = None) -> dict:
+    """weekly.build 读哪一套周线、名单、上市日。"""
+    from quant.alpha import data
+    d = Path(alpha_dir) if alpha_dir is not None else data.DIR
+    if source == "tushare":
+        return {"cache": d / "weekly_ts", "members": d / "all_members_ts.csv", "basic": d / "stock_basic_ts.csv"}
+    return {"cache": d / "weekly", "members": d / "all_members.csv", "basic": d / "stock_basic.csv"}
 
 
 def _baostock(cache: Path) -> dict:
@@ -38,9 +52,11 @@ def _baostock(cache: Path) -> dict:
 SOURCES = {"cache": _cache, "tushare": _tushare, "baostock": _baostock}
 
 
-def update_data(source: str, cache: Path = WDIR) -> dict:
+def update_data(source: str, cache: Path = WDIR, ts_root: Path | None = None, alpha_dir: Path | None = None) -> dict:
     if source not in SOURCES:
         raise ValueError(f"未知数据源 {source}；可选 {list(SOURCES)}")
+    if source == "tushare":
+        return _tushare(cache, ts_root, alpha_dir)
     return SOURCES[source](cache)
 
 
@@ -73,7 +89,7 @@ def render(m: dict) -> str:
          "## 数据", "",
          f"- 数据源：{m['data']['source']}；周线文件 {m['data']['files']:,} 个，最新一周 {m['data']['last_week']}，距今天 {m['stale_days']} 天。",
          f"- 最近一个走完的调仓日：{m['rebalance']}；本次{'新写入' if m['recorded'] else '已有'}观察盘记录；股票池 {m['universe_n']:,} 只。",
-         "- 局限：股票名单（`all_members.csv`）和周线缓存目前止于下载当时，下个月调仓前需要先更新数据源。", "",
+         "- 局限：`cache` 数据源的股票名单和周线止于下载当时；`tushare` 数据源每次由本地 Tushare 缓存重新合成，需先运行 `python -m quant.tsdata.download`。", "",
          "## 持仓", "", "| 组合 | 目标只数 | 实际可持有 | 与上一期重合 |", "|---|---:|---:|---:|"]
     for k, h in m["holdings"].items():
         L.append(f"| {k} | {h['target_n']} | {h['held_n']} | {'首期' if h['overlap'] is None else format(h['overlap'], '.0%')} |")
@@ -94,16 +110,16 @@ def render(m: dict) -> str:
     L += ["", f"## 因子 RankIC 监控（最近 {IC_WINDOW} 个月均值 ≤ 0 记为告警，只提示）", "",
           "| 因子 | 全期 RankIC | 最近均值 | 告警 |", "|---|---:|---:|---|"]
     L += [f"| {k} | {a['full']:.3f} | {a['recent']:.3f} | {'⚠ 是' if a['alert'] else '否'} |" for k, a in m["ic_alerts"].items()]
-    L += ["", "## 复现", "", "```bash", "PYTHONPATH=. .venv/bin/python -m quant.alpha.pipeline --source cache", "```", ""]
+    L += ["", "## 复现", "", "```bash", f"PYTHONPATH=. .venv/bin/python -m quant.alpha.pipeline --source {m['data']['source']}", "```", ""]
     return "\n".join(L)
 
 
-def run(source: str = "cache", asof=None, shadow_dir: Path = shadow.OUT, report_dir: Path = Path("reports"),
+def run(source: str = DEFAULT_SOURCE, asof=None, shadow_dir: Path = shadow.OUT, report_dir: Path = Path("reports"),
         monitor_json: Path = MONITOR_JSON) -> dict:
     from quant.alpha.weekly import build
     asof = pd.Timestamp(asof) if asof is not None else pd.Timestamp.today().normalize()
     info = update_data(source)
-    b = build(end=str(asof.date()))
+    b = build(end=str(asof.date()), **data_paths(source))
     t = shadow.latest_complete_rebalance(b["w"]["close"].index, asof)
     keep = b["rb"] <= t  # 当月还没走完的“调仓日”不用
     for k in ("fwd", "univ", "up", "dn", "tradable", "mcap"):
@@ -116,7 +132,7 @@ def run(source: str = "cache", asof=None, shadow_dir: Path = shadow.OUT, report_
     recorded = False
     if not any(r["rebalance"] == str(t.date()) for r in recs):
         before = [r for r in recs if r["rebalance"] < str(t.date())]
-        shadow.write_record(shadow.make_record(b, t, before[-1] if before else None), shadow_dir)
+        shadow.write_record(shadow.make_record(b, t, before[-1] if before else None, source=source), shadow_dir)
         recs, recorded = shadow.load_records(shadow_dir), True
     real = shadow.realized(recs, b["w"]["ret"])
     real.to_csv(shadow_dir / "returns.csv", index=False)
@@ -149,7 +165,7 @@ def main(argv: list[str] | None = None) -> int:
     import warnings
     warnings.filterwarnings("ignore")
     ap = argparse.ArgumentParser()
-    ap.add_argument("--source", default="cache", choices=list(SOURCES))
+    ap.add_argument("--source", default=DEFAULT_SOURCE, choices=list(SOURCES))
     ap.add_argument("--asof", default=None, help="按哪一天来判断调仓日是否走完（默认今天）")
     a = ap.parse_args(argv)
     out = run(a.source, a.asof)

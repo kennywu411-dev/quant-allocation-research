@@ -1,0 +1,77 @@
+{
+ "asof": "2026-11-12",
+ "datasets": [
+  {
+   "name": "daily",
+   "label": "日线行情",
+   "files": 4092,
+   "rows": 14578329,
+   "first": "20100104",
+   "last": "20261111"
+  },
+  {
+   "name": "adj_factor",
+   "label": "复权因子",
+   "files": 4092,
+   "rows": 15219261,
+   "first": "20100104",
+   "last": "20261111"
+  },
+  {
+   "name": "daily_basic",
+   "label": "每日指标（市值、换手、估值）",
+   "files": 4092,
+   "rows": 14487646,
+   "first": "20100104",
+   "last": "20261111"
+  },
+  {
+   "name": "stock_st",
+   "label": "每日 ST 名单",
+   "files": 4093,
+   "rows": 507102,
+   "first": "20100104",
+   "last": "20261112"
+  },
+  {
+   "name": "income",
+   "label": "利润表",
+   "files": 213,
+   "rows": 835565,
+   "first": "20090331",
+   "last": "20260930"
+  },
+  {
+   "name": "balancesheet",
+   "label": "资产负债表",
+   "files": 213,
+   "rows": 529159,
+   "first": "20090331",
+   "last": "20260930"
+  },
+  {
+   "name": "cashflow",
+   "label": "现金流量表",
+   "files": 213,
+   "rows": 612284,
+   "first": "20090331",
+   "last": "20260930"
+  },
+  {
+   "name": "forecast",
+   "label": "业绩预告",
+   "files": 71,
+   "rows": 113607,
+   "first": "20090331",
+   "last": "20260930"
+  }
+ ],
+ "total_rows": 46882953,
+ "stocks": 5923,
+ "delisted": 343,
+ "daily_stocks": 5858,
+ "delisted_with_daily": 275,
+ "statement_rows": 1977008,
+ "ann_date_missing": 0,
+ "f_ann_date_missing": 0
+}

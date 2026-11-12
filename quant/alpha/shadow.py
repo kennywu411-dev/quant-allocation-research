@@ -84,8 +84,17 @@ def realized(records: list[dict], ret: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=RETURN_COLS)
 
 
-def make_record(b: dict, t: pd.Timestamp, prev: dict | None) -> dict:
-    """调仓日 t 的观察盘记录：目标持仓、按涨跌停规则得到的实际持仓、股票池。prev = 上一期记录（首期为 None）。"""
+def source_note(prev: dict | None, source: str) -> str | None:
+    """本期数据源与上一期记录不同就返回一句说明。没有 source 字段的旧记录用的是 baostock 周线缓存（cache）。"""
+    if prev is None or prev.get("source", "cache") == source:
+        return None
+    return (f"数据源切换：上一期（{prev['rebalance']}）用 {prev.get('source', 'cache')}，本期起用 {source}；"
+            "两个数据源的股票池和个别周线数值有细微差别，本期持仓变化里有一小部分来自换源而不是因子。")
+
+
+def make_record(b: dict, t: pd.Timestamp, prev: dict | None, source: str | None = None) -> dict:
+    """调仓日 t 的观察盘记录：目标持仓、按涨跌停规则得到的实际持仓、股票池。prev = 上一期记录（首期为 None）。
+    source = 本期数据源名字（写进记录；与上一期不同就加一句 source_note）。"""
     tg = targets(b)
     u = b["univ"].loc[t]
     univ = sorted(u[u].index)
@@ -96,11 +105,16 @@ def make_record(b: dict, t: pd.Timestamp, prev: dict | None) -> dict:
         p = held_of(prev, k, set()) if prev else set()
         was |= p
         held[k] = sorted(actual_holdings(p, set(tg[k][t]), up, dn, untr)[0])
-    return {"rebalance": str(t.date()), "recorded_at": datetime.now().isoformat(timespec="seconds"),
-            "note": "观察盘：未达到预先登记的影子盘候选标准（通缩夏普 < 0.95），先记账观察；只记账不下单。",
-            "universe_n": len(univ), "limit_up": sorted(up & set(univ)), "limit_down": sorted(dn & was),
-            "untradable": sorted(untr & was), "portfolios": {k: sorted(tg[k][t]) for k in TRACKED}, "held": held,
-            "universe": univ}
+    rec = {"rebalance": str(t.date()), "recorded_at": datetime.now().isoformat(timespec="seconds"),
+           "note": "观察盘：未达到预先登记的影子盘候选标准（通缩夏普 < 0.95），先记账观察；只记账不下单。",
+           "universe_n": len(univ), "limit_up": sorted(up & set(univ)), "limit_down": sorted(dn & was),
+           "untradable": sorted(untr & was), "portfolios": {k: sorted(tg[k][t]) for k in TRACKED}, "held": held,
+           "universe": univ}
+    if source is not None:
+        rec["source"] = source
+        if note := source_note(prev, source):
+            rec["source_note"] = note
+    return rec
 
 
 def write_record(rec: dict, out: Path = OUT) -> Path:

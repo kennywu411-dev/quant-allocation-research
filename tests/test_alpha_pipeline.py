@@ -80,9 +80,8 @@ def test_update_data_cache_reports_freshness_and_other_sources_fail_loudly(tmp_p
     pd.DataFrame({"date": pd.to_datetime(["2026-10-30", "2026-11-06"]), "close": [1.0, 1.0]}).to_parquet(tmp_path / "sh.600000.parquet")
     info = P.update_data("cache", cache=tmp_path)
     assert info["source"] == "cache" and info["last_week"] == "2026-11-06"
-    for src in ("tushare", "baostock"):
-        with pytest.raises(NotImplementedError):
-            P.update_data(src, cache=tmp_path)
+    with pytest.raises(NotImplementedError):
+        P.update_data("baostock", cache=tmp_path)
     with pytest.raises(ValueError):
         P.update_data("wind", cache=tmp_path)
 
@@ -121,3 +120,34 @@ def test_pipeline_end_to_end_reproduces_first_shadow_record(tmp_path):
     again = P.run(source="cache", asof="2026-11-12", shadow_dir=tmp_path / "shadow", report_dir=tmp_path, monitor_json=tmp_path / "m.json")
     assert again["recorded"] is False  # 已有记录不覆盖
     assert json.loads((tmp_path / "shadow" / "2026-10-30.json").read_text()) == new
+
+
+def test_default_source_is_tushare_for_cli_and_monthly_script(monkeypatch):
+    from quant.alpha import pipeline as P
+    seen = {}
+    monkeypatch.setattr(P, "run", lambda source=P.DEFAULT_SOURCE, asof=None: seen.update(source=source) or
+                        {"rebalance": "x", "recorded": False, "realized_periods": 0, "alerts": [], "report": "r"})
+    assert P.main([]) == 0 and seen["source"] == "tushare" and P.DEFAULT_SOURCE == "tushare"
+    assert P.main(["--source", "cache"]) == 0 and seen["source"] == "cache"  # 旧数据源仍可显式选用
+    assert '"${ALPHA_SOURCE:-tushare}"' in Path("scripts/alpha_monthly.sh").read_text()
+
+
+def test_source_note_only_when_source_differs_from_previous_record():
+    from quant.alpha import shadow as S
+    note = S.source_note({"rebalance": "2026-10-30"}, "tushare")  # 首期记录没有 source 字段：当时用的是 baostock 周线缓存
+    assert "cache" in note and "tushare" in note and "2026-10-30" in note
+    assert S.source_note({"rebalance": "2026-10-30", "source": "tushare"}, "tushare") is None
+    assert S.source_note(None, "tushare") is None
+
+
+def test_make_record_stores_source_and_switch_note(monkeypatch):
+    from quant.alpha import shadow as S
+    t = pd.Timestamp("2026-11-27")
+    monkeypatch.setattr(S, "targets", lambda b: {k: {t: {"A"}} for k in S.TRACKED})
+    row = lambda v: pd.DataFrame([[v, v]], index=[t], columns=["A", "B"])
+    b = {"univ": row(True), "up": row(False), "dn": row(False), "tradable": row(True)}
+    prev = {"rebalance": "2026-10-30", "portfolios": {k: ["B"] for k in S.TRACKED}, "universe": ["A", "B"], "limit_up": []}
+    rec = S.make_record(b, t, prev, source="tushare")
+    assert rec["source"] == "tushare" and "cache" in rec["source_note"]
+    same = S.make_record(b, t, {**prev, "source": "tushare"}, source="tushare")
+    assert same["source"] == "tushare" and "source_note" not in same
