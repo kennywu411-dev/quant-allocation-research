@@ -699,7 +699,7 @@ var cStyle=null;
       xAxis:ax({type:"category",data:fs,splitLine:{show:false},axisLabel:{color:C.muted,fontFamily:MONO,fontSize:10.5,interval:0,rotate:30}}),yAxis:ax({type:"value"}),
       series:ks.map(function(k,i){return {name:k,type:"bar",itemStyle:{color:i?C.s1:C.s2,borderRadius:[2,2,0,0]},data:fs.map(function(f){return +st[k][f].toFixed(3)})}})}})})();
 
-$("#foot").textContent="数据截至 "+(M.data_last||M.end||"")+"；最近一次月度流水线运行 "+(M.pipeline_run||M.asof||"")+"；页面生成 "+(M.generated||M.asof||"")+"。页面上的数字全部读自仓库里的结果文件。"+(D.tests?"代码有 "+D.tests+" 项自动检查，全部通过。":"");
+$("#foot").textContent="数据截至 "+(M.data_last||M.end||"")+"；最近一次月度流水线运行 "+(M.pipeline_run||M.asof||"")+"。页面上的数字全部读自仓库里的结果文件。"+(D.tests?"代码有 "+D.tests+" 项自动检查，全部通过。":"");
 
 
 /* ---------- 每张图一句白话结论（数字都从数据算） ---------- */

@@ -8,7 +8,7 @@ research/p5_benchmarks.json（ETF 配置线回测指标）。页面上的数字�
 股票池数量、数据层覆盖、ETF 配置线回测指标和流程；不含持仓、股票代码、持仓只数、观察盘记录、风格暴露、金额、账户市值比例。"""
 import json
 import math
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
 
 import numpy as np
@@ -190,7 +190,7 @@ def build_payload(b: dict, monitor: dict, checkup: dict) -> dict:
     style = {k: style_exposure(z, tg[k][t_last], t_last) for k in shadow.TRACKED}
     return {"meta": {"asof": f"{date.today():%Y-%m-%d}", "start": dates[0], "end": dates[-1], "n_trials": spec.R2_N_TRIALS,
                      "style_date": str(t_last.date()), "rebalance": monitor.get("rebalance"),
-                     "generated": f"{datetime.now():%Y-%m-%d %H:%M}", "split": str(spec.SPLIT)[:10], "pipeline_run": monitor.get("asof"),
+                     "split": str(spec.SPLIT)[:10], "pipeline_run": monitor.get("asof"),
                      "data_last": monitor.get("data", {}).get("last_day"), "source": monitor.get("data", {}).get("source")},
             "universe": {"dates": [str(t.date()) for t in univ.index], "n": [int(x) for x in univ.sum(axis=1)]},
             "nav": {"dates": dates, "series": series}, "ic": ic, "table": table, "style": style,
@@ -198,7 +198,7 @@ def build_payload(b: dict, monitor: dict, checkup: dict) -> dict:
 
 
 PUBLIC_KEYS = ("nav", "drawdown", "yearly", "research", "coverage", "ic", "table", "universe", "monthly", "etf")
-PUBLIC_META = ("asof", "start", "end", "n_trials", "n_codes", "generated", "pipeline_run", "data_last", "source", "split")
+PUBLIC_META = ("asof", "start", "end", "n_trials", "n_codes", "pipeline_run", "data_last", "source", "split")
 
 
 def public_payload(p: dict, tests: int | None = None) -> dict:

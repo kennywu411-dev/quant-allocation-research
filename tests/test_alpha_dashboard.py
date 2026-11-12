@@ -161,7 +161,10 @@ def test_public_payload_adds_etf_universe_and_monthly_when_present():
     p["meta"].update(generated="2026-11-12 20:00", data_last="2026-11-11", source="tushare", pipeline_run="2026-11-12")
     pub = D.public_payload(p)
     assert {"etf", "universe", "monthly"} <= set(pub)
-    assert pub["meta"]["generated"] == "2026-11-12 20:00" and pub["meta"]["data_last"] == "2026-11-11"
+    assert pub["meta"]["data_last"] == "2026-11-11"
+    assert "generated" not in pub["meta"]  # 页面不显示生成时间，只保留“数据截至”
+    assert "页面生成" not in D.TEMPLATE and "generated" not in D.TEMPLATE
+    assert "20:00" not in D.render(pub, public=True)
 
 
 def test_glossary_explains_every_term_the_page_uses_in_plain_words():
