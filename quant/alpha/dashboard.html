@@ -678,7 +678,7 @@ $("#foot").textContent="数据截至 "+(M.data_last||M.end||"")+"；最近一次
   say("say-rank","<b>通过门槛的 "+R.n_passed+" 次里，通缩夏普最高的是 "+esc(best.name)+"，"+f2(best.dsr)+"；登记的影子盘候选标准是 "+R.dsr_pass+"，所以目前没有组合进入影子盘。</b>通缩夏普把“一共试了 "+R.n_trials+" 次”算进去，是比门槛更严的一道检验。下一步是按原登记用日线数据重跑，并继续记录观察盘，不为了过线去追加变体。");
   say("say-full","每一行是一次试验的全部数字，没通过门槛的也列在这里。<b>"+R.n_passed+" 次通过预先登记的门槛</b>；通缩夏普最高 "+f2(R.max_dsr)+"，未达到影子盘候选标准 "+R.dsr_pass+"。");
   if(icNames.length){var pos=0,all=0;icNames.forEach(function(n){D.ic[n].ic.forEach(function(v){if(ok(v)){all++;if(v>0)pos++}})});
-    say("say-band","<b>"+Math.round(pos/all*100)+"% 的格子是青绿色</b>，也就是多数月份这些打分规则把股票排对了。但排对不等于能赚钱：扣掉交易成本、再把试验次数算进去，没有一个过关。")}
+    say("say-band","<b>"+Math.round(pos/all*100)+"% 的格子是青绿色</b>，也就是多数月份这些打分规则把股票排对了。排对不等于能赚钱，还要扣掉交易成本："+R.n_trials+" 次试验里 "+R.n_passed+" 次通过了预先登记的门槛；更严格的补充检验（通缩夏普，最高 "+f2(R.max_dsr)+"，标准 "+R.dsr_pass+"）目前没有组合达标。")}
   var c=D.coverage;if(c){say("say-cov","行情类数据从 "+ymd(c.datasets[0].first).slice(0,4)+" 年起每个交易日一份，财务类数据从 "+ymd(c.datasets[c.datasets.length-1].first).slice(0,4)+" 年起每个季度一份，<b>一共 "+wan(c.total_rows)+" 万行</b>，其中包含 "+int(c.delisted)+" 只已退市的股票。")}
   var u=D.universe;if(u){say("say-univ","可选的股票从最少 <b>"+int(Math.min.apply(null,u.n))+" 只</b>增加到最多 <b>"+int(Math.max.apply(null,u.n))+" 只</b>。每个月都按当时的情况重新筛一遍，不会用到后来才上市的股票。")}
   if(table.length){var hi=table.slice().sort(function(a,b){return b.turn-a.turn})[0];

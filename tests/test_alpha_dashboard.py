@@ -224,4 +224,6 @@ def test_front_page_leads_with_what_was_built_and_keeps_the_caveat_in_the_result
     assert 'id="facts"' in t  # 首屏是属实的正面事实：股票数、年份、数据量、试验数、通过门槛数、测试数
     assert "未达到影子盘候选标准" in t and "不是投资建议" in t  # 诚实的结论还在，放在试验结果和净值图旁
     assert "稳定赚钱" not in t and "稳赚" not in t
+    for old in ("没有一个过关", "一种不剩", "一个都没过", "0 种", "及格线"):
+        assert old not in t, old  # 全页口径一致：8 次通过预先登记的门槛，补充检验目前没有组合达标
     assert 'id="pcave"' in t and "不等于可以拿去投资" in t  # 首屏面板里就有一句：通过门槛不等于可以拿去投资
