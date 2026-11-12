@@ -215,3 +215,12 @@ def test_every_registered_trial_has_a_plain_one_line_description():
     s = D.research_summary(r1, r2, *_results(4, 0, 0.50, 134))
     assert next(t for t in s["trials"] if t["name"] == "IVOL")["plain"] == D.PLAIN["IVOL"]
     assert s["trials"][0]["plain"] is None  # 没有白话说明的名字不编
+
+
+def test_front_page_leads_with_what_was_built_and_keeps_the_caveat_in_the_results():
+    from quant.alpha import dashboard as D
+    t = D.TEMPLATE
+    assert "种靠得住" not in t and 'class="n z"' not in t  # 首页不拿“0 种”当标题和主画面的落点
+    assert 'id="facts"' in t  # 首屏是属实的正面事实：股票数、年份、数据量、试验数、通过门槛数、测试数
+    assert "未达到影子盘候选标准" in t and "不是投资建议" in t  # 诚实的结论还在，放在试验结果和净值图旁
+    assert "稳定赚钱" not in t and "稳赚" not in t

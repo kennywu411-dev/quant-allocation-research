@@ -6,9 +6,9 @@
 
 > **声明**：这是个人研究记录，不是投资建议。所有收益和回撤都来自历史回测，不代表未来。作者不是持牌金融顾问。
 
-[![选股研究看板首屏：试了 19 种选股办法，0 种靠得住；19 种先登记后检验，8 种过了及格线，扣掉“试得多”的运气后一种不剩](docs/img/dashboard.png)](https://kennywu411-dev.github.io/quant-allocation-research/dashboard/)
+[![A 股选股因子研究平台看板首屏：5,481 只股票（含已退市）、13 年历史数据、4,688 万行、19 次预先登记的试验、8 次通过预先登记的门槛](docs/img/dashboard.png)](https://kennywu411-dev.github.io/quant-allocation-research/dashboard/)
 
-**在线看板：<https://kennywu411-dev.github.io/quant-allocation-research/dashboard/>**（点上图也能打开；怎么读见 [docs/看板导读.md](docs/看板导读.md)）。上图是首屏：一句结论和一张 19 → 8 → 0 的筛选图，每个点是一次试验，可以重播、可以点开看数字。页面只有一套内容，每张图上方有一句“这张图在说什么”，术语在第一次用到它的图下面就地解释，不懂量化也能读。往下是“19 根柱子，没有一根碰到红线”（每种办法的名字和把握）、及格线图、完整数字表、净值与水下回撤（可按时间段刷选）、月度超额热力图、五分组、逐月 RankIC、换手与成本、勘误前后对照、数据层覆盖和 ETF 配置线回测。版式参考了 QuantStats、pyfolio、Alphalens、Qlib、Grafana 等开源项目的报告（只借鉴思路，见导读）。页面是静态网页，没有实时行情；数字都由 `quant/alpha/dashboard.py` 从 `research/` 下的结果文件读出，图表库 ECharts 5.6.0（Apache-2.0）和字体 Geist、Geist Mono（SIL OFL 1.1，许可证在 `reports/看板/fonts/OFL.txt`）随仓库一起托管，不请求外部网络。
+**在线看板：<https://kennywu411-dev.github.io/quant-allocation-research/dashboard/>**（点上图也能打开；怎么读见 [docs/看板导读.md](docs/看板导读.md)）。上图是首屏：项目是什么、数据和试验的规模，以及 19 次预先登记的试验里哪 8 次通过了登记的门槛（每个光点是一次试验，可以点开看成绩）。更严格的补充检验（通缩夏普）最高 0.59，登记的影子盘候选标准是 0.95，所以目前没有组合进入影子盘，这一点写在看板的“试验结果”一节。页面只有一套内容，每张图上方有一句“这张图在说什么”，术语在第一次用到它的图下面就地解释，不懂量化也能读。往下是 19 次试验的结果（每次试验的名字、白话说明和通缩夏普）、门槛图、完整数字表、净值与水下回撤（可按时间段刷选）、月度超额热力图、五分组、逐月 RankIC、换手与成本、勘误前后对照、数据层覆盖和 ETF 配置线回测。版式参考了 QuantStats、pyfolio、Alphalens、Qlib、Grafana 等开源项目的报告（只借鉴思路，见导读）。页面是静态网页，没有实时行情；数字都由 `quant/alpha/dashboard.py` 从 `research/` 下的结果文件读出，图表库 ECharts 5.6.0（Apache-2.0）和字体 Geist、Geist Mono（SIL OFL 1.1，许可证在 `reports/看板/fonts/OFL.txt`）随仓库一起托管，不请求外部网络。
 
 ## 主要结论
 
@@ -94,7 +94,7 @@ python3.12 -m venv .venv && .venv/bin/pip install pandas numpy pyarrow yfinance 
 .venv/bin/pytest -q
 ```
 
-本仓库的测试不联网、不需要任何 token 和本地数据：2026-11-12 本地运行 `pytest -q` 的输出是 `275 passed, 3 skipped`（跳过的 3 个需要本地数据缓存）。
+本仓库的测试不联网、不需要任何 token 和本地数据：2026-11-12 本地运行 `pytest -q` 的输出是 `276 passed, 3 skipped`（跳过的 3 个需要本地数据缓存）。
 
 A股单因子检验（单线程下载，约 70 分钟）：
 

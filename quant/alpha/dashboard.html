@@ -5,12 +5,12 @@
 @font-face{font-family:Geist;src:url("__ASSETS__fonts/Geist.woff") format("woff");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Geist Mono";src:url("__ASSETS__fonts/GeistMono.woff") format("woff");font-weight:100 900;font-display:swap;font-feature-settings:"ss09"}
 :root{--bg:#f1f3f4;--panel:#ffffff;--panel2:#f3f5f6;--card1:#ffffff;--card2:#fbfcfc;--hl:rgba(255,255,255,.9);--shadow:rgba(30,45,60,.28);--shell:rgba(15,25,35,.035);--ring:rgba(15,25,35,.07);
---line:#e6e9ec;--line2:#cfd5db;--ink:#0d1115;--ink2:#48525c;--muted:#6d7781;--acc:#0c9a83;--warn:#d9482b;--s1:#0f9f88;--s2:#d9482b;--s3:#59636d;--bench:#98a2ac;--gate:#d9482b;--mid:#e3e7ea;--glow:rgba(15,159,136,.10);
+--line:#e6e9ec;--line2:#cfd5db;--ink:#0d1115;--ink2:#48525c;--muted:#6d7781;--acc:#0c9a83;--warn:#d9482b;--s1:#0f9f88;--s2:#d9482b;--s3:#59636d;--bench:#98a2ac;--gate:#59636d;--mid:#e3e7ea;--glow:rgba(15,159,136,.10);
 --g1:rgba(15,159,136,.10);--g2:rgba(217,72,43,.06);--orb1:#7fe6d2;--orb2:#0f9f88;--orb3:#0b7d6b;--orbglow:rgba(15,159,136,.35);--warnglow:rgba(217,72,43,.25);
 --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:Geist,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
 --ease:cubic-bezier(.23,1,.32,1);--r:24px}
 :root[data-theme=dark]{--bg:#06080b;--panel:#0e1216;--panel2:#141a1f;--card1:rgba(19,24,29,.92);--card2:rgba(10,13,16,.96);--hl:rgba(255,255,255,.09);--shadow:rgba(0,0,0,.9);--shell:rgba(255,255,255,.035);--ring:rgba(255,255,255,.07);
---line:#1c232a;--line2:#343d47;--ink:#f2f5f7;--ink2:#b3bcc6;--muted:#8d98a4;--acc:#56e0c4;--warn:#ff6a4d;--s1:#14a68d;--s2:#ee5a3a;--s3:#d3dbe3;--bench:#93a0ad;--gate:#ff6a4d;--mid:#1b2229;--glow:rgba(86,224,196,.10);
+--line:#1c232a;--line2:#343d47;--ink:#f2f5f7;--ink2:#b3bcc6;--muted:#8d98a4;--acc:#56e0c4;--warn:#ff6a4d;--s1:#14a68d;--s2:#ee5a3a;--s3:#d3dbe3;--bench:#93a0ad;--gate:#c5ced8;--mid:#1b2229;--glow:rgba(86,224,196,.10);
 --g1:rgba(86,224,196,.12);--g2:rgba(255,106,77,.07);--orb1:#b8fff0;--orb2:#56e0c4;--orb3:#1c9c86;--orbglow:rgba(86,224,196,.75);--warnglow:rgba(255,106,77,.55)}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:88px}
 body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.65 var(--sans);-webkit-font-smoothing:antialiased;position:relative}
@@ -36,9 +36,16 @@ main{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:0 56px 7
 /* 首屏 */
 .hero3{display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:56px;align-items:center;min-height:min(100vh,900px);min-height:min(100dvh,900px);padding:92px 0 40px}
 .eye{display:inline-block;font-size:12px;letter-spacing:.14em;color:var(--acc);padding:4px 13px;border-radius:99px;background:var(--glow);margin-bottom:24px}
-h1{font-size:54px;line-height:1.14;font-weight:650;letter-spacing:-.02em;margin-bottom:24px}h1 .ln{display:block}
+h1{font-size:60px;line-height:1.12;font-weight:650;letter-spacing:-.02em;margin-bottom:22px}
 h1 .n{font-family:var(--mono);font-weight:500;letter-spacing:-.04em}h1 .z{color:var(--warn);text-shadow:0 0 42px var(--warnglow)}
-.plain{font-size:17px;line-height:1.75;color:var(--ink2);max-width:27em;margin-bottom:30px}.plain b{color:var(--ink);font-weight:600}
+.plain{font-size:17px;line-height:1.75;color:var(--ink2);max-width:28em;margin-bottom:26px}.plain b{color:var(--ink);font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 20px;margin-bottom:30px;max-width:520px}
+.facts b{display:block;font:500 28px/1.2 var(--mono);letter-spacing:-.03em;white-space:nowrap}.facts b u{text-decoration:none;font:500 13px var(--sans);color:var(--ink2);margin-left:5px;letter-spacing:0}
+.facts span{display:block;font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:2px}
+.facts .hi b{color:var(--acc)}
+.sts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pnames{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;transition:opacity .6s var(--ease);min-height:68px}.pnames.off{opacity:0}
+.pnames span{font-size:12.5px;color:var(--ink);padding:5px 12px;border-radius:99px;background:var(--glow);white-space:nowrap}
 .cta{display:inline-flex;align-items:center;gap:12px;padding:7px 7px 7px 22px;border:0;border-radius:99px;background:var(--ink);color:var(--bg);font-weight:600;font-size:14.5px;cursor:pointer;transition:transform .16s var(--ease)}
 .cta i{width:34px;height:34px;border-radius:50%;background:color-mix(in srgb,var(--bg) 12%,transparent);display:grid;place-items:center;font-style:normal;transition:transform .5s var(--ease)}
 .cta:active{transform:scale(.97)}
@@ -112,9 +119,9 @@ section{margin-top:112px}.mt{margin-top:16px}
 .rk.p .rt i{background:linear-gradient(90deg,color-mix(in srgb,var(--orb2) 30%,transparent),var(--orb2));box-shadow:0 0 18px var(--orbglow)}
 .rank.pre .rt i{transform:scaleX(0)}
 .rt em{position:absolute;top:10px;font:12.5px var(--mono);font-style:normal;color:var(--muted);white-space:nowrap}.rk.p .rt em{color:var(--ink)}
-.rkbeam{position:absolute;top:8px;bottom:26px;left:calc(var(--rn) + (100% - var(--rn))*var(--th));width:3px;background:var(--warn);box-shadow:0 0 20px 2px var(--warnglow);pointer-events:none}
-.rkbeam i{position:absolute;right:10px;top:0;font:13px var(--mono);font-style:normal;color:var(--warn);white-space:nowrap}
-.rkzone{position:absolute;top:8px;bottom:26px;right:0;left:calc(var(--rn) + (100% - var(--rn))*var(--th));background:linear-gradient(90deg,var(--g2),transparent);pointer-events:none}
+.rkbeam{position:absolute;top:8px;bottom:26px;left:calc(var(--rn) + (100% - var(--rn))*var(--th));width:0;border-left:2px dashed var(--ink2);pointer-events:none}
+.rkbeam i{position:absolute;right:10px;top:0;font-size:12.5px;font-style:normal;color:var(--ink2);white-space:nowrap}
+.rkzone{display:none}
 .rkax{position:absolute;left:var(--rn);right:0;bottom:0;height:18px;font:12px var(--mono);color:var(--muted)}.rkax span{position:absolute;transform:translateX(-50%)}.rkax span:first-child{transform:none}.rkax span:last-child{transform:translateX(-100%)}
 
 /* 表格 */
@@ -140,8 +147,8 @@ tbody td:first-child{font-family:var(--sans)}
 .kv small{display:block;font-size:12px;color:var(--muted)}.kv b{font:500 20px/1.3 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .gauge{margin:14px 0 6px;height:8px;border-radius:99px;background:var(--mid);position:relative}
 .gauge i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,color-mix(in srgb,var(--orb2) 35%,transparent),var(--orb2));box-shadow:0 0 16px var(--orbglow);transition:width .6s var(--ease)}
-.gauge s{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--warn);box-shadow:0 0 12px var(--warnglow)}
-.gl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}.gl b{color:var(--warn);font-weight:500;font-family:var(--mono)}
+.gauge s{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--ink2)}
+.gl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}.gl b{color:var(--ink2);font-weight:500;font-family:var(--mono)}
 
 /* 读数条 */
 .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:14px 14px 0}
@@ -163,7 +170,7 @@ tbody td:first-child{font-family:var(--sans)}
 .mod code{font:11.5px var(--mono);color:var(--muted)}.mod p{color:var(--ink2);font-size:14px;line-height:1.65}
 .mod .rdt{display:flex;align-items:baseline;gap:10px;margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
 .mod .rdt b{font:500 26px var(--mono);letter-spacing:-.03em}.mod .rdt small{color:var(--muted);font-size:12.5px}
-.prog{height:5px;border-radius:99px;background:var(--mid);position:relative}.prog i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--orb2);box-shadow:0 0 12px var(--orbglow)}.prog s{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--warn)}
+.prog{height:5px;border-radius:99px;background:var(--mid);position:relative}.prog i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--orb2);box-shadow:0 0 12px var(--orbglow)}.prog s{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink2)}
 
 .big{font:300 64px/1.05 var(--mono);letter-spacing:-.05em}.big u{text-decoration:none;font:500 15px var(--sans);color:var(--ink2);margin-left:10px;letter-spacing:0}
 ul.plain{margin:16px 0 0;padding:0;list-style:none;color:var(--ink2);font-size:14px;line-height:1.6;max-width:none}ul.plain li{padding:9px 0;border-top:1px solid var(--line)}ul.plain b{color:var(--ink);font-weight:500}
@@ -176,9 +183,9 @@ footer{margin-top:96px;padding:22px 0 0;border-top:1px solid var(--line);color:v
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.gauge i,.rt i,.st em,.cta i{transition:none}.rank.pre .rt i{transform:none}.sieve *{transition:none!important}}
 
 @media (max-width:1180px){.navl{display:none}.hero3{grid-template-columns:minmax(0,1fr);gap:28px;min-height:0;padding:96px 0 24px}.plain{max-width:none}.gg{grid-template-columns:minmax(0,1fr)}}
-@media (max-height:800px) and (min-width:1181px){.hero3{padding:76px 0 20px}h1{font-size:46px;margin-bottom:18px}.plain{font-size:15.5px;margin-bottom:22px}.st em{font-size:68px}.core{padding:24px 34px 22px}.sts{margin-bottom:22px}.eye{margin-bottom:16px}}
+@media (max-height:800px) and (min-width:1181px){.hero3{padding:76px 0 20px}h1{font-size:48px;margin-bottom:16px}.plain{font-size:15.5px;margin-bottom:18px}.facts{margin-bottom:20px;gap:12px 20px}.facts b{font-size:24px}.pnames{min-height:0;margin-top:12px}.st em{font-size:68px}.core{padding:24px 34px 22px}.sts{margin-bottom:22px}.eye{margin-bottom:16px}}
 @media (max-width:860px){main{padding:0 14px 48px}.top{top:10px}.top .in{padding:6px 6px 6px 16px}.pill em{display:none}
-.hero3{padding:70px 0 12px;gap:18px}h1{font-size:30px;margin-bottom:12px}.eye{margin-bottom:12px;font-size:11px}.plain{font-size:14.5px;margin-bottom:16px}.note{font-size:12.5px;min-height:0}
+.hero3{padding:70px 0 12px;gap:18px}h1{font-size:34px;margin-bottom:12px}.facts{gap:12px 12px;margin-bottom:18px}.facts b{font-size:21px}.facts span{font-size:11.5px}.pnames span{font-size:11.5px;padding:4px 10px}.eye{margin-bottom:12px;font-size:11px}.plain{font-size:14.5px;margin-bottom:16px}.note{font-size:12.5px;min-height:0}
 .shell{padding:5px;border-radius:26px}.core{border-radius:21px;padding:18px 16px 16px}.sts{gap:10px;margin-bottom:18px}.st em{font-size:44px;margin:2px 0 4px}.st b{font-size:13px}.st span{display:none}.st small{font-size:11px}.st+.st:before{display:none}
 .svlab{font-size:12px}.after{grid-template-columns:minmax(0,1fr);padding-top:22px}
 .g2,.g21,.g12,.mods{grid-template-columns:minmax(0,1fr)}section{margin-top:72px}.sh h2{font-size:26px}.sh p{font-size:15px}.ph{padding:18px 18px 0}.pb{padding:14px 18px 20px}.ph h3{font-size:16px}
@@ -189,29 +196,30 @@ th:first-child,td:first-child{padding-left:18px}.big{font-size:46px}.say{font-si
 <body>
 <header class="top"><div class="in">
   <div class="brand"><b>A 股选股研究看板<span id="privtag"></span></b></div>
-  <nav class="navl" aria-label="页内导航"><a href="#s-gate">结论</a><a href="#s-nav">净值</a><a href="#s-factor">因子</a><a href="#s-err">勘误</a><a href="#s-data">数据</a><a href="#s-sys">流程</a><a href="#s-etf">ETF 线</a></nav>
+  <nav class="navl" aria-label="页内导航"><a href="#s-gate">试验结果</a><a href="#s-nav">净值</a><a href="#s-factor">因子</a><a href="#s-err">勘误</a><a href="#s-data">数据</a><a href="#s-sys">流程</a><a href="#s-etf">ETF 线</a></nav>
   <div class="right"><span class="pill"><em>数据截至</em><span id="p-data"></span></span>
     <button class="tbtn" id="theme" aria-label="切换深色和浅色"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.2"/><path d="M8 2.8v10.4A5.2 5.2 0 0 0 8 2.8z" fill="currentColor" stroke="none" style="color:var(--ink2)"/></svg></button></div>
 </div></header>
 
 <main>
 <div class="hero3">
-  <div><span class="eye">一个人做的量化研究 · 研究记录，不是荐股</span>
-    <h1><span class="ln">试了 <span class="n" id="h-n"></span> 种选股办法，</span><span class="ln"><span class="n z" id="h-shadow"></span> 种靠得住</span></h1>
+  <div><span class="eye">A 股 · 每月调仓 · 个人研究项目</span>
+    <h1>A 股选股因子<br>研究平台</h1>
     <p class="plain" id="plain"></p>
-    <button class="cta" id="replay" type="button">再放一遍筛选过程<i aria-hidden="true">&#8635;</i></button><span class="note" id="sv-hint"></span></div>
-  <div class="shell"><div class="core"><div class="sts" id="sts"></div><div class="sieve" id="sieve" role="group" aria-label="试验的筛选过程：每个光点是一次试验"></div></div></div>
+    <div class="facts" id="facts"></div>
+    <button class="cta" id="replay" type="button">再放一遍动画<i aria-hidden="true">&#8635;</i></button><span class="note" id="sv-hint"></span></div>
+  <div class="shell"><div class="core"><div class="sts two" id="sts"></div><div class="sieve" id="sieve" role="group" aria-label="19 次预先登记的试验：每个光点是一次试验"></div><div class="pnames" id="pnames"></div></div></div>
 </div>
 <div class="after rv"><p class="exact" id="use"></p><p class="exact" id="lead"></p><p class="hint gls" id="gl-hero"></p></div>
 
 <section id="s-gate">
-  <div class="sh"><span class="no">01 · 结论</span><h2>19 种办法，逐个摆出来</h2><p>每一种都有名字和成绩。失败的也在这里，一种都没有藏。</p></div>
-  <div class="panel rv"><div class="ph"><span class="no">01</span><h3>19 根柱子，没有一根碰到红线</h3><div class="chips" id="tfilter" role="group" aria-label="筛选试验"></div></div>
+  <div class="sh"><span class="no">01 · 试验结果</span><h2>19 次试验的结果</h2><p>每一次都有名字和成绩，没通过门槛的也在这里。通过门槛之后还有一项更严格的补充检验，结果也照实写。</p></div>
+  <div class="panel rv"><div class="ph"><span class="no">01</span><h3>更严格的补充检验：把“试了 19 次”算进去</h3><div class="chips" id="tfilter" role="group" aria-label="筛选试验"></div></div>
     <div class="pb"><p class="say" id="say-rank"></p><div class="rank pre" id="rank"></div>
-    <p class="hint" style="margin-top:14px">每根柱子是一种办法；柱子越长，越有把握它不是运气（0 到 1）。亮的柱子过了事先定的及格线，暗的没过。点任意一行，下面的图和成绩单一起切换。</p><p class="hint gls" id="gl-trials"></p></div></div>
+    <p class="hint" style="margin-top:14px">每根柱子是一次试验；柱子越长，通缩夏普越高，也就是越有把握它不是运气（0 到 1）。亮的柱子通过了预先登记的门槛，暗的没有。竖线是登记的影子盘候选标准。点任意一行，下面的图和成绩单一起切换。</p><p class="hint gls" id="gl-trials"></p></div></div>
   <div class="gg">
-    <div class="panel rv"><div class="ph"><span class="no">02</span><h3>及格线图：看起来有效，不等于靠得住</h3></div>
-      <div class="pb"><p class="say" id="say-gate"></p><div class="chart" id="c-gate" style="height:470px" role="img" aria-label="19 次试验的 t 值与通缩夏普散点图，右上角通过区为空"></div>
+    <div class="panel rv"><div class="ph"><span class="no">02</span><h3>门槛图：t 值和通缩夏普</h3></div>
+      <div class="pb"><p class="say" id="say-gate"></p><div class="chart" id="c-gate" style="height:470px" role="img" aria-label="19 次试验的 t 值与通缩夏普散点图，右上角是影子盘候选区"></div>
       <p class="cap" id="gate-cap"></p><p class="hint gls" id="gl-gate"></p></div></div>
     <div class="panel rv ro"><div class="ph"><span class="no">03</span><h3>选中这次试验的成绩单</h3></div>
       <div class="pb" id="readout" aria-live="polite"></div></div>
@@ -367,65 +375,52 @@ S.trial=best.name;S.factor=tmap[best.name]?best.name:(table[0]&&table[0].name);
 /* ---------- 顶栏与状态格 ---------- */
 if(!PUBLIC){$("#privtag").innerHTML=' <span style="color:var(--gate);font:11px var(--mono);letter-spacing:.1em;margin-left:6px">PRIVATE</span>'}
 $("#p-data").textContent=M.data_last||M.end||"";
-$("#h-n").textContent=R.n_trials;$("#h-shadow").textContent=R.n_shadow;
 var yrs0=+D.nav.dates[0].slice(0,4),yrs1=+D.nav.dates[D.nav.dates.length-1].slice(0,4);
 function gl(term){var g=(D.glossary||[]).filter(function(x){return x.term===term})[0];return g?'<span class="gt"><b>'+esc(g.term)+"</b>："+esc(g.plain)+"</span>":""}
-$("#plain").innerHTML="只用公开的股价和成交数据，能不能每个月在 A 股里挑出比“每只都买一点”更赚钱的股票？用 "+yrs0+" 到 "+yrs1+" 年的历史检验："+R.n_passed+" 种看起来有效，<b>把“试得多总会碰上好看的”这部分运气扣掉之后，一种不剩。</b>";
-$("#use").innerHTML="<strong>没找到能用的办法，这份研究有什么用？</strong>它留下的是一套不会自己骗自己的检验流程：规则先存档、成本算进去、运气扣掉。下面每张图都在展示这套流程的一个环节，同一套流程可以继续检验新的办法。";
-$("#lead").innerHTML="<strong>准确的说法：</strong>一种办法就是一次试验，共 "+R.n_trials+" 次，分两轮（第一轮 "+R.rounds[0].n+" 次，换打分规则；第二轮 "+R.rounds[1].n+" 次，换持仓规则，也就是买哪一部分、什么时候卖）。"+R.n_passed+" 次过了事先登记的及格线；再按累计试验次数算通缩夏普，最好的一次是 "+f2(R.max_dsr)+"，全部低于要求的 "+R.dsr_pass+"，所以没有任何一种进入下一步（用之后的真实行情继续观察）。";
+$("#plain").innerHTML="一个人搭的 A 股选股研究流程：从行情和财报数据、因子库、回测评测，到每月的观察盘和这块看板。<b>规则和通过门槛先登记，再看结果。</b>";
+(function(){var c=D.coverage,f=[[int(M.n_codes),"只","A 股股票，含已退市的"],[yrs1-yrs0+1,"年","历史数据，"+yrs0+" 到 "+yrs1]];
+  if(c)f.push([wan(c.total_rows),"万行","本地行情与财报数据"]);
+  f.push([R.n_trials,"次","预先登记的试验"],[R.n_passed,"次","通过预先登记的门槛","hi"]);
+  if(D.tests)f.push([D.tests,"项","自动化测试，全部通过"]);
+  $("#facts").innerHTML=f.map(function(x){return '<div class="'+(x[3]||"")+'"><b>'+x[0]+(x[1]?"<u>"+x[1]+"</u>":"")+"</b><span>"+x[2]+"</span></div>"}).join("")})();
+$("#use").innerHTML="<strong>这个平台能做什么：</strong>新写一条打分规则，登记之后一条命令出体检报告（排得准不准、分组收益、换手和成本）；每月一条命令更新数据、记录观察盘、检查因子有没有衰减；结果自动进这块看板。纪律写在代码里：没登记的因子拒绝出结果，观察盘记录不能覆盖。";
+$("#lead").innerHTML="<strong>结果的准确口径：</strong>"+R.n_trials+" 次预先登记的试验里，"+R.n_passed+" 次通过了登记的门槛（第一轮 "+R.rounds[0].n+" 次里 "+R.rounds[0].passed+" 次，第二轮 "+R.rounds[1].n+" 次里 "+R.rounds[1].passed+" 次）。之后还做了一项更严格的补充检验，把试验次数算进去（通缩夏普）：最高 "+f2(R.max_dsr)+"，登记的影子盘候选标准是 "+R.dsr_pass+"，所以目前没有组合进入影子盘。下一步是按原登记用日线数据重跑，并继续记录观察盘。";
 $("#gl-hero").innerHTML=gl("通缩夏普");$("#gl-gate").innerHTML=gl("t 值");$("#gl-trials").innerHTML=gl("因子");$("#gl-band").innerHTML=gl("RankIC");
 $("#gl-full").innerHTML=gl("超额")+gl("样本外")+gl("换手");$("#gl-nav").innerHTML=gl("回撤");
 
-/* ---------- 首屏主画面：19 → 8 → 0 的筛选过程（每个光点是一次试验，位置和数字都读结果数据） ---------- */
+/* ---------- 首屏主画面：19 次预先登记的试验，哪 8 次通过了登记的门槛（每个光点是一次试验，读结果数据） ---------- */
 var sieve=(function(){var el=$("#sieve");if(!el)return null;
   var pass=T.filter(function(x){return x.passed}),fail=T.filter(function(x){return !x.passed}),stage=0,timers=[],G=null;
-  $("#sts").innerHTML=[["第一步",R.n_trials,"先写规则，再检验","规则和及格线先存档，之后不能改",""],
-    ["第二步",R.n_passed,"过了及格线","没用来定规则的那段历史"+(M.split?"（"+M.split.slice(0,4)+" 年之后）":"")+"也有效，扣成本后仍多赚",""],
-    ["第三步",R.n_shadow,"扣掉“试得多”的运气后","把握到 "+R.dsr_pass+" 才算靠得住","z"]]
-    .map(function(x,i){return '<div class="st '+x[4]+'"><small>'+x[0]+'</small><em'+(i?' class="off"':"")+">"+x[1]+"</em><b>"+x[2]+"</b><span>"+x[3]+"</span></div>"}).join("");
-  var ems=[].slice.call(document.querySelectorAll("#sts em"));
+  $("#sts").innerHTML=[["先登记，再检验",R.n_trials,"次预先登记的试验","打分规则、股票池、通过门槛先存档，之后不能改"],
+    ["登记的门槛",R.n_passed,"次通过","t 值不低于 "+R.t_pass+"，没用来定规则的那段历史"+(M.split?"（"+M.split.slice(0,4)+" 年之后）":"")+"也有效，扣成本后仍多赚"]]
+    .map(function(x,i){return '<div class="st"><small>'+x[0]+'</small><em'+(i?' class="off"':"")+">"+x[1]+"</em><b>"+x[2]+"</b><span>"+x[3]+"</span></div>"}).join("");
+  var ems=[].slice.call(document.querySelectorAll("#sts em")),pn=$("#pnames");
+  pn.innerHTML=pass.map(function(x){return "<span>"+esc(x.name)+"</span>"}).join("");
   function mk(cls,html){var d=document.createElement("div");d.className=cls;if(html)d.innerHTML=html;el.appendChild(d);return d}
-  var lab1=mk("svlab"),lab2=mk("svlab off","过了及格线的 <b>"+pass.length+"</b> 种"),
-    scLab=mk("svlab off","过了及格线的 <b>"+pass.length+"</b> 种，各有多少把握不是运气（0 到 1）"),
-    zone=mk("svzone off"),track=mk("svtrack off"),beam=mk("svbeam off","<i>要求 "+R.dsr_pass+"</i>"),
-    ticks=[0,.25,.5,.75,1].map(function(v){var t=mk("svtick off",String(v));t._v=v;return t}),
-    bestLab=mk("svbest off","最高 "+f2(best.dsr)+" · "+esc(best.name)),tipEl=mk("svtip");
+  var lab1=mk("svlab"),lab2=mk("svlab off","未通过门槛的 <b>"+fail.length+"</b> 次"),tipEl=mk("svtip");
   var dots=T.map(function(x){var b=document.createElement("button");b.type="button";b.className="svdot"+(x.round===2?" r2":"");
-    b.setAttribute("aria-label",x.name+"，"+(x.passed?"过了及格线":"没过及格线")+"，把握 "+dsrText(x.dsr));b._x=x;el.appendChild(b);
+    b.setAttribute("aria-label",x.name+"，"+(x.passed?"通过了登记的门槛":"未通过登记的门槛"));b._x=x;el.appendChild(b);
     b.addEventListener("mouseenter",function(){tip(b)});b.addEventListener("focus",function(){tip(b)});b.addEventListener("mouseleave",hide);b.addEventListener("blur",hide);
     b.addEventListener("click",function(){selectTrial(x.name)});return b});
-  function tip(b){var x=b._x;tipEl.innerHTML="<b>"+esc(x.name)+"</b>"+(x.plain?"<span>"+esc(x.plain)+"</span>":"")+"<span>第"+(x.round===1?"一":"二")+"轮 · t 值 <em>"+f2(tOf(x))+"</em> · 把握 <em>"+dsrText(x.dsr)+"</em></span><span>"+(x.passed?"过了及格线，但把握不够":"没过及格线")+"</span>";
+  function tip(b){var x=b._x;tipEl.innerHTML="<b>"+esc(x.name)+"</b>"+(x.plain?"<span>"+esc(x.plain)+"</span>":"")+"<span>第"+(x.round===1?"一":"二")+"轮 · t 值 <em>"+f2(tOf(x))+"</em> · 年化超额 <em>"+pct(x.ex_ann,1,true)+"</em></span><span>"+(x.passed?"通过了登记的门槛":"未通过登记的门槛")+"</span>";
     tipEl.style.display="block";var w=el.clientWidth,tw=tipEl.offsetWidth,th=tipEl.offsetHeight,x0=b._px+G.d/2-tw/2,y0=b._py-th-12;
-    tipEl.style.left=Math.max(0,Math.min(w-tw,x0))+"px";tipEl.style.top=(y0<-60?b._py+G.d+12:y0)+"px"}
+    tipEl.style.left=Math.max(0,Math.min(w-tw,x0))+"px";tipEl.style.top=(y0<-70?b._py+G.d+12:y0)+"px"}
   function hide(){tipEl.style.display="none"}
-  function place(node,x,y,w,h){node.style.left=x+"px";node.style.top=y+"px";if(w!==undefined)node.style.width=w+"px";if(h!==undefined)node.style.height=h+"px"}
-  function layout(){var w=el.clientWidth,m=w<460,d=m?13:20,step=Math.min(d+(m?5:11),(w-d)/(T.length-1)),ry=30,gap=m?5:7;
-    var sx0=d/2+2,sw=w-d-4,sx=function(v){return sx0+Math.max(0,Math.min(1,v||0))*sw};
-    var sorted=pass.slice().sort(function(a,b){return (a.dsr||0)-(b.dsr||0)}),lv=[],maxL=0;
-    sorted.forEach(function(x){var px=sx(x.dsr),k=0;while(lv.some(function(o){return o.k===k&&Math.abs(o.px-px)<d+gap}))k++;lv.push({n:x.name,px:px,k:k});maxL=Math.max(maxL,k)});
-    var stackH=(maxL+1)*(d+gap),ly=ry+d+(m?22:30),axisY=ly+26+stackH+6;
-    place(lab1,0,0);place(lab2,w-pass.length*step+(step-d),0);place(scLab,0,ly);
-    place(track,sx0,axisY,sw);ticks.forEach(function(t){place(t,sx(t._v),axisY+10)});
-    place(beam,sx(R.dsr_pass),axisY-stackH-8,undefined,stackH+12);place(zone,sx(R.dsr_pass),axisY-stackH-8,w-sx(R.dsr_pass),stackH+8);
-    el.style.height=(axisY+34)+"px";
-    G={d:d,pos:{}};T.forEach(function(x,i0){var p0=[i0*step,ry],p1,p2;
-      if(x.passed){var j=pass.indexOf(x);p1=[w-(pass.length-j)*step+(step-d),ry];var o=lv.filter(function(q){return q.n===x.name})[0];p2=[o.px-d/2,axisY-6-d-o.k*(d+gap)]}
-      else{p1=[fail.indexOf(x)*step,ry];p2=p1}
-      G.pos[x.name]=[p0,p1,p2]});
-    dots.forEach(function(b){b.style.width=b.style.height=d+"px"});
-    var bp=G.pos[best.name][2];if(best.passed){var lw=bestLab.offsetWidth;if(bp[0]+d+10+lw>sx(R.dsr_pass)-6)place(bestLab,Math.max(0,Math.min(w-lw,bp[0]+d/2-lw/2)),bp[1]-22);else place(bestLab,bp[0]+d+10,bp[1]+(d-18)/2)}
-    apply()}
+  function place(node,x,y){node.style.left=x+"px";node.style.top=y+"px"}
+  function layout(){var w=el.clientWidth,m=w<460,d=m?14:22,step=Math.min(d+(m?5:12),(w-d)/(T.length-1)),ry=30,ry2=ry+d+(m?40:48);
+    place(lab1,0,0);place(lab2,0,ry2-26);el.style.height=(ry2+d+8)+"px";
+    G={d:d,pos:{}};T.forEach(function(x,i0){var p0=[i0*step,ry],p1=x.passed?[pass.indexOf(x)*step,ry]:[fail.indexOf(x)*step,ry2];G.pos[x.name]=[p0,p1]});
+    dots.forEach(function(b){b.style.width=b.style.height=d+"px"});apply()}
   function apply(){if(!G)return;dots.forEach(function(b,i){var p=G.pos[b._x.name][stage];b._px=p[0];b._py=p[1];b.style.transitionDelay=(RM?0:i*24)+"ms";b.style.transform="translate("+p[0]+"px,"+p[1]+"px)";b.classList.toggle("dim",stage>=1&&!b._x.passed)});
-    ems[1].classList.toggle("off",stage<1);ems[2].classList.toggle("off",stage<2);
-    lab1.innerHTML=stage<1?"<b>"+T.length+"</b> 种办法，每个光点是一种":"没过及格线的 <b>"+fail.length+"</b> 种，到此为止";
-    lab2.classList.toggle("off",stage!==1);[scLab,track,zone,beam,bestLab].concat(ticks).forEach(function(n){n.classList.toggle("off",stage<2)});
-    $("#sv-hint").textContent=["每个光点是一次试验。","亮着的过了事先定的及格线，暗下去的没过。","圆点是第一轮（换打分规则），方点是第二轮（换持仓规则）；点摞起来只是为了不重叠。把鼠标移到光点上（手机上点一下），可以看到它是哪种办法。"][stage];mark()}
+    ems[1].classList.toggle("off",stage<1);lab2.classList.toggle("off",stage<1);pn.classList.toggle("off",stage<1);
+    lab1.innerHTML=stage<1?"<b>"+T.length+"</b> 次试验，每个光点是一次":"通过门槛的 <b>"+pass.length+"</b> 次";
+    $("#sv-hint").textContent=["每个光点是一次试验。","亮着的通过了预先登记的门槛，名字列在下面。圆点是第一轮（换打分规则），方点是第二轮（换持仓规则）。把鼠标移到光点上（手机上点一下），可以看到它的成绩。"][stage];mark()}
   function set(k){stage=k;apply()}
   function play(){timers.forEach(clearTimeout);timers=[];hide();
-    if(RM){el.classList.add("nomove");set(2);return}
+    if(RM){el.classList.add("nomove");set(1);return}
     el.classList.add("nomove");set(0);el.offsetWidth;el.classList.remove("nomove");
-    timers.push(setTimeout(function(){set(1)},1000));timers.push(setTimeout(function(){set(2)},2900))}
-  function mark(){dots.forEach(function(b){b.classList.toggle("sel",b._x.name===S.trial&&stage===2)})}
+    timers.push(setTimeout(function(){set(1)},1100))}
+  function mark(){dots.forEach(function(b){b.classList.toggle("sel",b._x.name===S.trial&&stage===1)})}
   layout();play();
   var rt=null;window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){el.classList.add("nomove");layout();el.offsetWidth;el.classList.remove("nomove")},120)});
   $("#replay").addEventListener("click",play);
@@ -434,15 +429,15 @@ function say(id,html){var el=document.getElementById(id);if(el)el.innerHTML='<sp
 
 /* ---------- 01 十九根柱子：每种办法的名字、白话说明和把握 ---------- */
 T.forEach(function(x,i){x.i=i});
-var FIL={all:["全部",function(){return true}],r1:["第一轮",function(x){return x.round===1}],r2:["第二轮",function(x){return x.round===2}],pass:["过了及格线",function(x){return x.passed}]};
+var FIL={all:["全部",function(){return true}],r1:["第一轮",function(x){return x.round===1}],r2:["第二轮",function(x){return x.round===2}],pass:["通过门槛",function(x){return x.passed}]};
 function renderFilter(){$("#tfilter").innerHTML=Object.keys(FIL).map(function(k){var n=T.filter(FIL[k][1]).length;return '<button class="chip" data-k="'+k+'" aria-pressed="'+(S.filter===k)+'">'+FIL[k][0]+"<u>"+n+"</u></button>"}).join("")}
 $("#tfilter").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;S.filter=b.dataset.k;renderFilter();renderTrials();redraw(cGate)});
 function renderTrials(){var el=$("#rank"),rows=T.filter(FIL[S.filter][1]),by=function(a,b){return (b.dsr||0)-(a.dsr||0)},p=rows.filter(function(x){return x.passed}).sort(by),f=rows.filter(function(x){return !x.passed}).sort(by);
   function row(x){var w=Math.max(0,Math.min(1,x.dsr||0))*100;
     return '<div class="rk'+(x.passed?" p":"")+'" tabindex="0" role="button" data-n="'+esc(x.name)+'" aria-selected="'+(x.name===S.trial)+'"><div class="rn"><b>'+esc(x.name)+"</b>"+(x.plain?"<span>"+esc(x.plain)+"</span>":"")+'</div><div class="rt"><i style="width:'+w+'%"></i><em style="left:calc('+w+'% + 10px)">'+dsrText(x.dsr)+(x.name===best.name?"　最高":"")+"</em></div></div>"}
   el.style.setProperty("--th",R.dsr_pass);
-  el.innerHTML=(p.length?'<div class="rkg">过了及格线的 '+p.length+" 种</div>"+p.map(row).join(""):"")+(f.length?'<div class="rkg">没过及格线的 '+f.length+" 种</div>"+f.map(row).join(""):"")+
-    '<div class="rkzone"></div><div class="rkbeam"><i>要求 '+R.dsr_pass+'</i></div><div class="rkax">'+[0,.25,.5,.75,1].map(function(v){return '<span style="left:'+v*100+'%">'+v+"</span>"}).join("")+"</div>"}
+  el.innerHTML=(p.length?'<div class="rkg">通过门槛的 '+p.length+" 次</div>"+p.map(row).join(""):"")+(f.length?'<div class="rkg">未通过门槛的 '+f.length+" 次</div>"+f.map(row).join(""):"")+
+    '<div class="rkzone"></div><div class="rkbeam"><i>影子盘候选标准 '+R.dsr_pass+'</i></div><div class="rkax">'+[0,.25,.5,.75,1].map(function(v){return '<span style="left:'+v*100+'%">'+v+"</span>"}).join("")+"</div>"}
 function pick(e){var tr=e.target.closest("[data-n]");if(tr)selectTrial(tr.dataset.n)}
 $("#rank").addEventListener("click",pick);
 $("#rank").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(e)}});
@@ -455,11 +450,11 @@ function selectTrial(name,quiet){S.trial=name;
 
 /* ---------- 03 读数 ---------- */
 function renderReadout(){var x=T.filter(function(t){return t.name===S.trial})[0];if(!x)return;var r1=x.round===1,w=Math.max(0,Math.min(1,x.dsr||0))*100;
-  var v=x.passed?["p","过了及格线，但扣掉运气后把握不够"]:["","没过事先定的及格线"];
+  var v=x.passed?["p","通过了预先登记的门槛"]:["","未通过预先登记的门槛"];
   var items=r1?[["RankIC 均值",f2(x.rank_ic,3)],["RankIC 的 t 值",f2(x.t)],["后半段的 RankIC（样本外）",f2(x.oos_rank_ic,3)],["稳定程度（年化 ICIR）",f2(x.icir)],["每年比基准多赚（扣成本）",pct(x.ex_ann,1,true)],["后半段每年多赚（样本外）",pct(x.oos_ex_ann,1,true)],["相对基准最多落后",pct(x.ex_mdd)],["每月换掉的持仓",pct(x.turn,0)]]
     :[["每年比基准多赚（扣成本）",pct(x.ex_ann,1,true)],["超额的 t 值",f2(x.ex_t)],["不算成本时每年多赚",pct(x.gross_ex_ann,1,true)],["后半段每年多赚（样本外）",pct(x.oos_ex_ann,1,true)],["后半段的 t 值",f2(x.oos_ex_t)],["相对基准最多落后",pct(x.ex_mdd)],["组合自己每年赚（扣成本）",pct(x.top_ann_net)],["每月换掉的持仓",pct(x.turn,0)]];
   $("#readout").innerHTML='<div class="hint">第'+(x.round===1?"一":"二")+"轮 · "+(r1?"换打分规则":"换持仓规则")+"</div><h4>"+esc(x.name)+"</h4>"+(x.plain?'<p style="margin:0 0 4px;font-size:13.5px;color:var(--ink2)">'+esc(x.plain)+"。</p>":"")+(tmap[x.name]&&tmap[x.name].desc?'<p class="hint" style="margin:0 0 4px">登记的定义：'+esc(tmap[x.name].desc)+"</p>":"")+'<span class="verdict '+v[0]+'"><i></i>'+v[1]+"</span>"+
-    '<div class="gl"><span>“不是运气”的把握（通缩夏普） <b style="color:var(--ink);font-weight:600">'+dsrText(x.dsr)+"</b></span><b>要求 "+R.dsr_pass+'</b></div><div class="gauge"><i style="width:'+w+'%"></i><s style="left:'+R.dsr_pass*100+'%"></s></div>'+
+    '<div class="gl"><span>“不是运气”的把握（通缩夏普） <b style="color:var(--ink);font-weight:600">'+dsrText(x.dsr)+"</b></span><b>影子盘标准 "+R.dsr_pass+'</b></div><div class="gauge"><i style="width:'+w+'%"></i><s style="left:'+R.dsr_pass*100+'%"></s></div>'+
     '<div class="kv" style="margin-top:14px">'+items.map(function(i){return "<div><small>"+i[0]+"</small><b>"+i[1]+"</b></div>"}).join("")+"</div>"+
     '<p class="hint" style="margin-top:16px">'+(r1?"第一轮看排序能力：因子值排名和下个月收益排名的相关系数（RankIC）。":"第二轮固定因子、只改持仓规则，看扣成本后的超额收益。")+"通缩夏普离要求的 "+R.dsr_pass+" 还差 "+f2(R.dsr_pass-(x.dsr||0))+"。</p>"}
 
@@ -474,16 +469,16 @@ var cGate=chart("c-gate",function(){
     animationDelay:function(i){return 250+i*28},animationDuration:420,animationEasing:"cubicOut",z:3,
     markLine:rd===1?{silent:true,symbol:"none",animationDuration:500,lineStyle:{color:C.gate,type:[6,4],width:2.2},label:{color:C.gate,fontFamily:MONO,fontSize:11},
       data:[{xAxis:R.t_pass,label:{formatter:"t = "+R.t_pass,position:"end",distance:4}},{yAxis:R.dsr_pass,label:{formatter:"DSR = "+R.dsr_pass,position:"insideStartTop"}}]}:undefined,
-    markArea:rd===1?{silent:true,itemStyle:{color:C.gate,opacity:.09},label:{show:true,position:"inside",color:C.gate,fontSize:13,fontFamily:SANS,formatter:"通过区："+R.n_shadow+" 个"},
+    markArea:rd===1?{silent:true,itemStyle:{color:C.gate,opacity:.09},label:{show:true,position:"inside",color:C.gate,fontSize:13,fontFamily:SANS,formatter:"影子盘候选区"},
       data:[[{xAxis:R.t_pass,yAxis:R.dsr_pass},{xAxis:xmax,yAxis:1.05}]]}:undefined}}
   return {grid:{left:48,right:24,top:30,bottom:72},legend:{bottom:0,left:0,textStyle:{color:C.ink2,fontSize:12},itemWidth:10,itemHeight:10},
     tooltip:tip({trigger:"item",formatter:function(p){var x=T.filter(function(t){return t.name===p.name})[0];if(!x)return "";
-      return "<b>"+esc(x.name)+"</b>"+row("t 值",f2(tOf(x)))+row("通缩夏普",dsrText(x.dsr))+row("年化超额",pct(x.ex_ann,1,true))+row("及格线",x.passed?"通过":"未通过")}}),
+      return "<b>"+esc(x.name)+"</b>"+row("t 值",f2(tOf(x)))+row("通缩夏普",dsrText(x.dsr))+row("年化超额",pct(x.ex_ann,1,true))+row("登记的门槛",x.passed?"通过":"未通过")}}),
     xAxis:ax({type:"value",min:xmin,max:xmax,name:"t 值（越靠右越显著）",nameLocation:"middle",nameGap:28,axisPointer:{show:true,lineStyle:{color:C.line2,type:"dashed"},label:{backgroundColor:C.panel2,color:C.ink,fontFamily:MONO,precision:2}}}),
     yAxis:ax({type:"value",min:0,max:1.05,interval:.25,name:"通缩夏普（越高越可信）",nameTextStyle:{color:C.muted,fontSize:11,align:"left",padding:[0,0,0,-34]},axisPointer:{show:true,lineStyle:{color:C.line2,type:"dashed"},label:{backgroundColor:C.panel2,color:C.ink,fontFamily:MONO,precision:2}}}),
     series:[ser(1,"circle"),ser(2,"diamond")]}},
   function(inst){inst.on("click",function(p){if(p.componentType==="series"&&p.name)selectTrial(p.name)})});
-$("#gate-cap").innerHTML="怎么看：每个点是一次试验。越靠右，越不像巧合（t 值高）；越靠上，把试验次数算进去之后越有把握（通缩夏普高）。两条虚线是及格线，同时过两条线才算数。实心是过了登记及格线的，空心是没过的。";
+$("#gate-cap").innerHTML="怎么看：每个点是一次试验。越靠右，越不像巧合（t 值高）；越靠上，把试验次数算进去之后越有把握（通缩夏普高）。竖虚线是 t 值的门槛，横虚线是登记的影子盘候选标准。实心点通过了预先登记的门槛，空心点没有。";
 
 /* ---------- 04 热力带 ---------- */
 var icNames=D.ic?Object.keys(D.ic):[];
@@ -677,10 +672,10 @@ $("#foot").textContent="数据截至 "+(M.data_last||M.end||"")+"；最近一次
 
 /* ---------- 每张图一句白话结论（数字都从数据算） ---------- */
 (function(){var right=T.filter(function(x){return ok(tOf(x))&&tOf(x)>=R.t_pass}).length;
-  say("say-gate","<b>每个点是一次试验，没有一个进入右上角的通过区。</b>实心的 "+R.n_passed+" 个点过了及格线；但把“一共试了 "+R.n_trials+" 次”算进去之后，把握最高的 "+esc(best.name)+(best.plain?"（"+esc(best.plain)+"）":"")+" 也只有 "+f2(best.dsr)+"，要求 "+R.dsr_pass+"。如果只看 t 值这一条（竖线右边的点都算过关），过关的会更多，所以不能只看这一条。");
+  say("say-gate","<b>实心的 "+R.n_passed+" 个点通过了预先登记的门槛。</b>纵轴是更严格的补充检验：通缩夏普最高的是 "+esc(best.name)+(best.plain?"（"+esc(best.plain)+"）":"")+"，"+f2(best.dsr)+"；右上角的影子盘候选区（不低于 "+R.dsr_pass+"）目前没有点。");
   var tiny=T.filter(function(x){return (x.dsr||0)<0.005}).length;
-  say("say-rank","<b>把握最高的一种是 "+esc(best.name)+"，"+f2(best.dsr)+"；要求是 "+R.dsr_pass+"。</b>亮着的 "+R.n_passed+" 根过了事先定的及格线，暗的 "+(R.n_trials-R.n_passed)+" 根没过"+(tiny?"，其中 "+tiny+" 根的把握不到 0.01":"")+"。");
-  say("say-full","每一行是一次试验的全部数字，失败的也列在这里。<b>"+R.n_passed+" 次过了及格线，"+R.n_shadow+" 次的把握（通缩夏普）达到 "+R.dsr_pass+"。</b>");
+  say("say-rank","<b>通过门槛的 "+R.n_passed+" 次里，通缩夏普最高的是 "+esc(best.name)+"，"+f2(best.dsr)+"；登记的影子盘候选标准是 "+R.dsr_pass+"，所以目前没有组合进入影子盘。</b>通缩夏普把“一共试了 "+R.n_trials+" 次”算进去，是比门槛更严的一道检验。下一步是按原登记用日线数据重跑，并继续记录观察盘，不为了过线去追加变体。");
+  say("say-full","每一行是一次试验的全部数字，没通过门槛的也列在这里。<b>"+R.n_passed+" 次通过预先登记的门槛</b>；通缩夏普最高 "+f2(R.max_dsr)+"，未达到影子盘候选标准 "+R.dsr_pass+"。");
   if(icNames.length){var pos=0,all=0;icNames.forEach(function(n){D.ic[n].ic.forEach(function(v){if(ok(v)){all++;if(v>0)pos++}})});
     say("say-band","<b>"+Math.round(pos/all*100)+"% 的格子是青绿色</b>，也就是多数月份这些打分规则把股票排对了。但排对不等于能赚钱：扣掉交易成本、再把试验次数算进去，没有一个过关。")}
   var c=D.coverage;if(c){say("say-cov","行情类数据从 "+ymd(c.datasets[0].first).slice(0,4)+" 年起每个交易日一份，财务类数据从 "+ymd(c.datasets[c.datasets.length-1].first).slice(0,4)+" 年起每个季度一份，<b>一共 "+wan(c.total_rows)+" 万行</b>，其中包含 "+int(c.delisted)+" 只已退市的股票。")}
@@ -693,7 +688,7 @@ $("#foot").textContent="数据截至 "+(M.data_last||M.end||"")+"；最近一次
     say("say-etfy","跌得最狠的 "+worst+" 年，只买股票亏了 "+pct(Math.abs(d.years[worst].ret),0)+"，加均线的方案是 "+pct(a.years[worst].ret,1,true)+"。<b>它不是每年都赢</b>：四年里有 "+ys.filter(function(y){return a.years[y].ret<b.years[y].ret}).length+" 年不如不加均线的做法。")}
 })();
 function sayPort(){var v=N.series[S.port],bn=N.series[BENCH];if(!v)return;var n=v.length-1,yrs=(new Date(N.dates[n])-new Date(N.dates[0]))/31557600000,dd=Math.min.apply(null,D.drawdown[S.port]),w0=worstDD(S.port);
-  say("say-nav","<b>"+yrs.toFixed(1)+" 年里，“"+esc(S.port)+"”把 1 块钱变成 "+f2(v[n])+" 块；什么都不挑、每只都买一样多，也能变成 "+f2(bn[n])+" 块。</b>所以真正要看的是两条线之间的差距，以及中途最深的一次下跌："+N.dates[w0.peak].slice(0,7)+" 到 "+N.dates[w0.trough].slice(0,7)+" 跌了 "+pct(Math.abs(dd),1)+"，"+(w0.rec?"到 "+N.dates[w0.rec].slice(0,7)+" 才回到原来的高点":"到现在还没回到原来的高点")+"（图上的橙红色阴影）。");
+  say("say-nav","<b>"+yrs.toFixed(1)+" 年里，“"+esc(S.port)+"”把 1 块钱变成 "+f2(v[n])+" 块；什么都不挑、每只都买一样多，也能变成 "+f2(bn[n])+" 块。</b>所以真正要看的是两条线之间的差距，以及中途最深的一次下跌："+N.dates[w0.peak].slice(0,7)+" 到 "+N.dates[w0.trough].slice(0,7)+" 跌了 "+pct(Math.abs(dd),1)+"，"+(w0.rec?"到 "+N.dates[w0.rec].slice(0,7)+" 才回到原来的高点":"到现在还没回到原来的高点")+"（图上的橙红色阴影）。这两个组合都未达到影子盘候选标准，这里是历史回测的记录，不是可以照着买的方案。");
   var m=D.monthly&&D.monthly[S.port];if(m){var w=m.filter(function(r){return r[2]>0}).length;
     say("say-month","<b>"+m.length+" 个月里有 "+w+" 个月比基准赚得多（"+Math.round(w/m.length*100)+"%）。</b>青绿色是多赚的月份，橙红色是少赚的月份，格子里的数字是多赚或少赚的百分点。")}
   var y=D.yearly&&D.yearly[S.port];if(y){var ks=Object.keys(y).sort(),wy=ks.filter(function(k){return y[k]>0}).length,l3=ks.slice(-3);
@@ -703,7 +698,7 @@ function sayFactor(r){var s2=D.ic&&D.ic[r.name];
     say("say-ic","<b>"+vv.length+" 个月里，“"+esc(r.name)+"”有 "+w+" 个月把股票排对了（"+Math.round(w/vv.length*100)+"%）。</b>柱子朝上是排对的月份，朝下是排反的；粗线是最近 12 个月的平均。")}
   else say("say-ic","这是几个因子合在一起的信号，没有保存每个月的 RankIC，所以这里没有图。");
   if(r.groups){var g=r.groups;say("say-grp","<b>分数最高的一组平均每年 "+pct(g[4],1,true)+"，最低的一组 "+pct(g[0],1,true)+"。</b>"+(r.monotonic?"五组一级比一级高，说明这条打分规则确实把好坏分开了。":"五组不是一级比一级高，说明这条规则分得不干净。"))}}
-var FC=[["i","试验"],["round","轮次"],["rank_ic","RankIC"],["t","t 值"],["ex_ann","年化超额"],["oos_ex_ann","样本外年化超额"],["ex_mdd","超额最大回撤"],["turn","月均换手"],["dsr","通缩夏普"],["passed","及格线"]],FS={k:"i",dir:1};
+var FC=[["i","试验"],["round","轮次"],["rank_ic","RankIC"],["t","t 值"],["ex_ann","年化超额"],["oos_ex_ann","样本外年化超额"],["ex_mdd","超额最大回撤"],["turn","月均换手"],["dsr","通缩夏普"],["passed","登记的门槛"]],FS={k:"i",dir:1};
 function renderFull(){var th=document.querySelector("#full thead");if(!th)return;
   var G={};(D.glossary||[]).forEach(function(g){G[g.term]=g.plain});
   var TT={rank_ic:G["RankIC"],t:G["t 值"],ex_ann:G["超额"],oos_ex_ann:G["样本外"],ex_mdd:G["回撤"],turn:G["换手"],dsr:G["通缩夏普"],passed:"事先登记的通过标准"};
