@@ -45,6 +45,39 @@ main{max-width:1480px;margin:0 auto;padding:0 24px 56px}
 .cell b u{text-decoration:none;font-size:12px;font-weight:500;color:var(--muted);margin-left:5px;letter-spacing:0}
 .cell.zero b{color:var(--s2)}
 
+/* 首屏：一句结论 + 筛选主画面 */
+.hero2{padding:22px 0 22px;min-height:min(calc(100vh - 58px),860px);min-height:min(calc(100dvh - 58px),860px);display:flex;flex-direction:column;justify-content:center}
+.hero2 h1{font-size:38px;line-height:1.2;margin-bottom:10px}
+.hero2 .kick{margin-bottom:10px}
+.hero2 .plain{font-size:15.5px;line-height:1.65;color:var(--ink2);max-width:none;margin-bottom:18px}.hero2 .plain b{color:var(--ink)}
+.sieve{position:relative;width:100%}
+.svbox{position:absolute;border:1px solid var(--line);background:var(--panel);padding:10px 14px;overflow:hidden}
+.svbox small{font-size:11.5px;color:var(--s1);display:block}.svbox b{font-size:15px;font-weight:650}
+.svbox span{display:block;font-size:12.5px;color:var(--ink2);line-height:1.45;margin-top:2px;padding-right:64px}
+.svbox em{position:absolute;right:14px;top:6px;font:650 34px/1.1 var(--mono);font-style:normal;transition:opacity .3s var(--ease)}
+.svbox em.off{opacity:.18}.svbox.zero em{color:var(--s2)}.svbox.zero{border-style:dashed;border-color:var(--line2)}
+.svarrow{position:absolute;color:var(--muted);font:16px var(--mono);text-align:center}
+.svlab{position:absolute;font-size:12.5px;color:var(--ink2);line-height:1.4;transition:opacity .4s var(--ease)}.svlab.off{opacity:0}.svlab b{color:var(--ink)}
+.svtray{position:absolute;border:1px dashed var(--line2);transition:opacity .4s var(--ease)}.svtray.off{opacity:0}
+.svaxis{position:absolute;height:1px;background:var(--line2);transition:opacity .4s var(--ease)}.svaxis.off{opacity:0}
+.svtick{position:absolute;font:10.5px var(--mono);color:var(--muted);transform:translateX(-50%);transition:opacity .4s var(--ease)}.svtick.off{opacity:0}
+.svgate{position:absolute;width:0;border-left:1.5px dashed var(--gate);transition:opacity .4s var(--ease)}.svgate.off{opacity:0}
+.svgate i{position:absolute;left:6px;top:-2px;font:11px var(--mono);font-style:normal;color:var(--gate);white-space:nowrap}
+.svgate.flip i{left:auto;right:6px}
+.svdot{position:absolute;left:0;top:0;padding:0;border-radius:50%;border:1.6px solid var(--muted);background:var(--panel);cursor:pointer;transition:transform .75s var(--ease),background .3s,border-color .3s;will-change:transform}
+.svdot.pass{background:var(--s1);border-color:var(--s1)}.svdot.r2{border-radius:3px}
+.svdot:hover,.svdot:focus-visible{outline:2px solid var(--ink);outline-offset:2px;z-index:3}.svdot.sel{outline:2px solid var(--ink);outline-offset:2px;z-index:2}
+.sieve.nomove .svghost,.sieve.nomove .svbest,.sieve.nomove .svdot,.sieve.nomove .svlab,.sieve.nomove .svtray,.sieve.nomove .svaxis,.sieve.nomove .svtick,.sieve.nomove .svgate,.sieve.nomove .svbox em{transition:none}
+.svtip{position:absolute;z-index:5;pointer-events:none;background:var(--panel);border:1px solid var(--line2);border-radius:4px;padding:8px 10px;font-size:12.5px;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.22);max-width:260px;display:none}
+.svtip b{display:block;font-size:13px}.svtip span{color:var(--ink2);display:block}.svtip em{font-style:normal;font-family:var(--mono);color:var(--ink)}
+.svfoot{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+.after{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 40px;margin:0 0 26px;padding-top:22px;border-top:1px solid var(--line)}
+.after .exact{margin:0;max-width:none}.after .gls{grid-column:1/-1}
+.gls{margin-top:8px}.gt{display:inline}.gt b{color:var(--ink2);font-weight:600}.gt+.gt:before{content:"　"}
+.svghost{position:absolute;left:0;top:0;border-radius:50%;border:1.2px dotted var(--line);opacity:0;transition:opacity .5s var(--ease)}.svghost.on{opacity:1}.svghost.r2{border-radius:3px}
+.svbest{position:absolute;font:11.5px var(--mono);color:var(--ink);white-space:nowrap;transition:opacity .4s var(--ease)}.svbest.off{opacity:0}
+@media (prefers-reduced-motion:reduce){.svghost,.svbest,.svdot,.svlab,.svtray,.svaxis,.svtick,.svgate,.svbox em{transition:none}}
+@media (max-width:860px){.hero2{padding:16px 0 16px;min-height:0;display:block}.hero2 h1{font-size:23px}.hero2 .plain{font-size:14px;margin-bottom:12px}.svbox{padding:7px 8px}.svbox span{display:none}.svbox b{display:block;margin:0;font-size:12.5px;padding-right:30px;line-height:1.35}.svbox small{font-size:10.5px}.svbox em{font-size:24px;right:8px;top:4px}.svlab{font-size:11.5px}.after{grid-template-columns:minmax(0,1fr)}}
 /* 结论 */
 .hero{padding:34px 0 22px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:center}
 .kick{font:11px var(--mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
@@ -156,7 +189,7 @@ footer{margin-top:48px;padding:16px 0 0;border-top:1px solid var(--line);color:v
 .rv{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease)}.rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.gauge i{transition:none}}
 
-@media (max-width:1360px){.pillx{display:none}}
+@media (max-width:1360px){.pillx{display:inline}}
 @media (max-width:1200px){.grid3{grid-template-columns:minmax(0,356px) minmax(0,1fr)}.grid3 .ro{grid-column:1/-1}}
 @media (max-width:1100px){.strip{grid-template-columns:repeat(4,minmax(0,1fr))}.cell:nth-child(5){border-left:0}.cell:nth-child(n+5){border-top:1px solid var(--line)}
 .hero{grid-template-columns:minmax(0,1fr);gap:20px}.navl{display:none}}
@@ -172,43 +205,40 @@ footer{margin-top:48px;padding:16px 0 0;border-top:1px solid var(--line);color:v
   <div class="brand"><div class="logo" aria-hidden="true"><i></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i></i></div>
     <div><b>A 股选股研究看板<span id="privtag"></span></b><small>A 股 · 每月调仓 · 历史数据检验</small></div></div>
   <nav class="navl" aria-label="页内导航"><a href="#s-gate">01 结论</a><a href="#s-nav">02 净值</a><a href="#s-factor">03 因子</a><a href="#s-err">04 勘误</a><a href="#s-data">05 数据</a><a href="#s-sys">06 系统</a><a href="#s-etf">07 ETF 线</a></nav>
-  <div class="right"><span class="pill pillx"><em>数据截至</em><span id="p-data"></span></span><span class="pill"><em>页面生成</em><span id="p-gen"></span></span>
+  <div class="right"><span class="pill pillx"><em>数据截至</em><span id="p-data"></span></span>
     <span class="clock" title="你这台设备的本地时间，不是行情时间"><em>本地时间</em><span id="clock"></span></span>
     <button class="tbtn" id="theme" aria-label="切换深色和浅色"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.2"/><path d="M8 2.8v10.4A5.2 5.2 0 0 0 8 2.8z" fill="currentColor" stroke="none" style="color:var(--ink2)"/></svg></button></div>
 </div></header>
 
 <main>
-<div class="strip" id="strip"></div>
-
-<div class="hero rv">
-  <div><div class="kick">一个人做的量化研究 · 研究记录，不是荐股</div>
-    <h1><span class="ln">试了 <span class="n" data-count="trials"></span> 种选股办法，</span><span class="ln">结论是 <span class="n z" id="h-shadow"></span> 种靠得住</span></h1>
-  </div>
-  <div><p class="plain" id="plain"></p><p class="exact" id="lead"></p><p class="exact" id="use"></p></div>
+<div class="hero2">
+  <div class="kick">一个人做的量化研究 · 研究记录，不是荐股</div>
+  <h1>试了 <span class="n" id="h-n"></span> 种选股办法，结论是 <span class="n z" id="h-shadow"></span> 种靠得住</h1>
+  <p class="plain" id="plain"></p>
+  <div class="sieve" id="sieve" role="group" aria-label="试验的筛选过程：每个圆点是一次试验"></div>
+  <div class="svfoot"><button class="chip" id="replay" type="button">再放一遍筛选动画</button><span class="hint" id="sv-hint"></span></div>
 </div>
-<div class="steps rv" id="steps"></div>
-<p class="glh rv">下面的图会用到 8 个词，先看一眼，每个词一句话：</p>
-<div class="gloss rv" id="glossary"></div>
+<div class="after rv"><p class="exact" id="use"></p><p class="exact" id="lead"></p><p class="hint gls" id="gl-hero"></p></div>
 
 <section id="s-gate" style="margin-top:0">
   <div class="grid3">
     <div class="panel rv"><div class="ph"><span class="no">01</span><h3>19 次试验，一行一次</h3></div>
       <div class="pb" style="padding-bottom:10px"><div class="chips" id="tfilter" role="group" aria-label="筛选试验"></div></div>
       <div class="tw"><table id="trials"><thead></thead><tbody></tbody></table></div>
-      <div class="pb"><p class="hint">实心圆点：过了事先定的及格线；空心：没过。R1 是第一轮（换打分规则），R2 是第二轮（换持仓规则）。点任意一行，右边两块和下面的图一起切换。第一轮的 t 值算的是 RankIC，第二轮算的是超额收益。</p></div></div>
+      <div class="pb"><p class="hint">实心圆点：过了事先定的及格线；空心：没过。R1 是第一轮（换打分规则），R2 是第二轮（换持仓规则）。点任意一行，右边两块和下面的图一起切换。第一轮的 t 值算的是 RankIC，第二轮算的是超额收益。</p><p class="hint gls" id="gl-trials"></p></div></div>
     <div class="panel rv"><div class="ph"><span class="no">02</span><h3>及格线图：看起来有效，不等于靠得住</h3></div>
       <div class="pb"><p class="say" id="say-gate"></p><div class="chart" id="c-gate" style="height:470px" role="img" aria-label="19 次试验的 t 值与通缩夏普散点图，右上角通过区为空"></div>
-      <p class="cap" id="gate-cap"></p></div></div>
+      <p class="cap" id="gate-cap"></p><p class="hint gls" id="gl-gate"></p></div></div>
     <div class="panel rv ro"><div class="ph"><span class="no">03</span><h3>选中这次试验的成绩单</h3></div>
       <div class="pb" id="readout" aria-live="polite"></div></div>
   </div>
   <div class="panel rv" style="margin-top:12px" id="p-band"><div class="ph"><span class="no">04</span><h3>每个因子、每个月：排对了还是排反了</h3></div>
     <div class="pb"><p class="say" id="say-band"></p><div class="chart" id="c-band" style="height:300px" role="img" aria-label="10 个因子逐月 RankIC 热力带"></div>
-    <p class="cap">怎么看：一行是一个因子（一条打分规则），一格是一个月。蓝色表示这个月它把股票排对了（RankIC 为正），橙色表示排反了，颜色越深越明显。<span id="band-src"></span></p></div></div>
+    <p class="cap">怎么看：一行是一个因子（一条打分规则），一格是一个月。蓝色表示这个月它把股票排对了（RankIC 为正），橙色表示排反了，颜色越深越明显。<span id="band-src"></span></p><p class="hint gls" id="gl-band"></p></div></div>
   <div class="panel rv" style="margin-top:12px"><div class="ph"><span class="no">全表</span><h3>全部 19 次试验的完整数字</h3></div>
     <div class="pb" style="padding-bottom:6px"><p class="say" id="say-full"></p></div>
     <div class="tw" style="max-height:none"><table id="full"><thead></thead><tbody></tbody></table></div>
-    <div class="pb"><p class="hint">点表头可以排序，点一行和上面的图联动。年化超额：扣掉交易成本后，平均每年比基准多赚多少。样本外：定规则时没用到的后半段历史。超额最大回撤：相对基准最多落后过多少。空着的格子表示这一轮没有登记这个指标。</p></div></div>
+    <div class="pb"><p class="hint">点表头可以排序，点一行和上面的图联动。超额最大回撤：相对基准最多落后过多少。空着的格子表示这一轮没有登记这个指标。</p><p class="hint gls" id="gl-full"></p></div></div>
 </section>
 
 <section id="s-nav">
@@ -216,7 +246,7 @@ footer{margin-top:48px;padding:16px 0 0;border-top:1px solid var(--line);color:v
   <div class="panel rv"><div class="ph"><span class="no">05</span><h3>1 块钱变成多少，以及中途跌过多深</h3><div class="chips" id="pfilter" role="group" aria-label="选择组合"></div></div>
     <div class="kpis" id="navkpi"></div>
     <div class="pb"><p class="say" id="say-nav"></p><div class="chart" id="c-nav" style="height:520px" role="img" aria-label="归一化净值和回撤图"></div>
-    <p class="hint" id="nav-note"></p></div></div>
+    <p class="hint" id="nav-note"></p><p class="hint gls" id="gl-nav"></p></div></div>
   <div class="g21" style="margin-top:12px">
     <div class="panel rv"><div class="ph"><span class="no">06</span><h3>每个月比“平均买”多赚还是少赚</h3></div>
       <div class="pb"><p class="say" id="say-month"></p><div class="chart" id="c-month" style="height:440px" role="img" aria-label="年份乘月份的月度超额收益热力图"></div></div></div>
@@ -353,26 +383,79 @@ S.trial=best.name;S.factor=tmap[best.name]?best.name:(table[0]&&table[0].name);
 
 /* ---------- 顶栏与状态格 ---------- */
 if(!PUBLIC){$("#privtag").innerHTML=' <span style="color:var(--gate);font:11px var(--mono);letter-spacing:.1em;margin-left:6px">PRIVATE</span>'}
-$("#p-data").textContent=M.data_last||M.end||"";$("#p-gen").textContent=M.generated||M.asof||"";
+$("#p-data").textContent=M.data_last||M.end||"";
 (function(){var el=$("#clock");function tick(){var d=new Date(),p=function(n){return (n<10?"0":"")+n};el.textContent=p(d.getHours())+":"+p(d.getMinutes())+":"+p(d.getSeconds())}tick();setInterval(tick,1000)})();
-(function(){var cov=D.coverage,cells=[
-  ["先写规则、后看结果","试过的选股办法","<b data-count='"+R.n_trials+"'>"+R.n_trials+"</b>"],
-  ["达到事先定的及格线","过了及格线","<b><span data-count='"+R.n_passed+"'>"+R.n_passed+"</span><u>/ "+R.n_trials+"</u></b>"],
-  ["把“试得多”的运气扣掉","之后仍然过关","<b data-count='"+R.n_shadow+"'>"+R.n_shadow+"</b>","zero"],
-  ["最好的一种（通缩夏普）","“不是运气”的把握","<b><span data-count='"+R.max_dsr+"' data-dec='2'>"+f2(R.max_dsr)+"</span><u>要求 "+R.dsr_pass+"</u></b>"]];
-  $("#strip").style.gridTemplateColumns=window.innerWidth>1100?"repeat("+cells.length+",minmax(0,1fr))":"";
-  $("#strip").innerHTML=cells.map(function(c){return '<div class="cell '+(c[3]||"")+'"><span>'+c[1]+"</span><small>"+c[0]+"</small>"+c[2]+"</div>"}).join("")})();
-document.querySelector("h1 [data-count]").setAttribute("data-count",R.n_trials);document.querySelector("h1 [data-count]").textContent=R.n_trials;
-$("#h-shadow").textContent=R.n_shadow;
+$("#h-n").textContent=R.n_trials;$("#h-shadow").textContent=R.n_shadow;
 var yrs0=+D.nav.dates[0].slice(0,4),yrs1=+D.nav.dates[D.nav.dates.length-1].slice(0,4);
-$("#plain").innerHTML="<b>想回答的问题：</b>只用公开的股价和成交数据，能不能每个月在 A 股里挑出一批股票，比“全部平均买一点”赚得多？<br><b>答案：</b>用 "+yrs0+" 到 "+yrs1+" 年的历史数据试了 "+R.n_trials+" 种办法，有 "+R.n_passed+" 种看起来有效；但试得多了总会碰上几个好看的，把这部分运气扣掉之后，<b>没有一种可靠到值得继续</b>。";
-$("#lead").innerHTML="准确的说法：一种办法就是一次试验，共 <strong>"+R.n_trials+" 次</strong>，分两轮（第一轮 "+R.rounds[0].n+" 次，换打分规则，也就是因子；第二轮 "+R.rounds[1].n+" 次，换持仓规则，也就是买哪一部分、什么时候卖）。<strong>"+R.n_passed+" 次</strong>过了事先登记的及格线；再按累计试验次数算通缩夏普（“这不是运气”的把握，0 到 1），最好的一次是 <strong>"+f2(R.max_dsr)+"</strong>，全部低于要求的 "+R.dsr_pass+"，所以没有任何组合进入下一步。";
+function gl(term){var g=(D.glossary||[]).filter(function(x){return x.term===term})[0];return g?'<span class="gt"><b>'+esc(g.term)+"</b>："+esc(g.plain)+"</span>":""}
+$("#plain").innerHTML="想回答的问题：只用公开的股价和成交数据，能不能每个月在 A 股里挑出一批比“每只都买一点”更赚钱的股票？下面每个点是一种办法，用 "+yrs0+" 到 "+yrs1+" 年的历史数据检验。";
 $("#use").innerHTML="<strong>没找到能用的办法，这份研究有什么用？</strong>它留下的是一套不会自己骗自己的检验流程：规则先存档、成本算进去、运气扣掉。下面每张图都在展示这套流程的一个环节，同一套流程可以继续检验新的办法。";
-$("#steps").innerHTML=[["第一步","先写规则，再看结果","选哪些股票、怎么打分、怎样算及格，全部先存档（带时间记录的代码仓库），之后不能改。这样结果不是事后挑出来的。"],
-  ["第二步","把交易的麻烦算进去","涨停买不进、跌停和停牌卖不出、每次买卖的费用，都按当时的规则扣掉；已经退市的股票也留在数据里。"],
-  ["第三步","把“试得多”的运气扣掉","试 "+R.n_trials+" 次，光靠运气也会有几次好看。用通缩夏普把试验次数算进去，要求把握达到 "+R.dsr_pass+" 才算数。"]]
-  .map(function(x){return "<div><small>"+x[0]+"</small><b>"+x[1]+"</b><span>"+x[2]+"</span></div>"}).join("");
-$("#glossary").innerHTML=(D.glossary||[]).map(function(g){return "<div><b>"+esc(g.term)+"</b><span>"+esc(g.plain)+"</span></div>"}).join("");
+$("#lead").innerHTML="<strong>准确的说法：</strong>一种办法就是一次试验，共 "+R.n_trials+" 次，分两轮（第一轮 "+R.rounds[0].n+" 次，换打分规则；第二轮 "+R.rounds[1].n+" 次，换持仓规则，也就是买哪一部分、什么时候卖）。"+R.n_passed+" 次过了事先登记的及格线；再按累计试验次数算通缩夏普，最好的一次是 "+f2(R.max_dsr)+"，全部低于要求的 "+R.dsr_pass+"，所以没有任何一种进入下一步（用之后的真实行情继续观察）。";
+$("#gl-hero").innerHTML=gl("通缩夏普");$("#gl-gate").innerHTML=gl("t 值");$("#gl-trials").innerHTML=gl("因子");$("#gl-band").innerHTML=gl("RankIC");
+$("#gl-full").innerHTML=gl("超额")+gl("样本外")+gl("换手");$("#gl-nav").innerHTML=gl("回撤");
+
+/* ---------- 首屏主画面：19 → 8 → 0 的筛选过程（每个点是一次试验，位置和数字都读结果数据） ---------- */
+var sieve=(function(){var el=$("#sieve");if(!el)return null;
+  var pass=T.filter(function(x){return x.passed}),fail=T.filter(function(x){return !x.passed}),stage=0,timers=[],G=null;
+  function mk(cls,html){var d=document.createElement("div");d.className=cls;if(html)d.innerHTML=html;el.appendChild(d);return d}
+  var boxes=[mk("svbox","<small>第一步</small><b>先写规则，再检验</b><span>"+R.n_trials+" 种办法，规则和及格线先存档，之后不能改</span><em>"+R.n_trials+"</em>"),
+    mk("svbox","<small>第二步</small><b>过了及格线</b><span>在没用来定规则的那段历史（"+(M.split?M.split.slice(0,4)+" 年之后":"后半段")+"）也有效，扣掉交易成本后仍比“平均买”多赚</span><em class='off'>"+R.n_passed+"</em>"),
+    mk("svbox zero","<small>第三步</small><b>扣掉“试得多”的运气后</b><span>把握达到 "+R.dsr_pass+" 才算靠得住</span><em class='off'>"+R.n_shadow+"</em>")];
+  var ar=[mk("svarrow","→"),mk("svarrow","→")];
+  var tray=mk("svtray off"),trayLab=mk("svlab off","没过及格线的 <b>"+fail.length+"</b> 种，到此为止");
+  var axis=mk("svaxis off"),scLab=mk("svlab off","过了及格线的 <b>"+pass.length+"</b> 种，各有多少把握不是运气（0 到 1，越靠右越有把握）：最高的只有 <b>"+f2(R.max_dsr)+"</b>，没有一种进得了第三步");
+  var ticks=[0,.25,.5,.75,1].map(function(v){var t=mk("svtick off",String(v));t._v=v;return t});
+  var gate=mk("svgate off","<i>要求 "+R.dsr_pass+"</i>");
+  var bestLab=mk("svbest off","最高 "+f2(best.dsr));
+  var gh0=T.map(function(x){var g=mk("svghost"+(x.round===2?" r2":""));g._x=x;return g}),gh1=pass.map(function(x){var g=mk("svghost"+(x.round===2?" r2":""));g._x=x;return g});
+  var tipEl=mk("svtip");
+  var dots=T.map(function(x){var b=document.createElement("button");b.type="button";b.className="svdot"+(x.passed?" pass":"")+(x.round===2?" r2":"");
+    b.setAttribute("aria-label",x.name+"，"+(x.passed?"过了及格线":"没过及格线")+"，把握 "+dsrText(x.dsr));b._x=x;el.appendChild(b);
+    b.addEventListener("mouseenter",function(){tip(b)});b.addEventListener("focus",function(){tip(b)});b.addEventListener("mouseleave",hide);b.addEventListener("blur",hide);
+    b.addEventListener("click",function(){selectTrial(x.name)});return b});
+  function tip(b){var x=b._x;tipEl.innerHTML="<b>"+esc(x.name)+"</b>"+(x.plain?"<span>"+esc(x.plain)+"</span>":"")+"<span>第"+(x.round===1?"一":"二")+"轮 · t 值 <em>"+f2(tOf(x))+"</em> · 把握 <em>"+dsrText(x.dsr)+"</em></span><span>"+(x.passed?"过了及格线，但把握不够":"没过及格线")+"</span>";
+    tipEl.style.display="block";var w=el.clientWidth,tw=tipEl.offsetWidth,th=tipEl.offsetHeight,x0=b._px+G.d/2-tw/2,y0=b._py-th-10;
+    tipEl.style.left=Math.max(0,Math.min(w-tw,x0))+"px";tipEl.style.top=(y0<0?b._py+G.d+10:y0)+"px"}
+  function hide(){tipEl.style.display="none"}
+  function place(node,x,y,w,h){node.style.left=x+"px";node.style.top=y+"px";if(w!==undefined)node.style.width=w+"px";if(h!==undefined)node.style.height=h+"px"}
+  function grid(i,x,y,w,d,gap){var cols=Math.max(1,Math.floor((w+gap)/(d+gap)));return [x+(i%cols)*(d+gap),y+Math.floor(i/cols)*(d+gap)]}
+  function rows(n,w,d,gap){return Math.ceil(n/Math.max(1,Math.floor((w+gap)/(d+gap))))}
+  function layout(){var w=el.clientWidth,m=w<560,g=m?8:34,bw=(w-2*g)/3,d=m?11:20,gap=m?5:9,pad=m?8:14,hh=m?48:60;
+    boxes.forEach(function(b){b.style.width=bw+"px";var last=b.querySelector("span");if(!last.offsetHeight)last=b.querySelector("b");hh=Math.max(hh,last.offsetTop+last.offsetHeight+10)});
+    var inner=bw-2*pad,bh=hh+rows(T.length,inner,d,gap)*(d+gap)+pad-gap;
+    boxes.forEach(function(b,i){place(b,i*(bw+g),0,bw,bh)});ar.forEach(function(a,i){place(a,(i+1)*bw+i*g,bh/2-10,g)});
+    var ly=bh+(m?10:14),lh=m?32:20,y2=ly+lh+4;
+    var th=rows(fail.length,inner,d,gap)*(d+gap)+2*pad-gap;place(tray,0,y2,bw,th);place(trayLab,0,ly,bw);
+    var sx0=bw+g+(m?6:10),sw=w-sx0-(m?10:16),sx=function(v){return sx0+Math.max(0,Math.min(1,v||0))*sw};
+    var sorted=pass.slice().sort(function(a,b){return (a.dsr||0)-(b.dsr||0)}),lv=[],maxL=0;
+    sorted.forEach(function(x){var px=sx(x.dsr),k=0;while(lv.some(function(o){return o.k===k&&Math.abs(o.px-px)<d+2}))k++;lv.push({n:x.name,px:px,k:k});maxL=Math.max(maxL,k)});
+    var stackH=(maxL+1)*(d+2)+4,axisY=y2+Math.max(stackH,m?30:22);place(axis,sx0,axisY,sw);place(scLab,bw+g,ly,w-bw-g);
+    ticks.forEach(function(t){place(t,sx(t._v),axisY+5)});place(gate,sx(R.dsr_pass),axisY-stackH,undefined,stackH+4);gate.classList.toggle("flip",true);
+    var H=Math.max(y2+th,axisY+24);el.style.height=H+"px";
+    G={d:d,pos:{}};T.forEach(function(x){var i0=T.indexOf(x),p0=grid(i0,pad,hh,inner,d,gap),p1,p2;
+      if(x.passed){var j=pass.indexOf(x);p1=grid(j,bw+g+pad,hh,inner,d,gap);var o=lv.filter(function(q){return q.n===x.name})[0];p2=[o.px-d/2,axisY-2-d-o.k*(d+2)]}
+      else{var q=fail.indexOf(x);p1=grid(q,pad,y2+pad,inner,d,gap);p2=p1}
+      G.pos[x.name]=[p0,p1,p2]});
+    dots.concat(gh0,gh1).forEach(function(b){b.style.width=b.style.height=d+"px"});
+    gh0.forEach(function(g2){var p=G.pos[g2._x.name][0];g2.style.transform="translate("+p[0]+"px,"+p[1]+"px)"});
+    gh1.forEach(function(g2){var p=G.pos[g2._x.name][1];g2.style.transform="translate("+p[0]+"px,"+p[1]+"px)"});
+    var bp=G.pos[best.name][2];if(best.passed){var lw=bestLab.offsetWidth;if(bp[0]+d+8+lw>w)place(bestLab,Math.max(sx0,Math.min(w-lw,bp[0]+d/2-lw/2)),bp[1]-18);else place(bestLab,bp[0]+d+8,bp[1]+(d-14)/2)}
+    apply()}
+  function apply(){if(!G)return;dots.forEach(function(b,i){var p=G.pos[b._x.name][stage];b._px=p[0];b._py=p[1];b.style.transitionDelay=(RM?0:i*22)+"ms";b.style.transform="translate("+p[0]+"px,"+p[1]+"px)"});
+    boxes[1].querySelector("em").classList.toggle("off",stage<1);boxes[2].querySelector("em").classList.toggle("off",stage<2);
+    [tray,trayLab].forEach(function(n){n.classList.toggle("off",stage<1)});[axis,scLab,gate,bestLab].concat(ticks).forEach(function(n){n.classList.toggle("off",stage<2)});
+    gh0.forEach(function(n){n.classList.toggle("on",stage>=1)});gh1.forEach(function(n){n.classList.toggle("on",stage>=2)});
+    $("#sv-hint").textContent=["每个点是一次试验：圆点是第一轮，方点是第二轮。","实心点过了事先定的及格线，空心点没过。","圆点是第一轮（换打分规则），方点是第二轮（换持仓规则）；虚线圈是它们原来的位置；点竖着叠起来只是为了不重叠，高度没有含义。把鼠标移到任意一个点上（手机上点一下），可以看到它是哪种办法。"][stage]}
+  function set(k){stage=k;apply()}
+  function play(){timers.forEach(clearTimeout);timers=[];hide();
+    if(RM){el.classList.add("nomove");set(2);return}
+    el.classList.add("nomove");set(0);el.offsetWidth;el.classList.remove("nomove");
+    timers.push(setTimeout(function(){set(1)},900));timers.push(setTimeout(function(){set(2)},2700))}
+  function mark(){dots.forEach(function(b){b.classList.toggle("sel",b._x.name===S.trial&&stage===2)})}
+  layout();play();
+  var rt=null;window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){el.classList.add("nomove");layout();el.offsetWidth;el.classList.remove("nomove")},120)});
+  $("#replay").addEventListener("click",play);
+  return {mark:mark}})();
 function say(id,html){var el=document.getElementById(id);if(el)el.innerHTML='<span class="q">这张图在说什么</span>'+html}
 
 /* ---------- 01 试验清单 ---------- */
@@ -394,7 +477,7 @@ $("#trials tbody").addEventListener("keydown",function(e){if(e.key==="Enter"||e.
 
 function selectTrial(name,quiet){S.trial=name;
   [].forEach.call(document.querySelectorAll("#trials tbody tr"),function(tr){tr.setAttribute("aria-selected",tr.dataset.n===name)});
-  renderReadout();redraw(cGate);renderFull();
+  renderReadout();redraw(cGate);renderFull();if(sieve)sieve.mark();
   if(tmap[name]&&S.factor!==name)selectFactor(name,true);
   if(ports.indexOf(name)>=0&&S.port!==name)selectPort(name)}
 
@@ -621,7 +704,7 @@ $("#foot").textContent="数据截至 "+(M.data_last||M.end||"")+"；最近一次
 
 /* ---------- 每张图一句白话结论（数字都从数据算） ---------- */
 (function(){var right=T.filter(function(x){return ok(tOf(x))&&tOf(x)>=R.t_pass}).length;
-  say("say-gate","<b>每个点是一次试验，没有一个进入右上角的通过区。</b>实心的 "+R.n_passed+" 个点过了及格线；但把“一共试了 "+R.n_trials+" 次”算进去之后，把握最高的 "+esc(best.name)+(best.plain?"（"+esc(best.plain)+"）":"")+" 也只有 "+f2(best.dsr)+"，要求 "+R.dsr_pass+"。顺带一提：如果只看 t 值，会有 "+right+" 个点在竖线右边，可见只看这一条会高估。");
+  say("say-gate","<b>每个点是一次试验，没有一个进入右上角的通过区。</b>实心的 "+R.n_passed+" 个点过了及格线；但把“一共试了 "+R.n_trials+" 次”算进去之后，把握最高的 "+esc(best.name)+(best.plain?"（"+esc(best.plain)+"）":"")+" 也只有 "+f2(best.dsr)+"，要求 "+R.dsr_pass+"。如果只看 t 值这一条（竖线右边的点都算过关），过关的会更多，所以不能只看这一条。");
   say("say-full","每一行是一次试验的全部数字，失败的也列在这里。<b>"+R.n_passed+" 次过了及格线，"+R.n_shadow+" 次的把握（通缩夏普）达到 "+R.dsr_pass+"。</b>");
   if(icNames.length){var pos=0,all=0;icNames.forEach(function(n){D.ic[n].ic.forEach(function(v){if(ok(v)){all++;if(v>0)pos++}})});
     say("say-band","<b>"+Math.round(pos/all*100)+"% 的格子是蓝色</b>，也就是多数月份这些打分规则把股票排对了。但排对不等于能赚钱：扣掉交易成本、再把试验次数算进去，没有一个过关。")}

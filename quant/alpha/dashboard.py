@@ -38,7 +38,7 @@ GLOSSARY = [
     {"term": "超额", "plain": "组合收益减去基准的收益。基准就是把每个月可选的股票（股票池）每只都买一样多。大于 0 才说明挑股票有用。"},
     {"term": "RankIC", "plain": "每个月按因子分数给股票排名，再按下个月的涨跌排名，看两个排名有多像。正数是排对了。股价大部分是随机波动，所以 0.05 就算不错。"},
     {"term": "t 值", "plain": "结果离“纯属运气”有多远。越大越不像巧合（也说越“显著”），这里要求 3 以上。"},
-    {"term": "通缩夏普", "plain": "试得越多，越容易碰上一个好看的结果。它把试验次数算进去，给出“这不是运气”的把握，0 到 1 之间，0.59 就是不到六成把握，这里要求 0.95。英文缩写 DSR。"},
+    {"term": "通缩夏普", "plain": "试得越多，越容易碰上一个好看的结果。它把试验次数算进去，给出“这不是运气”的把握，0 到 1 之间，0.59 就是不到六成把握。这里要求 0.95，也就是统计上常用的 95% 把握标准。英文缩写 DSR。"},
     {"term": "回撤", "plain": "从之前的最高点跌下来多少。最大回撤就是最难熬的那一段跌幅。"},
     {"term": "换手", "plain": "每个月换掉多大比例的持仓。换得越多，交易成本越高。"},
     {"term": "样本外", "plain": "定规则时没有用到、留着只做检验的那段历史（这里是后半段）。"},
@@ -190,7 +190,7 @@ def build_payload(b: dict, monitor: dict, checkup: dict) -> dict:
     style = {k: style_exposure(z, tg[k][t_last], t_last) for k in shadow.TRACKED}
     return {"meta": {"asof": f"{date.today():%Y-%m-%d}", "start": dates[0], "end": dates[-1], "n_trials": spec.R2_N_TRIALS,
                      "style_date": str(t_last.date()), "rebalance": monitor.get("rebalance"),
-                     "generated": f"{datetime.now():%Y-%m-%d %H:%M}", "pipeline_run": monitor.get("asof"),
+                     "generated": f"{datetime.now():%Y-%m-%d %H:%M}", "split": str(spec.SPLIT)[:10], "pipeline_run": monitor.get("asof"),
                      "data_last": monitor.get("data", {}).get("last_day"), "source": monitor.get("data", {}).get("source")},
             "universe": {"dates": [str(t.date()) for t in univ.index], "n": [int(x) for x in univ.sum(axis=1)]},
             "nav": {"dates": dates, "series": series}, "ic": ic, "table": table, "style": style,
@@ -198,7 +198,7 @@ def build_payload(b: dict, monitor: dict, checkup: dict) -> dict:
 
 
 PUBLIC_KEYS = ("nav", "drawdown", "yearly", "research", "coverage", "ic", "table", "universe", "monthly", "etf")
-PUBLIC_META = ("asof", "start", "end", "n_trials", "n_codes", "generated", "pipeline_run", "data_last", "source")
+PUBLIC_META = ("asof", "start", "end", "n_trials", "n_codes", "generated", "pipeline_run", "data_last", "source", "split")
 
 
 def public_payload(p: dict, tests: int | None = None) -> dict:

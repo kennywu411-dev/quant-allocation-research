@@ -172,7 +172,18 @@ def test_glossary_explains_every_term_the_page_uses_in_plain_words():
     pub = D.public_payload(_full_private())
     assert pub["glossary"] == D.GLOSSARY  # 同一套解释，不按读者分版本
     html = D.render(pub, public=True)
-    assert 'id="glossary"' in html and "简明" not in html and "专业模式" not in html
+    assert "简明" not in html and "专业模式" not in html
+    assert 'id="glossary"' not in html  # 术语不集中放在开头，跟着第一次用到它的图走
+    for t in terms:
+        assert f'gl("{t}")' in D.TEMPLATE, t
+
+
+def test_first_screen_is_headline_plus_one_data_driven_visual():
+    from quant.alpha import dashboard as D
+    html = D.render(D.public_payload(_full_private()), public=True)
+    assert 'id="sieve"' in html and 'id="replay"' in html  # 19 → 8 → 0 的筛选主画面，可重播
+    assert 'id="strip"' not in html and 'id="steps"' not in html  # 和主画面重复的数字块、单独的三步做法块都不再占首屏
+    assert "prefers-reduced-motion" in html
 
 
 def test_every_registered_trial_has_a_plain_one_line_description():
