@@ -6,3 +6,4 @@ __pycache__/
 config/holdings.csv
 config/flows.csv
 config/moomoo_paper_acc_id.txt
+research/alpha_round3_gru_pred.parquet

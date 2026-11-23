@@ -22,6 +22,7 @@
 | 大模型读公告（Claude Haiku 结构化标注沪深300 成分股 27.4 万条公告标题，2020–2026） | 判定标准在标注前提交。主假设（模型知识截止后的干净样本、持有 5 天、实质性利好减利空）未通过：-0.35%，t = -0.96；用两个知识截止日不同的模型在同一时段对照，前视增益不显著（t = 0.93）。总花费 7.65 美元 | `reports/公告因子-2026-11-11.md` |
 | 全 A 股因子挖掘（含退市股 5,481 只，2014–2026，周线；10 个因子 + 等权 / IC 加权 / LightGBM 合成） | 门槛在下载数据前提交：13 个试验通过 7 个（其中 3 个擦线；低特质波动 RankIC 0.091，t = 8.05）。10 个 RankIC 显著，但按 13 次试验折扣后通缩夏普最高 0.59，全部低于 0.95，纯多头超额不能确认显著；LightGBM 相对等权线性合成没有样本外增益（t = -0.13） | `reports/因子挖掘-2026-11-12.md` |
 | 因子挖掘第二轮：只改持仓构造（慢因子合成、缓冲带、市值中性、剔除最差组） | 6 个试验通过 1 个：慢因子合成 + 缓冲带，年化超额 +5.8%，Newey-West t = 3.05（门槛 3），月换手 10%；通缩夏普 0.15，没有任何组合达到“影子盘候选”标准（≥ 0.95）。市值中性后等权合成样本外超额 +1.9%（t = 0.64） | `reports/因子挖掘勘误-2026-11-12.md` |
+| 因子挖掘第三轮：序列模型对照（PyTorch GRU 直接读过去 52 周的周收益、换手率、成交额，不用人工因子；结构与参数预先登记、不调参，3 个种子平均） | 第 20 个登记试验：样本外 RankIC 0.094（t = 4.40），比 LightGBM 合成低 0.011（t = -1.79，不显著）；扣成本后纯多头样本外超额 -0.3%，未通过门槛。两者预测的秩相关 0.77。在线看板目前只含前两轮的 19 次试验 | `reports/因子挖掘第三轮-2026-11-23.md` |
 | 勘误（2026-11-12） | 搭因子库框架时发现组合模拟的持有月份标签重复，153 个调仓日里丢了 19 个持有期。失败测试和修正先提交，再按原登记重跑：第一轮通过数 4 → 7，第二轮 0 → 1，RankIC 不变，通缩夏普的结论不变。修正前的报告和结果保留 | `reports/因子挖掘勘误-2026-11-12.md` |
 
 ## 因子研究平台
@@ -76,7 +77,7 @@ quant/
   backtest/    月度调仓回测引擎（涨跌停、停牌、整手、成本、汇率）、与 bt 交叉核对
   research/    P3 核心配置、P4 卫星、P5 组合与风控、激进版研究、统计检验
   factors/     A股单因子检验（数据、因子、IC / 分组 / 成本）
-  alpha/       全 A 股因子研究：预先登记、因子注册表、一键体检、组合模拟（涨跌停约束）、合成（等权 / IC 加权 / LightGBM）、
+  alpha/       全 A 股因子研究：预先登记、因子注册表、一键体检、组合模拟（涨跌停约束）、合成（等权 / IC 加权 / LightGBM）、GRU 序列模型对照（`round3.py`）、
                持仓构造（缓冲带等）、观察盘、月度流水线、看板
   tsdata/      Tushare Pro 数据层：限速客户端、下载器（断点续传）、本地 parquet 缓存
   llm_events/  大模型读公告：巨潮公告下载、结构化标注（Batch API、缓存、预算上限）、事件研究与月度情绪因子
@@ -120,6 +121,7 @@ PYTHONPATH=. .venv/bin/python -m quant.alpha.data  # 只用于生成股票名单
 PYTHONPATH=. .venv/bin/python -m quant.alpha.weekly_data
 PYTHONPATH=. .venv/bin/python -m quant.alpha.weekly
 PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.round2      # 第二轮：持仓构造
+PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.round3      # 第三轮：GRU 序列模型对照（需要另装 torch）
 PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.checkup --all  # 因子体检
 PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.pipeline --source cache  # 月度流水线，用 baostock 周线缓存（会写 live/alpha_shadow/）
 PYTHONPATH=. .venv/bin/python -W ignore -m quant.alpha.dashboard   # 看板
