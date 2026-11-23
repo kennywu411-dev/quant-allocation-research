@@ -227,3 +227,18 @@ def test_front_page_leads_with_what_was_built_and_keeps_the_caveat_in_the_result
     for old in ("没有一个过关", "一种不剩", "一个都没过", "0 种", "及格线"):
         assert old not in t, old  # 全页口径一致：8 次通过预先登记的门槛，补充检验目前没有组合达标
     assert 'id="pcave"' in t and "不等于可以拿去投资" in t  # 首屏面板里就有一句：通过门槛不等于可以拿去投资
+
+
+def test_followup_summary_reads_round3_and_round4_files():
+    import json
+    from pathlib import Path
+    from quant.alpha import dashboard as D
+    r3, r4 = (json.loads(Path("research", f).read_text()) for f in ("alpha_round3.json", "alpha_round4.json"))
+    f = D.followup_summary(r3, r4)
+    assert f["n_new"] == 3 and f["n_trials"] == 22 and f["n_new_passed"] == 0  # GRU + 中性 + 优化，对照行不算
+    assert [m["name"] for m in f["models"] if m["new"]] == ["GRU序列模型"]
+    assert {x["name"] for x in f["ports"] if x["new"]} == {"等权合成（行业市值中性）", "优化组合"}
+    a = f["attribution"]
+    assert sum(v for k, v in a.items() if k != "主动收益") == pytest.approx(a["主动收益"], abs=1e-9)
+    assert D.followup_summary(None, r4) is None
+    assert "followup" in D.PUBLIC_KEYS

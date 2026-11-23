@@ -122,6 +122,27 @@ def research_summary(r1: dict, r2: dict, o1: dict, o2: dict) -> dict:
                         "max_dsr_before": top(old), "max_dsr_after": top(new)}}
 
 
+def followup_summary(r3: dict | None, r4: dict | None) -> dict | None:
+    """第三轮（GRU 序列模型对照）和第四轮（从信号到组合）的结果，只取结果文件里已有的数字。"""
+    if not r3 or not r4:
+        return None
+    inputs = {"GRU序列模型": "原始周线序列（不用人工因子）", "LightGBM合成": "10 个人工因子", "等权合成": "10 个人工因子"}
+    models = [{"name": k, "input": inputs.get(k, ""), "oos_rank_ic": _num(v["oos_rank_ic"]), "oos_t": _num(v["oos_t"]),
+               "oos_ex_ann": _num(v["oos_ex_ann"]), "turn": _num(v["top_turn"]), "new": k == "GRU序列模型", "passed": bool(v["passed"])}
+              for k, v in r3["trials"].items()]
+    ports = [{"name": k, "ex_ann": _num(v["ex_ann"]), "ex_t": _num(v["ex_t"]), "oos_ex_ann": _num(v["oos_ex_ann"]), "te": _num(v.get("te_ann")),
+              "turn": _num(v["top_turn"]), "from": v.get("from"), "to": v.get("to"), "new": "对照" not in k, "passed": bool(v.get("passed", False))}
+             for k, v in r4["trials"].items()]
+    cap = [{"name": k, "by_aum": [[float(a), _num(x["ex_ann"])] for a, x in v["by_aum"].items()], "zero_at": _num(v["zero_at"]), "note": v["note"]}
+           for k, v in r4["capacity"].items()]
+    new = [m for m in models if m["new"]] + [x for x in ports if x["new"]]
+    return {"n_new": len(new), "n_new_passed": sum(x["passed"] for x in new), "n_trials": int(r4["n_trials"]),
+            "models": models, "vs": {k: {"diff": _num(v["diff"]), "t": _num(v["t"])} for k, v in r3["vs"].items()}, "corr_lgb": _num(r3["corr_lgb"]),
+            "model_from": r3["common_from"], "model_to": r3["common_to"],
+            "ports": ports, "optimizer": r4["optimizer"], "n_hold": _num(r4["n_hold"]), "capacity": cap, "cap_from": r4["cap_from"], "cap_to": r4["cap_to"],
+            "attribution": {k: _num(v) for k, v in r4["attribution"]["annual"].items()}, "attr_months": int(r4["attribution"]["months"])}
+
+
 def monthly_excess(dates: list[str], values: list[float], bench: list[float]) -> list[list]:
     """归一化净值 → 每个月相对基准的超额收益，[年, 月, 超额]；第一个点是起点，没有收益。"""
     v, b = np.asarray(values, dtype=float), np.asarray(bench, dtype=float)
@@ -141,7 +162,8 @@ def etf_summary(bm: dict) -> dict:
     return {"window": window, "basis": bm.get("口径"), "report": bm.get("report"), "rows": rows}
 
 
-def enrich(p: dict, r1: dict, r2: dict, o1: dict, o2: dict, coverage: dict | None, tests: int | None, etf: dict | None = None) -> dict:
+def enrich(p: dict, r1: dict, r2: dict, o1: dict, o2: dict, coverage: dict | None, tests: int | None, etf: dict | None = None,
+           r3: dict | None = None, r4: dict | None = None) -> dict:
     """给看板数据加上两轮结果、回撤、分年与分月超额、数据层覆盖、ETF 配置线回测和测试数。"""
     s = p["nav"]["series"]
     if BENCH in s:
@@ -149,6 +171,9 @@ def enrich(p: dict, r1: dict, r2: dict, o1: dict, o2: dict, coverage: dict | Non
     if etf:
         p["etf"] = etf_summary(etf)
     p["research"] = research_summary(r1, r2, o1, o2)
+    fu = followup_summary(r3, r4)
+    if fu:
+        p["followup"] = fu
     p["drawdown"] = {k: drawdown(v) for k, v in p["nav"]["series"].items()}
     p["yearly"] = {k: r2["trials"][k]["by_year"] for k in p["nav"]["series"] if k in r2["trials"]}
     p["meta"]["n_codes"] = r1.get("n_codes")
@@ -197,7 +222,7 @@ def build_payload(b: dict, monitor: dict, checkup: dict) -> dict:
             "shadow": {k: monitor.get(k) for k in ("holdings", "realized", "deviation", "ic_alerts", "stale_days", "data")}}
 
 
-PUBLIC_KEYS = ("nav", "drawdown", "yearly", "research", "coverage", "ic", "table", "universe", "monthly", "etf")
+PUBLIC_KEYS = ("nav", "drawdown", "yearly", "research", "coverage", "ic", "table", "universe", "monthly", "etf", "followup")
 PUBLIC_META = ("asof", "start", "end", "n_trials", "n_codes", "pipeline_run", "data_last", "source", "split")
 
 
@@ -246,7 +271,8 @@ def main(argv: list[str] | None = None) -> int:
     cov = Path("research/tsdata_coverage.json")
     p = build_payload(build(), load("alpha_monitor.json"), load("alpha_checkup.json"))
     enrich(p, load("alpha_results.json"), load("alpha_round2.json"), load("alpha_results-修正前丢月.json"), load("alpha_round2-修正前丢月.json"),
-           json.loads(cov.read_text()) if cov.exists() else None, a.tests, load("p5_benchmarks.json"))
+           json.loads(cov.read_text()) if cov.exists() else None, a.tests, load("p5_benchmarks.json"),
+           *(load(f) if Path("research", f).exists() else None for f in ("alpha_round3.json", "alpha_round4.json")))
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "因子看板.html").write_text(render(p, public=False))
     pub = public_payload(p, a.public_tests)

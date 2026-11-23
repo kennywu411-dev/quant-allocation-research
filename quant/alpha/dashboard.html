@@ -196,7 +196,7 @@ th:first-child,td:first-child{padding-left:18px}.big{font-size:46px}.say{font-si
 <body>
 <header class="top"><div class="in">
   <div class="brand"><b>A 股选股研究看板<span id="privtag"></span></b></div>
-  <nav class="navl" aria-label="页内导航"><a href="#s-gate">试验结果</a><a href="#s-nav">净值</a><a href="#s-factor">因子</a><a href="#s-err">勘误</a><a href="#s-data">数据</a><a href="#s-sys">流程</a><a href="#s-etf">ETF 线</a></nav>
+  <nav class="navl" aria-label="页内导航"><a href="#s-gate">试验结果</a><a href="#s-nav">净值</a><a href="#s-factor">因子</a><a href="#s-chain" id="nav-chain">组合</a><a href="#s-err">勘误</a><a href="#s-data">数据</a><a href="#s-sys">流程</a><a href="#s-etf">ETF 线</a></nav>
   <div class="right"><span class="pill"><em>数据截至</em><span id="p-data"></span></span>
     <button class="tbtn" id="theme" aria-label="切换深色和浅色"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.2"/><path d="M8 2.8v10.4A5.2 5.2 0 0 0 8 2.8z" fill="currentColor" stroke="none" style="color:var(--ink2)"/></svg></button></div>
 </div></header>
@@ -213,7 +213,7 @@ th:first-child,td:first-child{padding-left:18px}.big{font-size:46px}.say{font-si
 <div class="after rv"><p class="exact" id="use"></p><p class="exact" id="lead"></p><p class="hint gls" id="gl-hero"></p></div>
 
 <section id="s-gate">
-  <div class="sh"><span class="no">01 · 试验结果</span><h2>19 次试验的结果</h2><p>每一次都有名字和成绩，没通过门槛的也在这里。通过门槛之后还有一项更严格的补充检验，结果也照实写。</p></div>
+  <div class="sh"><span class="no">01 · 试验结果</span><h2>前两轮：19 次试验的结果</h2><p>每一次都有名字和成绩，没通过门槛的也在这里。通过门槛之后还有一项更严格的补充检验，结果也照实写。</p></div>
   <div class="panel rv"><div class="ph"><span class="no">01</span><h3>更严格的补充检验：把“试了 19 次”算进去</h3><div class="chips" id="tfilter" role="group" aria-label="筛选试验"></div></div>
     <div class="pb"><p class="say" id="say-rank"></p><div class="rank pre" id="rank"></div>
     <p class="hint" style="margin-top:14px">每根柱子是一次试验；柱子越长，通缩夏普越高，也就是越有把握它不是运气（0 到 1）。亮的柱子通过了预先登记的门槛，暗的没有。竖线是登记的影子盘候选标准。点任意一行，下面的图和成绩单一起切换。</p><p class="hint gls" id="gl-trials"></p></div></div>
@@ -260,6 +260,20 @@ th:first-child,td:first-child{padding-left:18px}.big{font-size:46px}.say{font-si
   <div class="panel rv" style="margin-top:16px"><div class="ph"><span class="no">11</span><h3>交易成本吃掉了多少</h3></div>
     <div class="pb"><p class="say" id="say-cost"></p><div class="chart" id="c-cost" style="height:400px" role="img" aria-label="各因子扣成本前后年化超额与月均换手"></div>
     <p class="hint">纯多头最高五分之一组合相对股票池等权的年化超额。两根柱子之间的差就是交易成本；下面一排是月均换手率，换手越高成本吃得越多。点柱子可以切换上面的因子。</p></div></div>
+</section>
+
+<section id="s-chain">
+  <div class="sh"><span class="no">03b · 后两轮</span><h2>从信号到组合</h2><p id="chain-lead"></p></div>
+  <div class="panel rv"><div class="ph"><span class="no">A</span><h3>换更复杂的模型，排得更准吗</h3></div>
+    <div class="pb"><p class="say" id="say-model"></p><div class="tw" style="max-height:none"><table id="t-model"></table></div><p class="hint" id="model-note"></p></div></div>
+  <div class="panel rv" style="margin-top:16px"><div class="ph"><span class="no">B</span><h3>把排序变成一个受约束的组合</h3></div>
+    <div class="pb"><p class="say" id="say-port"></p><div class="tw" style="max-height:none"><table id="t-port"></table></div><p class="hint" id="port-note"></p></div></div>
+  <div class="g2" style="margin-top:16px">
+    <div class="panel rv"><div class="ph"><span class="no">C</span><h3>钱多了还剩多少超额（容量）</h3></div>
+      <div class="pb"><p class="say" id="say-cap"></p><div class="tw" style="max-height:none"><table id="t-cap"></table></div><p class="hint" id="cap-note"></p></div></div>
+    <div class="panel rv"><div class="ph"><span class="no">D</span><h3>超额从哪来（收益归因）</h3></div>
+      <div class="pb"><p class="say" id="say-attr"></p><div id="attr"></div><p class="hint" id="attr-note"></p></div></div>
+  </div>
 </section>
 
 <section id="s-err">
@@ -380,9 +394,32 @@ function gl(term){var g=(D.glossary||[]).filter(function(x){return x.term===term
 $("#plain").innerHTML="一个人搭的 A 股选股研究流程：从行情和财报数据、因子库、回测评测，到每月的观察盘和这块看板。<b>规则和通过门槛先登记，再看结果。</b>";
 (function(){var c=D.coverage,f=[[int(M.n_codes),"只","A 股股票，含已退市的"],[yrs1-yrs0+1,"年","历史数据，"+yrs0+" 到 "+yrs1]];
   if(c)f.push([wan(c.total_rows),"万行","本地行情与财报数据"]);
-  f.push([R.n_trials,"次","预先登记的试验"],[R.n_passed,"次","通过预先登记的门槛（第一道检验）"]);
+  var FU=D.followup;f.push([FU?FU.n_trials:R.n_trials,"次","预先登记的试验"],[R.n_passed+(FU?FU.n_new_passed:0),"次","通过预先登记的门槛（第一道检验）"]);
   if(D.tests)f.push([D.tests,"项","自动化测试，全部通过"]);
   $("#facts").innerHTML=f.map(function(x){return '<div class="'+(x[3]||"")+'"><b>'+x[0]+(x[1]?"<u>"+x[1]+"</u>":"")+"</b><span>"+x[2]+"</span></div>"}).join("")})();
+/* ---------- 后两轮：模型对照、约束组合、容量、归因（数字全部读结果文件） ---------- */
+(function(){var F=D.followup,sec=$("#s-chain");if(!F){sec.hidden=true;var nv=$("#nav-chain");if(nv)nv.hidden=true;return}
+  var yi=function(a){return a>=1e8?(a/1e8)+" 亿":(a/1e4)+" 万"},tag=function(x){return x["new"]?(x.passed?"通过":"未通过"):"对照"};
+  $("#chain-lead").innerHTML="上面是前两轮的 "+R.n_trials+" 次试验。之后又登记了 "+F.n_new+" 次（累计 "+F.n_trials+" 次），其中 "+F.n_new_passed+" 次通过门槛。这两轮不再加新因子，回答两个问题：换更复杂的模型有没有用；一个排序信号变成真正能交易的组合，还剩下什么。";
+  var g=F.models.filter(function(m){return m["new"]})[0],l=F.vs["LightGBM合成"];
+  $("#say-model").innerHTML="这张表在说：只看原始价量序列的神经网络（GRU）自己学到了排序能力，但没有超过用人工因子的模型。";
+  $("#t-model").innerHTML="<thead><tr><th>模型</th><th>输入</th><th>样本外 RankIC</th><th>t 值</th><th>样本外超额（年化，扣成本）</th><th>结果</th></tr></thead><tbody>"+F.models.map(function(m){return "<tr><td>"+esc(m.name)+"</td><td>"+esc(m.input)+"</td><td>"+m.oos_rank_ic.toFixed(3)+"</td><td>"+m.oos_t.toFixed(2)+"</td><td>"+pct(m.oos_ex_ann,1,1)+"</td><td>"+tag(m)+"</td></tr>"}).join("")+"</tbody>";
+  $("#model-note").innerHTML="比较区间 "+esc(F.model_from)+" 至 "+esc(F.model_to)+"。GRU 的样本外 RankIC 比 LightGBM 合成低 "+Math.abs(l.diff).toFixed(3)+"（t "+l.t.toFixed(2)+"，统计上不显著）；两者预测的秩相关平均 "+F.corr_lgb.toFixed(2)+"。结构、参数和随机种子在看到结果之前登记，不调参。只有 GRU 是新登记的试验，另外两行是同区间重算的对照。";
+  var o=F.ports.filter(function(x){return x.name==="优化组合"})[0],c0=F.ports.filter(function(x){return !x["new"]})[0];
+  $("#say-port").innerHTML="这张表在说：加上行业、市值、跟踪误差和换手约束之后，组合的波动和换手都降下来了，但超额也所剩不多。";
+  $("#t-port").innerHTML="<thead><tr><th>组合</th><th>区间</th><th>年化超额（扣成本）</th><th>t 值</th><th>实际跟踪误差</th><th>月均单边换手</th><th>结果</th></tr></thead><tbody>"+F.ports.map(function(x){return "<tr><td>"+esc(x.name)+"</td><td>"+esc(x.from)+" 至 "+esc(x.to)+"</td><td>"+pct(x.ex_ann,1,1)+"</td><td>"+x.ex_t.toFixed(2)+"</td><td>"+pct(x.te,1)+"</td><td>"+pct(x.turn,0)+"</td><td>"+tag(x)+"</td></tr>"}).join("")+"</tbody>";
+  $("#port-note").innerHTML="优化组合：用行业加五个风格的风险模型估计跟踪误差，在单票不超过 1%、行业偏离不超过 2%、年化跟踪误差不超过 5%、单边换手不超过 20% 的约束下，让信号得分尽量高。共求解 "+o_n(F)+" 期，平均持有 "+Math.round(F.n_hold)+" 只。"+(o&&c0?"实际跟踪误差 "+pct(o.te,1)+"（不加约束的对照是 "+pct(c0.te,1)+"），换手 "+pct(o.turn,0)+"（对照 "+pct(c0.turn,0)+"）。":"")+"门槛和前两轮相同：t 值不低于 3 且样本外超额为正。";
+  function o_n(F){return F.optimizer.n}
+  var aums=F.capacity[0].by_aum.map(function(x){return x[0]});
+  $("#say-cap").innerHTML="这张表在说：资金越大，买卖对价格的冲击越大，超额越少。";
+  $("#t-cap").innerHTML="<thead><tr><th>组合</th>"+aums.map(function(a){return "<th>"+yi(a)+"</th>"}).join("")+"</tr></thead><tbody>"+F.capacity.map(function(c){return "<tr><td>"+esc(c.name.replace("等权合成最高组（对照）","最高组（对照）").replace("等权合成（行业市值中性）","行业市值中性"))+"</td>"+c.by_aum.map(function(x){return "<td>"+pct(x[1],1,1)+"</td>"}).join("")+"</tr>"}).join("")+"</tbody>";
+  $("#cap-note").innerHTML="超额降到 0 的规模："+F.capacity.map(function(c){return esc(c.name)+(c.zero_at?"约 "+(c.zero_at/1e8).toFixed(1)+" 亿":"在"+esc(c.note))}).join("；")+"。表里是扣掉固定费率和冲击成本后的年化超额，区间 "+esc(F.cap_from)+" 至 "+esc(F.cap_to)+"。冲击成本按平方根规律估算（日波动 × 成交额占日均成交额比例的平方根），系数事先取 1，没有用真实成交校准。";
+  var A=F.attribution,keys=Object.keys(A).filter(function(k){return k!=="主动收益"}),mx=Math.max.apply(null,keys.map(function(k){return Math.abs(A[k])}))||1;
+  var nm={"行业":"行业偏离","SIZE":"偏小市值","LOWVOL":"偏低波动","MOM12_1":"偏强动量","LOWTURN":"偏低换手","REV21":"偏近期跌得多","特质":"选股本身（特质）"};
+  $("#say-attr").innerHTML="这张图在说：优化组合比基准多出来的收益，主要来自“偏低换手”这类已知风格，不是来自选股本身。";
+  $("#attr").innerHTML=keys.map(function(k){var v=A[k],w=Math.abs(v)/mx*46;return '<div style="display:grid;grid-template-columns:130px 1fr 64px;align-items:center;gap:10px;margin:7px 0;font-size:13.5px"><span>'+esc(nm[k]||k)+'</span><span style="position:relative;height:10px;background:var(--mid);border-radius:99px"><i style="position:absolute;top:0;bottom:0;border-radius:99px;'+(v>=0?"left:50%;background:var(--s1)":"right:50%;background:var(--s2)")+";width:"+w.toFixed(1)+'%"></i><s style="position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--ink2)"></s></span><span style="font-family:var(--mono);text-align:right">'+pct(v,1,1)+"</span></div>"}).join("");
+  $("#attr-note").innerHTML=F.attr_months+" 个月的主动收益（未扣成本）合计年化 "+pct(A["主动收益"],1,1)+"，按风险模型拆成行业、五个风格和选股本身三部分，各部分相加等于合计。";
+})();
 $("#use").innerHTML="<strong>这个平台能做什么：</strong>新写一条打分规则，登记之后一条命令出体检报告（排得准不准、分组收益、换手和成本）；每月一条命令更新数据、记录观察盘、检查因子有没有衰减；结果自动进这块看板。纪律写在代码里：没登记的因子拒绝出结果，观察盘记录不能覆盖。";
 $("#lead").innerHTML="<strong>结果的准确口径：</strong>"+R.n_trials+" 次预先登记的试验里，"+R.n_passed+" 次通过了登记的门槛（第一轮 "+R.rounds[0].n+" 次里 "+R.rounds[0].passed+" 次，第二轮 "+R.rounds[1].n+" 次里 "+R.rounds[1].passed+" 次）。之后还做了一项更严格的补充检验，把试验次数算进去（通缩夏普）：最高 "+f2(R.max_dsr)+"，登记的影子盘候选标准是 "+R.dsr_pass+"，所以目前没有组合进入影子盘。下一步是按原登记用日线数据重跑，并继续记录观察盘。";
 $("#gl-hero").innerHTML=gl("通缩夏普");$("#gl-gate").innerHTML=gl("t 值");$("#gl-trials").innerHTML=gl("因子");$("#gl-band").innerHTML=gl("RankIC");
@@ -391,12 +428,12 @@ $("#gl-full").innerHTML=gl("超额")+gl("样本外")+gl("换手");$("#gl-nav").i
 /* ---------- 首屏主画面：19 次预先登记的试验，哪 8 次通过了登记的门槛（每个光点是一次试验，读结果数据） ---------- */
 var sieve=(function(){var el=$("#sieve");if(!el)return null;
   var pass=T.filter(function(x){return x.passed}),fail=T.filter(function(x){return !x.passed}),stage=0,timers=[],G=null;
-  $("#sts").innerHTML=[["先登记，再检验",R.n_trials,"次预先登记的试验","打分规则、股票池、通过门槛先存档，之后不能改"],
+  $("#sts").innerHTML=[["先登记，再检验",R.n_trials,(D.followup?"次试验（前两轮）":"次预先登记的试验"),"打分规则、股票池、通过门槛先存档，之后不能改"],
     ["登记的门槛",R.n_passed,"次通过","t 值不低于 "+R.t_pass+"，没用来定规则的那段历史"+(M.split?"（"+M.split.slice(0,4)+" 年之后）":"")+"也有效，历史回测里扣成本后仍高于平均"]]
     .map(function(x,i){return '<div class="st"><small>'+x[0]+'</small><em'+(i?' class="off"':"")+">"+x[1]+"</em><b>"+x[2]+"</b><span>"+x[3]+"</span></div>"}).join("");
   var ems=[].slice.call(document.querySelectorAll("#sts em")),pn=$("#pnames");
   pn.innerHTML=pass.map(function(x){return "<span>"+esc(x.name)+"</span>"}).join("");
-  $("#pcave").innerHTML="<b>通过门槛是第一道检验，不等于可以拿去投资。</b>更严格的补充检验（把试验次数算进去）目前还没有组合达标，所以没有任何组合进入下一步的影子盘。<a href='#s-gate'>看 19 次试验的结果</a>";
+  $("#pcave").innerHTML="<b>通过门槛是第一道检验，不等于可以拿去投资。</b>更严格的补充检验（把试验次数算进去）目前还没有组合达标，所以没有任何组合进入下一步的影子盘。"+(D.followup?"之后两轮的 "+D.followup.n_new+" 次试验见<a href='#s-chain'>从信号到组合</a>一节。":"")+"<a href='#s-gate'>看 19 次试验的结果</a>";
   function mk(cls,html){var d=document.createElement("div");d.className=cls;if(html)d.innerHTML=html;el.appendChild(d);return d}
   var lab1=mk("svlab"),lab2=mk("svlab off","未通过门槛的 <b>"+fail.length+"</b> 次"),tipEl=mk("svtip");
   var dots=T.map(function(x){var b=document.createElement("button");b.type="button";b.className="svdot"+(x.round===2?" r2":"");
